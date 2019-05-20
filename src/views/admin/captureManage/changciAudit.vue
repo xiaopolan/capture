@@ -855,7 +855,7 @@ export default {
             var time2 = data2.getTime();
             var params = {
                 title: this.goodchoiced.productName,
-				productTypeId: this.goodchoiced.pid,
+				productType: this.goodchoiced.pid,
                 productId: this.goodchoiced.id,
 				productPic: this.goodchoiced.pic,
                 startPrice: this.goodchoiced.productPrice,
@@ -883,7 +883,7 @@ export default {
                         this.yhlbmkAddObj.title = '';
                         this.goodchoiced.productName = '请选择';
                         this.goodchoiced.id = ''; //选择商品清空
-						this.goodchoiced.productTypeId = ''; //选择商品清空
+						this.goodchoiced.productType = ''; //选择商品清空
                         this.goodchoiced.productPrice = '';
 						this.goodchoiced.productPic = '';
                         this.yhlbmkAddObj.incrementValue = '';
@@ -914,7 +914,7 @@ export default {
             console.log('点击取消');
             this.goodchoiced.productName = '请选择';
             this.goodchoiced.id = ''; //选择商品清空
-			this.goodchoiced.productTypeId = ''; //选择商品清空
+			this.goodchoiced.productType = ''; //选择商品清空
             this.goodchoiced.productPrice = '';
 			this.goodchoiced.productPic = '';
 
@@ -1086,7 +1086,7 @@ export default {
                 id: this.ccid,
                 title: this.updatacc.title,
                 productId: podid,
-				productTypeId:this.goodchoiced.pid,
+				productType:this.goodchoiced.pid,
                 startPrice: this.updatacc.startPrice,
                 incrementValue: this.updatacc.incrementValue,
                 startTime: time1,

@@ -1074,7 +1074,7 @@ export default {
                 descInfo: this.yhlbmkAddObj.desc,
 				productImg:this.goodchoiced.pic,
                 productId: this.goodchoiced.id,
-				productTypeId:this.goodchoiced.pid,
+				productType:this.goodchoiced.pid,
                 startPrice: this.goodchoiced.productPrice,
                 cron: this.yhlbmkAddObj.cron,
                 startTime: time1,
@@ -1100,7 +1100,7 @@ export default {
 							Util.success('添加成功');
 							this.yhlbmkAddObj.desc = '';
 							this.goodchoiced.productName = '请选择';
-							this.goodchoiced.productTypeId = ''; //选择商品清空
+							this.goodchoiced.productType = ''; //选择商品清空
 							this.goodchoiced.id = ''; //选择商品清空
 							this.goodchoiced.productPrice = '';
 							this.goodchoiced.pic = '';
@@ -1156,7 +1156,7 @@ export default {
 				id:this.ccid,
 				productId: podid,
 				startPrice: this.updatacc.startPrice, 
-				productTypeId:this.goodchoiced.pid,
+				productType:this.goodchoiced.pid,
 				cron: this.updatacc.cron, 
 				startTime: time1, 
 				endTime: time2, 
