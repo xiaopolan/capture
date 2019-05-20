@@ -742,6 +742,7 @@ export default {
                 productName: '请选择',
                 productPrice: '', //商品价格
 				productPic: '', //商品图片
+				pid:'',
                 id: ''
             },
             yhlbmkModal: false, // 添加新增用户的对话框显示状态
@@ -854,6 +855,7 @@ export default {
             var time2 = data2.getTime();
             var params = {
                 title: this.goodchoiced.productName,
+				productTypeId: this.goodchoiced.pid,
                 productId: this.goodchoiced.id,
 				productPic: this.goodchoiced.pic,
                 startPrice: this.goodchoiced.productPrice,
@@ -881,6 +883,7 @@ export default {
                         this.yhlbmkAddObj.title = '';
                         this.goodchoiced.productName = '请选择';
                         this.goodchoiced.id = ''; //选择商品清空
+						this.goodchoiced.productTypeId = ''; //选择商品清空
                         this.goodchoiced.productPrice = '';
 						this.goodchoiced.productPic = '';
                         this.yhlbmkAddObj.incrementValue = '';
@@ -911,6 +914,7 @@ export default {
             console.log('点击取消');
             this.goodchoiced.productName = '请选择';
             this.goodchoiced.id = ''; //选择商品清空
+			this.goodchoiced.productTypeId = ''; //选择商品清空
             this.goodchoiced.productPrice = '';
 			this.goodchoiced.productPic = '';
 
@@ -1082,6 +1086,7 @@ export default {
                 id: this.ccid,
                 title: this.updatacc.title,
                 productId: podid,
+				productTypeId:this.goodchoiced.pid,
                 startPrice: this.updatacc.startPrice,
                 incrementValue: this.updatacc.incrementValue,
                 startTime: time1,
@@ -1102,17 +1107,6 @@ export default {
                 .then(response => {
                     if (response.data.code == 200) {
                         Util.success('修改成功');
-//                         this.yhlbmkAddObj.title = '';
-//                         this.goodchoiced.productName = '请选择';
-//                         this.goodchoiced.id = ''; //选择商品清空
-//                         this.yhlbmkAddObj.startPrice = '';
-//                         this.yhlbmkAddObj.incrementValue = '';
-//                         this.yhlbmkAddObj.auctionGradeId = '';
-//                         this.yhlbmkAddObj.compute_time = '';
-//                         this.yhlbmkAddObj.wiat_time = '';
-//                         this.yhlbmkAddObj.times = '';
-//                         this.startValue = '';
-//                         this.endValue = '';
                         this.yhlbmkGetList(this.yhlbmktablePageData.pageNum, this.yhlbmkIsSearch);
                         this.$nextTick(function(){
                         	this.$refs['pages'].currentPage = this.yhlbmktablePageData.pageNum;
@@ -1126,10 +1120,6 @@ export default {
                 .catch(error => {
                     console.log(error);
                 });
-            //                 this.yhlbmkAddObj.phone = '';
-            //                 this.yhlbmkAddObj.pwd = '';
-            //                 this.yhlbmkAddObj.nickName = '';
-            //                 this.yhlbmkAddObj.hotbirdNum = '';
             this.yhlbmkLoading = false; // 关闭加载状态
             this.updataTime = false;
         },

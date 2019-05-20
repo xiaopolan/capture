@@ -81,19 +81,6 @@
                             </Col>
                             <Col span="18" style="textAlign:center;">
                                 <div class="searchBox clearfix">
-                                    <Input
-                                        v-model="yhlbmkIpVal"
-                                        size="small"
-                                        placeholder="请输入类目名称"
-                                        style="float:left;width: 200px"
-                                    >
-                                    </Input>
-                                    <Button
-                                        type="error"
-                                        style="float:left;width:60px;marginLeft:20px;"
-                                        size="small"
-                                        @click="yhlbmkSearch(1)"
-                                    >查询</Button>
 									<Button
 										type="error"
 										style="float:left;width:100px;marginLeft:20px;"
@@ -112,10 +99,10 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
-											<span style="color:red;">*</span>类目名称：
+											<span style="color:red;">*</span>位置：
 										</div>
 										<Input
-											v-model="yhlbmkAddObj.typeName"
+											v-model="yhlbmkAddObj.position"
 											placeholder="请输入位置"
 											style="width:150px"
 										></Input>
@@ -127,7 +114,7 @@
 											<span style="color:red;">*</span>地址：
 										</div>
 										<Input
-											v-model="yhlbmkAddObj.descInfo"
+											v-model="yhlbmkAddObj.url"
 											placeholder="请输入地址"
 											style="width:150px"
 										></Input>
@@ -139,7 +126,59 @@
 											<span style="color:red;">*</span>描述：
 										</div>
 										<Input
-											v-model="yhlbmkAddObj.descInfo"
+											v-model="yhlbmkAddObj.description"
+											placeholder="请输入描述"
+											style="width:150px"
+										></Input>
+									</div>
+									<div style="marginBottom:10px;textAlign:center">
+										<div
+											style="display:inline-block;width:86px;textAlign:left"
+										>
+											<span style="color:red;"></span>图片：
+										</div>
+										<input style="width:150px;" type="file"  @change="addupImg1" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
+									</div>
+								</Modal>
+								<Modal
+									v-model="yhlbmkModal"
+									title="新增"
+									:loading="yhlbmkLoading"
+									@on-ok="yhlbmkOk"
+									@on-cancel="yhlbmkCancel"
+								>
+									<div style="marginBottom:10px;textAlign:center">
+										<div
+											style="display:inline-block;width:86px;textAlign:left"
+										>
+											<span style="color:red;">*</span>位置：
+										</div>
+										<Input
+											v-model="yhlbmkAddObj.position"
+											placeholder="请输入位置"
+											style="width:150px"
+										></Input>
+									</div>
+									<div style="marginBottom:10px;textAlign:center">
+										<div
+											style="display:inline-block;width:86px;textAlign:left"
+										>
+											<span style="color:red;">*</span>地址：
+										</div>
+										<Input
+											v-model="yhlbmkAddObj.url"
+											placeholder="请输入地址"
+											style="width:150px"
+										></Input>
+									</div>
+									<div style="marginBottom:10px;textAlign:center">
+										<div
+											style="display:inline-block;width:86px;textAlign:left"
+										>
+											<span style="color:red;">*</span>描述：
+										</div>
+										<Input
+											v-model="yhlbmkAddObj.description"
 											placeholder="请输入描述"
 											style="width:150px"
 										></Input>
@@ -152,76 +191,6 @@
 										</div>
 										<input style="width:150px;" type="file"  @change="addupImg" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
 									</div>
-								</Modal>
-								<Modal
-									v-model="yhlbmkModal"
-									title="新增子级"
-									:loading="yhlbmkLoading"
-									@on-ok="yhlbmkOk(1)"
-									@on-cancel="yhlbmkCancel"
-								>
-									<div style="marginBottom:10px;textAlign:center">
-										<div
-											style="display:inline-block;width:86px;textAlign:left"
-										>
-											<span style="color:red;"></span>类目名称：
-										</div>
-										<Input
-											v-model="yhlbmkAddObj.typeName"
-											placeholder="请输入类目名称"
-											style="width:150px"
-										></Input>
-									</div>
-									<div style="marginBottom:10px;textAlign:center">
-										<div
-											style="display:inline-block;width:86px;textAlign:left"
-										>
-											<span style="color:red;"></span>类目描述：
-										</div>
-										<Input
-											v-model="yhlbmkAddObj.descInfo"
-											placeholder="请输入类目描述"
-											style="width:150px"
-										></Input>
-									</div>
-									<div style="marginBottom:10px;textAlign:center">
-										<div
-											style="display:inline-block;width:86px;textAlign:left"
-										>上级目录：</div>
-										<select name="public-choice" v-model="model3" class="typeselect" @change="yhtsxxSlChange">     
-											<!-- <option >自定义</option> -->
-											<option :value="item.value" :key='item'  v-for="item in statusList" >{{item.label}}</option>                                   
-										</select>
-									</div>
-									<div style="marginBottom:10px;textAlign:center">
-										<div
-											style="display:inline-block;width:86px;textAlign:left"
-										>
-											<span style="color:red;"></span>介绍图片：
-										</div>
-										<input style="width:150px;" type="file"  @change="addchImg" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
-									</div>
-									<div style="marginBottom:10px;textAlign:center">
-										<div
-											style="display:inline-block;width:86px;textAlign:left"
-										>
-											<span style="color:red;"></span>类型图片：
-										</div>
-										<input style="width:150px;" type="file"  @change="addchImg1" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
-									</div>
-									
-									<!-- <div style="marginBottom:10px;textAlign:center" v-if="myinput">
-										<div
-											style="display:inline-block;width:86px;textAlign:left"
-										>
-											<span style="color:red;">*</span>自定义：
-										</div>
-										<Input
-											v-model="yhlbmkAddObj.pname"
-											placeholder="请输入上级类目名称"
-											style="width:150px"
-										></Input>
-									</div> -->
 								</Modal>
 								<Modal v-model="imageModal" title="图片查看" class="mymodal">
 									<Carousel v-if="imageModal">
@@ -529,12 +498,11 @@ export default {
         deleteGood(json) {
             let params = {};
             params.id = json.id;
-			params.pId = json.pid;
 
             let postData = this.$qs.stringify(params);
             console.log(postData);
             axios
-                .post('/api/auction/productType/deleteNode', postData)
+                .post('/api/auction/operationManage/removeOperationManage', postData)
                 .then(response => {
                     if (response.data.code == 200) {
                         Util.success('删除成功');
@@ -553,53 +521,19 @@ export default {
             //this.sqlbmkGetList(1, this.sqlbmkIsSearch);
         },
         // 点击新增用户的对话框的ok
-        yhlbmkOk(flag) {
+        yhlbmkOk() {
                 // 参数对象
 				if(this.yhlbmkAddObj.typeName=='' || this.yhlbmkAddObj.descInfo==''){
 					Util.error('正确填写表单');
 				}else{
-// 					if(this.model3=='自定义'){
-// 						let productType1 = {
-// 							typeName: this.yhlbmkAddObj.typeName,
-// 							descInfo: this.yhlbmkAddObj.descInfo,
-// 						};
-// 						let productType2 = {
-// 							typeName: this.yhlbmkAddObj.pname,
-// 						};
-// 						params.push(productType1);
-// 						params.push(productType2)
-// 					}else{
 						let formData = new FormData();
 						
-						 formData.append("typeName",this.yhlbmkAddObj.typeName)
-						formData.append("descInfo",this.yhlbmkAddObj.descInfo)
-						if(flag==1){
-							formData.append("pId",this.model3)
-							for (var i = 0; i < this.yhlbmkAddObj.chpic.length; i++) {
-									formData.append('introductionPic', this.yhlbmkAddObj.chpic[i]);
-							}
-							for (var i = 0; i < this.yhlbmkAddObj.chpic1.length; i++) {
-									formData.append('pic', this.yhlbmkAddObj.chpic1[i]);
-							}
+						formData.append("position",this.yhlbmkAddObj.position)
+						formData.append("url",this.yhlbmkAddObj.url)
+						formData.append("description",this.yhlbmkAddObj.description)
+						for (var i = 0; i < this.yhlbmkAddObj.uppic.length; i++) {
+								formData.append('pic', this.yhlbmkAddObj.uppic[i]);
 						}
-						if(flag==2){
-							formData.append("pId",0)
-							for (var i = 0; i < this.yhlbmkAddObj.papic.length; i++) {
-									formData.append('introductionPic', this.yhlbmkAddObj.papic[i]);
-							}
-							for (var i = 0; i < this.yhlbmkAddObj.papic1.length; i++) {
-									formData.append('pic', this.yhlbmkAddObj.papic1[i]);
-							}
-						}
-// 						let productType1 = {
-// 							typeName: this.yhlbmkAddObj.typeName,
-// 							descInfo: this.yhlbmkAddObj.descInfo,
-// 						};
-// 						let productType2 = {
-// 							id: this.model3,
-// 						};
-// 						formData.append('productType1', JSON.stringify(productType1));
-// 						formData.append('productType2', JSON.stringify(productType2));
 						let config = {
 								headers: { 'Content-Type': 'multipart/form-data' }
 						};
@@ -612,7 +546,7 @@ export default {
 // 					};
 					//let postData = this.$qs.stringify(params);
 						axios
-							.post('/api/auction/productType/addNode', formData,config)
+							.post('/api/auction/operationManage/addOperationManage', formData,config)
 							.then(response => {
 								console.log(response);
 								if (response.data.code == 200) {
@@ -629,9 +563,9 @@ export default {
 						this.yhlbmkLoading = false; // 关闭加载状态
 						this.yhlbmkModal = false; // 关闭当前模态
 						// 清除表单
-						this.yhlbmkAddObj.typeName = '';
-						this.yhlbmkAddObj.descInfo = '';
-						this.model3 = '';
+						this.yhlbmkAddObj.position = '';
+						this.yhlbmkAddObj.url = '';
+						this.yhlbmkAddObj.description = '';
 						this.myinput=false
 				}
                 // 解决Modal表单验证中loading的bug
@@ -673,19 +607,12 @@ export default {
 			
 			let formData = new FormData();
 						
-			formData.append("typeName",this.yhlbmkAddObj.typeName)
-			formData.append("descInfo",this.yhlbmkAddObj.descInfo)
-			formData.append("pId",this.model4)
+			formData.append("position",this.yhlbmkAddObj.position)
+			formData.append("url",this.yhlbmkAddObj.url)
+			formData.append("description",this.yhlbmkAddObj.description)
 			formData.append("id",this.yhlbmkAddObj.id)
-			if(this.yhlbmkAddObj.uppic.length>0){
-				for (var i = 0; i < this.yhlbmkAddObj.uppic.length; i++) {
-						formData.append('introductionPic', this.yhlbmkAddObj.uppic[i]);
-				}
-			}
-			if(this.yhlbmkAddObj.uppic1.length>0){
-				for (var i = 0; i < this.yhlbmkAddObj.uppic1.length; i++) {
-						formData.append('pic', this.yhlbmkAddObj.uppic1[i]);
-				}
+			for (var i = 0; i < this.yhlbmkAddObj.uppic1.length; i++) {
+					formData.append('pic', this.yhlbmkAddObj.uppic1[i]);
 			}
 			let config = {
 					headers: { 'Content-Type': 'multipart/form-data' }
@@ -702,7 +629,7 @@ export default {
 // 			};
 //             let postData = this.$qs.stringify(params);
             axios
-                .post('/api/auction/productType/updateNode',formData,config)
+                .post('/api/auction/operationManage/updateOperationManage',formData,config)
                 .then(response => {
                     console.log(response);
                     if (response.data.code == 200) {
@@ -720,9 +647,9 @@ export default {
                 });
             // 清除表单
             this.yhlbmkAddObj.id = '';
-            this.yhlbmkAddObj.descInfo = '';
-            this.model4 = '';
-            this.yhlbmkAddObj.typeName = '';
+            this.yhlbmkAddObj.description = '';
+            this.yhlbmkAddObj.position = '';
+			this.yhlbmkAddObj.url = '';
             this.yhlbmkLoading = false; // 关闭加载状态
             this.upModal = false;
         },
@@ -801,32 +728,6 @@ export default {
 					.catch(error => {
 							console.log(error);
 					});
-		},
-		//添加父级图片
-		addpaImg(e) {
-				//let inputDOM = this.$refs.inputer;
-				let inputDOM = e.target.files;
-				// 通过DOM取文件数据
-				this.yhlbmkAddObj.papic = inputDOM;
-		},
-		addpaImg1(e) {
-				//let inputDOM = this.$refs.inputer;
-				let inputDOM = e.target.files;
-				// 通过DOM取文件数据
-				this.yhlbmkAddObj.papic1 = inputDOM;
-		},
-		//添加子级图片
-		addchImg(e){
-			//let inputDOM = this.$refs.inputer;
-			let inputDOM = e.target.files;
-			// 通过DOM取文件数据
-			this.yhlbmkAddObj.chpic = inputDOM;
-		},
-		addchImg1(e){
-			//let inputDOM = this.$refs.inputer;
-			let inputDOM = e.target.files;
-			// 通过DOM取文件数据
-			this.yhlbmkAddObj.chpic1 = inputDOM;
 		},
 		addupImg(e){
 			//let inputDOM = this.$refs.inputer;
