@@ -77,7 +77,7 @@
                     <div class="remark_box">
                         <Row>
                             <Col span="4">
-                                <h3>分类设置</h3>
+                                <h3>图片设置</h3>
                             </Col>
                             <Col span="18" style="textAlign:center;">
                                 <div class="searchBox clearfix">
@@ -309,7 +309,10 @@ export default {
 						//width: 150,
 						align: 'center',
 						render: (h, params) => {
-								var str = params.row.introductionPic;
+								var str = params.row.pic;
+								if(str.charAt(str.length-1)==","){
+									str=str.substring(0,str.length-1)
+								}
 								if (str) {
 										return h('img', {
 												attrs: {
@@ -580,10 +583,9 @@ export default {
         yhlbmkCancel() {
             console.log('点击取消');
             // 清除表单
-            this.yhlbmkAddObj.typeName = '';
-            this.yhlbmkAddObj.descInfo = '';
-            this.model3 = '';
-            this.yhlbmkAddObj.id = '';
+            this.yhlbmkAddObj.position = '';
+            this.yhlbmkAddObj.url = '';
+            this.yhlbmkAddObj.description = '';
         },
         //增加商品
         addgood() {
@@ -592,14 +594,12 @@ export default {
 		//点击修改
         updateGood(params) {
 			this.showparent=true
-			if(params.pid==0){
-				this.showparent=false
-			}
             this.upModal = true;
-            this.yhlbmkAddObj.typeName = params.typeName;
-            this.yhlbmkAddObj.descInfo = params.descInfo;
+            this.yhlbmkAddObj.position = params.position;
+            this.yhlbmkAddObj.url = params.url;
 			this.yhlbmkAddObj.id = params.id;
-			this.model4=params.pid
+
+			this.yhlbmkAddObj.description = params.description;
         },
 		//修改
         updateOk() {

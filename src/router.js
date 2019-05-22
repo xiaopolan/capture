@@ -27,6 +27,9 @@ const modules = {
 				imgSet:{
 					title:"图片设置"
 				},
+				messageSet:{
+					title:"消息推送"
+				},
             }
         },
         userManage: {

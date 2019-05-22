@@ -43,22 +43,25 @@ Util.router(router); // Util.router()：获取或者设置全局路由
 router.beforeEach((to, from, next) => {
     // 控制进度条回到顶部
     document.documentElement.scrollTop ? document.documentElement.scrollTop = 0 : document.body.scrollTop = 0;
-// 	if(sessionStorage.getItem('objStr')){
-// 		var objsession=JSON.parse(sessionStorage.getItem('objStr'))
-// 		console.log(objsession)
-// 	}else{
-// 		var objsession={
-// 				permissionSign:2
-// 			}
-// 	}
-// 	//若没有登录信息 则返回登录页面
-// 	if(objsession.permissionSign != 0 && objsession.permissionSign != 1){
-// 		if(to.path === '/login'){
-// 			next()
-// 		}else{
-// 			next({path: '/login'})
-// 		}
-// 	}
+		if(sessionStorage.getItem('objStr')){
+			var objsession=JSON.parse(sessionStorage.getItem('objStr'))
+			console.log(objsession)
+		}else{
+			var objsession={
+					permissionSign:2
+				}
+		}
+		//若没有登录信息 则返回登录页面
+		if(objsession.permissionSign != 0 && objsession.permissionSign != 1){
+			if(to.path === '/login'){
+				next()
+			}else{
+				next({path: '/login'})
+			}
+		}
+		if(to.meta.title){
+			document.title=to.meta.title
+		}
     next();
 // 	// to：即将要进入的目标 路由对象，from：当前导航正要离开的路由 
 // 	if (to.path != '/login' && !to.meta.noCheckLogin && (!Util.cookie('token') || (from.path != '/login' && !Util.user().actor))) {

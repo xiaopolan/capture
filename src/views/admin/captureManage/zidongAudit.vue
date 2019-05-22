@@ -527,7 +527,7 @@ export default {
                     render: (h, params) => {
                         var str = params.row.pic;
                         if (str) {
-                            //str = str.substring(0, str.lastIndexOf(','));
+                            str = str.substring(0, str.lastIndexOf(','));
                             var arr = str.split(',');
                             return h('img', {
                                 attrs: {
@@ -641,13 +641,13 @@ export default {
                 	align: "center",
                 	render: (h, params) => {
                 		console.log(params.row.pic)
-                		var str=params.row.pic
+                		var str=params.row.productImg
                 		if(str){
-                			//str = str.substring(0, str.lastIndexOf(','))
+//                 			str = str.substring(0, str.lastIndexOf(','))
                 			var arr = str.split(',');
                 			return h('img', {
                 	　　　　　　　　attrs: {
-                	　　　　　　　　　　src: arr[0],
+                	　　　　　　　　　　src: arr,
                 	　　　　　　　　},
                 	　　　　　　　　style: {
                 	　　　　　　　　　　width: '50px',
@@ -656,9 +656,7 @@ export default {
                 	　　　　　　　　},
                 					on: {
                 						click: () => {
-                							this.showimage(
-                								arr
-                							);
+                							this.showimage(arr);
                 						}
                 					}
                 	　　　　　　});

@@ -46,6 +46,10 @@
 					<div class="fanli"><span>大师场</span><i-input v-model="setje.dsfarm" placeholder="请输入保证金额" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>元</div>
 					<div class="fanli"><i-button type="success" small  @click="saveyy(5)">保存</i-button></div>
 				</TabPane>
+				<TabPane label="积分价格设置" key="key4">
+					<div class="fanli"><span>积分价格</span><i-input v-model="integral.price" placeholder="请输入积分单价" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>元</div>
+					<div class="fanli"><i-button type="success" small  @click="saveyy(6)">保存</i-button></div>
+				</TabPane>
 			</Tabs>
 		</div>
 </template>
@@ -86,6 +90,9 @@
 					zjfarm :'',
 					dsfarm:''
 				},
+				integral:{
+					price:''
+				}
 			};
 		},
 		created() {
@@ -106,6 +113,7 @@
 						var list3=res.data.setcc;
 						var list4=res.data.setjf;
 						var list5=res.data.setje;
+						var list6=res.data.integral;
 						//运营
 						this.setyy.scale=list1[3].cdVal || ""
 						this.setyy.fltime=list1[1].cdVal || ""
@@ -129,6 +137,8 @@
 						this.setje.gjfarm =list5[1].cdVal || ""
 						this.setje.zjfarm =list5[3].cdVal || ""
 						this.setje.dsfarm=list5[0].cdVal || ""
+						//积分价格
+						this.integral.price=list6[0].cdVal || ""
 					})
 					.catch( (error)=> {
 					console.log(error);
@@ -223,6 +233,15 @@
 							cdVal: this.setje.dsfarm 
 						}];
 						break;	
+					case 6 :
+						var param = [
+							{
+							cdItem: "price", 
+							cdType: "integral", 
+							cdVal: this.integral.price
+							}
+						];
+						break;
 				}
 
 //  				console.log(typeof(param));

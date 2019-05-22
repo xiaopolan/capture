@@ -22,11 +22,11 @@ console.log(apiUrl);
 //吴剑
 // var targeturl="http://192.168.10.100:8080"
   //亢玉涵
-  var targeturl="http://192.168.10.63:8080"
+  // var targeturl="http://192.168.10.63:8080"
   //支付通道
 // var pay='http://www.xxsrchjc.com/Pay_Index.html'
 //服务器
-// var targeturl="http://47.111.184.160:8080"
+var targeturl="http://47.111.184.160:8080"
 module.exports = {
 	baseUrl: './',
     // 开发环境的配置
