@@ -1163,7 +1163,7 @@ export default {
 				times: this.updatacc.times, 
 				computeTime: this.updatacc.computeTime, 
 				wiatTime: this.updatacc.wiatTime, 
-				gradeId:this.model2
+				gradeId:this.model3
 			};
 			console.log(params);
 			this.yhlbmkLoading = false; // 关闭加载状态

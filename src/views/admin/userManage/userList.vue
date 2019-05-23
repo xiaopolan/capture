@@ -112,6 +112,25 @@ export default {
                     key: "userName",
                     align: "center"
                 },
+				{
+					title: "用户类型",
+					key: "userType",
+					align: "center",
+					render: (h,params)=> {
+						let text = params.row.userType
+						if(text==1){
+							return h('div','低级')
+						}
+						else if(text==2){
+							return h('div','中级')
+						}
+						else if(text==3){
+							return h('div','高级')
+						}else{
+							return h('div','')
+						}
+					}
+				},
                 {
                     title: "最近请求时间",
                     key: "time",
