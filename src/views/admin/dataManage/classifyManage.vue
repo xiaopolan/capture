@@ -902,7 +902,7 @@ export default {
 			}
 		},
 		showtype(){
-			axios.post('/api/auction/productType/getParentNode')
+			axios.get('/api/auction/productType/getParentNode')
 					.then(response => {
 							var res = response.data;
 							this.statusList = res.data;
