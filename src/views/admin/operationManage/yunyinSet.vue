@@ -8,6 +8,9 @@
 		margin-right: 47%;
 		margin-top: 10px;
 	}
+	.ivu-tabs-tabpane{
+		min-height: 500px;
+	}
 </style>
 
 <template>
@@ -50,6 +53,17 @@
 					<div class="fanli"><span>积分价格</span><i-input v-model="integral.price" placeholder="请输入积分单价" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>元</div>
 					<div class="fanli"><i-button type="success" small  @click="saveyy(6)">保存</i-button></div>
 				</TabPane>
+				<TabPane label="付款时限设置" key="key4">
+					<div class="fanli"><span style="margin-right: 10px;">确认付款时限</span><Date-picker :value="fkValue" v-modal="fkValue" @on-change="handleChange1" type="datetime" placeholder="选择日期和时间" style="width: 300px"></Date-picker></div>
+					<div class="fanli"><span style="margin-right: 10px;">确认收款时限</span><Date-picker :value="skValue" v-modal="skValue" @on-change="handleChange2" type="datetime" placeholder="选择日期和时间" style="width: 300px"></Date-picker></div>
+					<div class="fanli"><i-button type="success" small  @click="saveyy(7)">保存</i-button></div>
+				</TabPane>
+				<TabPane label="品鉴设置" key="key4">
+					<div class="fanli"><span>点赞数设置</span><i-input v-model="numzan" placeholder="请输入点赞数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>个</div>
+					<div class="fanli"><span>点赞换积分</span><i-input v-model="dianzan" placeholder="请输入换取积分数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分</div>
+					<div class="fanli"><span>评论换积分</span><i-input v-model="pinglun" placeholder="请输入换取积分数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分</div>
+					<div class="fanli"><i-button type="success" small  @click="saveyy(8)">保存</i-button></div>
+				</TabPane>
 			</Tabs>
 		</div>
 </template>
@@ -62,6 +76,11 @@
 		name: "yunyinSet",
 		data() {
 			return {
+				fkValue:null,
+				skValue:null,
+				numzan:'',
+				dianzan:'',
+				pinglun:'',
 				setyy:{
 					scale:'',
 					fltime:'',
@@ -114,6 +133,8 @@
 						var list4=res.data.setjf;
 						var list5=res.data.setje;
 						var list6=res.data.integral;
+						var list7=res.data.artcTradeSheet;
+						var list8=res.data.Judge;
 						//运营
 						this.setyy.scale=list1[3].cdVal || ""
 						this.setyy.fltime=list1[1].cdVal || ""
@@ -139,6 +160,11 @@
 						this.setje.dsfarm=list5[0].cdVal || ""
 						//积分价格
 						this.integral.price=list6[0].cdVal || ""
+						//付款时间设置
+						this.fkValue=new Date(parseInt(list7[0].cdVal)).Format('yyyy-MM-dd hh:mm:ss') || ""
+						this.skValue=new Date(parseInt(list7[1].cdVal)).Format('yyyy-MM-dd hh:mm:ss') || ""
+						//点赞数设置
+						this.numzan=list8[0].cdVal || ""
 					})
 					.catch( (error)=> {
 					console.log(error);
@@ -242,6 +268,43 @@
 							}
 						];
 						break;
+					case 7 :
+						var time= new Date(this.fkValue)
+						var time1=time.getTime();
+						var time2= new Date(this.skValue)
+						var time3=time2.getTime();
+						var param = [
+							{
+							cdItem: "pay_timeout", 
+							cdType: "artcTradeSheet", 
+							cdVal: time1
+							},
+							{
+							cdItem: "confirm_timeout", 
+							cdType: "artcTradeSheet", 
+							cdVal: time3
+							}
+						];
+						break;
+					case 8 :
+						var param = [
+							{
+							cdItem: "dianzanNum", 
+							cdType: "Judge", 
+							cdVal: this.numzan
+							},
+							{
+							cdItem: "dianzanNum", 
+							cdType: "Judge", 
+							cdVal: this.dianzan
+							},
+							{
+							cdItem: "dianzanNum", 
+							cdType: "Judge", 
+							cdVal: this.pinglun
+							}
+						];
+						break;
 				}
 
 //  				console.log(typeof(param));
@@ -261,7 +324,13 @@
 					.catch( (error)=> {
 					console.log(error);
 					});
-			}
+			},
+			handleChange1(daterange) {
+				this.fkValue=daterange;
+			},
+			handleChange2(daterange) {
+				this.skValue=daterange;
+			},
 		}
 	}
 </script>

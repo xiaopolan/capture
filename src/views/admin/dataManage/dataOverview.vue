@@ -86,7 +86,7 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
-											<span style="color:red;">*</span>商品名称：
+											<span style="color:red;"></span>商品名称：
 										</div>
 										<Input
 											v-model="yhlbmkAddObj.productName"
@@ -98,7 +98,7 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
-											<span style="color:red;">*</span>商品主图：
+											<span style="color:red;"></span>商品主图：
 										</div>
 										<input style="width:150px;" type="file"  @change="addImg" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
 									</div>
@@ -143,7 +143,7 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
-											<span style="color:red;">*</span>商品名称：
+											<span style="color:red;"></span>商品名称：
 										</div>
 										<Input
 											v-model="yhlbmkAddObj.productName"
@@ -155,7 +155,7 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
-											<span style="color:red;">*</span>商品主图：
+											<span style="color:red;"></span>商品主图：
 										</div>
 										<input style="width:150px;" type="file"  @change="addImg" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
 									</div>
@@ -310,6 +310,45 @@ export default {
                     key: 'productPrice',
                     align: 'center'
                 },
+								{
+										title: '点赞数',
+										key: 'dianzanNum',
+										//width: 180,
+										align: 'center'
+								},
+								{
+										title: '商品来源',
+										key: 'source',
+										align: 'center',
+										render: (h, params) => {
+												var str = params.row.source;
+												if(str==0){
+													return h('div','平台发布')
+												}
+												if(str==1){
+													return h('div','用户发布')
+												}
+										}
+								},
+								{
+										title: '竞拍状态',
+										key: 'isPush',
+										align: 'center',
+										render: (h, params) => {
+												var str = params.row.isPush;
+												if(str==0){
+													return h('div','可竞拍')
+												}
+												if(str==1){
+													return h('div','不可竞拍')
+												}
+										}
+								},
+								{
+										title: '发布人',
+										key: 'userName',
+										align: 'center',
+								},
                 {
                     title: '商品简介',
                     key: 'introduction',
@@ -501,6 +540,7 @@ export default {
             }
         },
         deleteGood(id) {
+					if(confirm('是否确认删除')==true){
             let params = {};
             params.id = id;
             let postData = this.$qs.stringify(params);
@@ -520,6 +560,7 @@ export default {
                 .catch(error => {
                     console.log(error);
                 });
+					}
             //this.sqlbmkApplyHandle(id, -1); // 申请处理
             // 重新获取申请列表数据
             //this.sqlbmkGetList(1, this.sqlbmkIsSearch);

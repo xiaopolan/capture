@@ -125,7 +125,7 @@
 											<div
 												style="display:inline-block;width:86px;textAlign:left"
 											>
-												<span style="color:red;">*</span>场次名称：
+												<span style="color:red;"></span>场次名称：
 											</div>
 											<Input
 												v-model="yhlbmkAddObj.title"
@@ -137,7 +137,7 @@
 											<div
 												style="display:inline-block;width:86px;textAlign:left"
 											>
-												<span style="color:red;">*</span>商品名称：
+												<span style="color:red;"></span>商品名称：
 											</div>
 											<input class="xuanze" @click="setProduct" v-model="goodchoiced.productName" readonly="readonly"></input>
 										</div>
@@ -224,7 +224,7 @@
 											<div
 												style="display:inline-block;width:86px;textAlign:left"
 											>
-												<span style="color:red;">*</span>场次名称：
+												<span style="color:red;"></span>场次名称：
 											</div>
 											<Input
 												v-model="updatacc.title"
@@ -236,7 +236,7 @@
 											<div
 												style="display:inline-block;width:86px;textAlign:left"
 											>
-												<span style="color:red;">*</span>商品名称：
+												<span style="color:red;"></span>商品名称：
 											</div>
 											<input class="xuanze" @click="setProduct" v-model="goodchoiced.productName" readonly="readonly"></input>
 										</div>
@@ -853,6 +853,16 @@ export default {
             var time1 = data.getTime();
             var data2 = new Date(this.endValue);
             var time2 = data2.getTime();
+			if(time2<time1){
+				Util.error('结束时间必须大于开始时间');
+				setTimeout(() => {
+					this.yhlbmkLoading = false;
+					this.$nextTick(() => {
+						this.yhlbmkLoading = true;
+					});
+				}, 10);
+				return;
+			}
             var params = {
                 title: this.goodchoiced.productName,
 				productType: this.goodchoiced.pid,
@@ -921,6 +931,7 @@ export default {
         },
         //删除场次
         deleteCC(id) {
+			if(confirm('是否确认删除')==true){
             let params = {};
             params.id = id;
             let postData = this.$qs.stringify(params);
@@ -940,6 +951,7 @@ export default {
                 .catch(error => {
                     console.log(error);
                 });
+			}
         },
         //跳转出查询商品
         setProduct() {
@@ -955,7 +967,7 @@ export default {
             };
             let postData = this.$qs.stringify(params);
             axios
-                .post('/api/auction/product/init', postData)
+                .post('/api/auction/product/getAllowProduct', postData)
                 .then(response => {
                     var res = response.data;
                     this.choicegoodlist = res.data;
@@ -975,43 +987,43 @@ export default {
         handleChange(daterange) {
             this.startValue = daterange;
 			
-			this.endTimeOptions = {
-		          disabledDate: date => {
-		            let startTime = this.startValue ? new Date(this.startValue).valueOf() : '';
-		            return date && (date.valueOf() < startTime);
-		          }
-		        }
+// 			this.endTimeOptions = {
+// 		          disabledDate: date => {
+// 		            let startTime = this.startValue ? new Date(this.startValue).valueOf() : '';
+// 		            return date && (date.valueOf() < startTime);
+// 		          }
+// 		        }
 
         },
         //选择结束时间
         handleChange1(daterange) {
             this.endValue = daterange;
-			let endTime = this.endValue ? new Date(this.endValue).valueOf() - 1 * 24 * 60 * 60 * 1000 : '';
-       			 this.startTimeOptions = {
-		          disabledDate(date) {
-		            return date && date.valueOf() > endTime;
-		          }
-		        }
+// 			let endTime = this.endValue ? new Date(this.endValue).valueOf() - 1 * 24 * 60 * 60 * 1000 : '';
+//        			 this.startTimeOptions = {
+// 		          disabledDate(date) {
+// 		            return date && date.valueOf() > endTime;
+// 		          }
+// 		        }
         },
         //修改开始时间
         handleChange2(daterange) {
             this.upstartValue = daterange;
-				this.upendTimeOptions = {
-			          disabledDate: date => {
-			            let startTime = this.upstartValue ? new Date(this.upstartValue).valueOf() : '';
-			            return date && (date.valueOf() < startTime);
-			          }
-			        }
+// 				this.upendTimeOptions = {
+// 			          disabledDate: date => {
+// 			            let startTime = this.upstartValue ? new Date(this.upstartValue).valueOf() : '';
+// 			            return date && (date.valueOf() < startTime);
+// 			          }
+// 			        }
         },
         //修改结束时间
         handleChange3(daterange) {
             this.upendValue = daterange;
-			let endTime = this.upendValue ? new Date(this.upendValue).valueOf() - 1 * 24 * 60 * 60 * 1000 : '';
-			       			 this.upstartTimeOptions = {
-					          disabledDate(date) {
-					            return date && date.valueOf() > endTime;
-					          }
-					        }
+// 			let endTime = this.upendValue ? new Date(this.upendValue).valueOf() - 1 * 24 * 60 * 60 * 1000 : '';
+// 			       			 this.upstartTimeOptions = {
+// 					          disabledDate(date) {
+// 					            return date && date.valueOf() > endTime;
+// 					          }
+// 					        }
         },
         handleChange4(daterange) {
             this.searchValue = daterange;

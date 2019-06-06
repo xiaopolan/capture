@@ -81,6 +81,12 @@ const modules = {
                 userData: {
                     title: '订单管理'
                 },
+				tranData: {
+					title: '交易单管理'
+				},
+				demand: {
+					title: '交易需求管理'
+				},
 				goodChoise:{
 					title:'选择商品'
 				}

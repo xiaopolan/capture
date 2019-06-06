@@ -632,27 +632,29 @@ export default {
             }
         },
         deleteGood(json) {
-            let params = {};
-            params.id = json.id;
-			params.pId = json.pid;
-
-            let postData = this.$qs.stringify(params);
-            console.log(postData);
-            axios
-                .post('/api/auction/productType/deleteNode', postData)
-                .then(response => {
-                    if (response.data.code == 200) {
-                        Util.success('删除成功');
-                        this.yhlbmkGetList(1, this.yhlbmkIsSearch);
-                    } else {
-                        Util.error('删除失败');
-                    }
-                    //var res = response.data;
-                    //this.yhlbmktablePageData.list=res.data;
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+			if(confirm('是否确认删除')==true){
+				let params = {};
+				params.id = json.id;
+				params.pId = json.pid;
+	
+				let postData = this.$qs.stringify(params);
+				console.log(postData);
+				axios
+					.post('/api/auction/productType/deleteNode', postData)
+					.then(response => {
+						if (response.data.code == 200) {
+							Util.success('删除成功');
+							this.yhlbmkGetList(1, this.yhlbmkIsSearch);
+						} else {
+							Util.error('删除失败');
+						}
+						//var res = response.data;
+						//this.yhlbmktablePageData.list=res.data;
+					})
+					.catch(error => {
+						console.log(error);
+					});
+			}
             //this.sqlbmkApplyHandle(id, -1); // 申请处理
             // 重新获取申请列表数据
             //this.sqlbmkGetList(1, this.sqlbmkIsSearch);

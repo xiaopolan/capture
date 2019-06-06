@@ -99,7 +99,7 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
-											<span style="color:red;">*</span>位置：
+											<span style="color:red;"></span>位置：
 										</div>
 										<Input
 											v-model="yhlbmkAddObj.position"
@@ -111,7 +111,7 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
-											<span style="color:red;">*</span>地址：
+											<span style="color:red;"></span>地址：
 										</div>
 										<Input
 											v-model="yhlbmkAddObj.url"
@@ -123,7 +123,7 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
-											<span style="color:red;">*</span>描述：
+											<span style="color:red;"></span>描述：
 										</div>
 										<Input
 											v-model="yhlbmkAddObj.description"
@@ -151,7 +151,7 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
-											<span style="color:red;">*</span>位置：
+											<span style="color:red;"></span>位置：
 										</div>
 										<Input
 											v-model="yhlbmkAddObj.position"
@@ -163,7 +163,7 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
-											<span style="color:red;">*</span>地址：
+											<span style="color:red;"></span>地址：
 										</div>
 										<Input
 											v-model="yhlbmkAddObj.url"
@@ -175,7 +175,7 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
-											<span style="color:red;">*</span>描述：
+											<span style="color:red;"></span>描述：
 										</div>
 										<Input
 											v-model="yhlbmkAddObj.description"
@@ -424,7 +424,7 @@ export default {
         this.yhlbmkGetList(1, this.yhlbmkIsSearch);
     },
 	mounted: function() {
-			this.showtype();
+			//this.showtype();
 	},
     methods: {
         // 用户列表的页码改变
@@ -499,6 +499,7 @@ export default {
             }
         },
         deleteGood(json) {
+			if(confirm('是否确认删除')==true){
             let params = {};
             params.id = json.id;
 
@@ -519,6 +520,7 @@ export default {
                 .catch(error => {
                     console.log(error);
                 });
+			}
             //this.sqlbmkApplyHandle(id, -1); // 申请处理
             // 重新获取申请列表数据
             //this.sqlbmkGetList(1, this.sqlbmkIsSearch);
@@ -554,7 +556,7 @@ export default {
 								console.log(response);
 								if (response.data.code == 200) {
 									Util.success('添加成功');
-									this.showtype();
+									//this.showtype();
 									this.yhlbmkGetList(1, this.yhlbmkIsSearch);
 								} else {
 									Util.error('添加失败');
@@ -719,16 +721,16 @@ export default {
 				this.myinput=false
 			}
 		},
-		showtype(){
-			axios.post('/api/auction/productType/getParentNode')
-					.then(response => {
-							var res = response.data;
-							this.statusList = res.data;
-					})
-					.catch(error => {
-							console.log(error);
-					});
-		},
+// 		showtype(){
+// 			axios.post('/api/auction/productType/getParentNode')
+// 					.then(response => {
+// 							var res = response.data;
+// 							this.statusList = res.data;
+// 					})
+// 					.catch(error => {
+// 							console.log(error);
+// 					});
+// 		},
 		addupImg(e){
 			//let inputDOM = this.$refs.inputer;
 			let inputDOM = e.target.files;

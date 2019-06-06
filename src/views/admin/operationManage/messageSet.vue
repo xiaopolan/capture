@@ -91,7 +91,7 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
-											<span style="color:red;">*</span>消息类型：
+											<span style="color:red;"></span>消息类型：
 										</div>
 										<select style="width:200px" name="public-choice" v-model="model1" class="typeselect">                                        
 											<option :value="item.groupType" :key='item' v-for="item in statusList" >{{item.groupName}}</option>                                    
@@ -101,7 +101,7 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
-											<span style="color:red;">*</span>消息内容：
+											<span style="color:red;"></span>消息内容：
 										</div>
 										<Input
 											type="textarea"
@@ -128,7 +128,7 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
-											<span style="color:red;">*</span>消息类型：
+											<span style="color:red;"></span>消息类型：
 										</div>
 										<select style="width:200px" name="public-choice" v-model="model2" class="typeselect">                                        
 											<option :value="item.groupType" :key='item' v-for="item in statusList" >{{item.groupName}}</option>                                    
@@ -138,7 +138,7 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
-											<span style="color:red;">*</span>消息内容：
+											<span style="color:red;"></span>消息内容：
 										</div>
 										<Input
 											type="textarea"
@@ -524,6 +524,7 @@ export default {
 			this.yhlbmkModal = true;
 		},
 		deleteGood(id) {
+			if(confirm('是否确认删除')==true){
 			let params = {};
 			params.id = id;
 			//let postData = this.$qs.stringify(params);
@@ -542,6 +543,7 @@ export default {
 				.catch(error => {
 					console.log(error);
 				});
+			}
 			//this.sqlbmkApplyHandle(id, -1); // 申请处理
 			// 重新获取申请列表数据
 			//this.sqlbmkGetList(1, this.sqlbmkIsSearch);
