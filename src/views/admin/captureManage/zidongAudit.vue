@@ -315,7 +315,7 @@
 							<div slot="footer"></div>
 						</Modal>
 						<Modal v-model="imageModal" title="图片查看" class="mymodal">
-							<Carousel v-if="imageModal">
+							<Carousel v-if="imageModal1">
 								<Carousel-Item v-for="(item,index) in imagelist" :key="index">
 								<div style="margin: 0 auto;text-align: center;display: flex;align-items: center;width: 488px;height: 300px;justify-content: center;">
 								<img :src="item" style="max-height:240px;max-width:440px;" alt=""/>
@@ -506,6 +506,7 @@ export default {
 			listobjgood:true,
 			listobj: true,
             imageModal: false,
+			imageModal1: false,
 			ccid:'',
             imagelist: [], //图片集合image
             goodsclo: [
@@ -1059,6 +1060,7 @@ export default {
         //显示图片
         showimage(imagearr) {
             this.imageModal = true;
+			this.imageModal1 = true;
             this.imagelist = imagearr;
         },
         // 点击新增用户的对话框的ok

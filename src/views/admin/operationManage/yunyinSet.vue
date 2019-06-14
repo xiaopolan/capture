@@ -64,6 +64,10 @@
 					<div class="fanli"><span>评论换积分</span><i-input v-model="pinglun" placeholder="请输入换取积分数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分</div>
 					<div class="fanli"><i-button type="success" small  @click="saveyy(8)">保存</i-button></div>
 				</TabPane>
+				<TabPane label="系统设置" key="key4">
+					<div class="fanli"><span>客服电话</span><i-input v-model="kfphone" placeholder="请输入客服电话" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input></div>
+					<div class="fanli"><i-button type="success" small  @click="saveyy(9)">保存</i-button></div>
+				</TabPane>
 			</Tabs>
 		</div>
 </template>
@@ -76,6 +80,7 @@
 		name: "yunyinSet",
 		data() {
 			return {
+				kfphone:'',
 				fkValue:null,
 				skValue:null,
 				numzan:'',
@@ -135,6 +140,7 @@
 						var list6=res.data.integral;
 						var list7=res.data.artcTradeSheet;
 						var list8=res.data.Judge;
+						var list9=res.data.base_manage;
 						//运营
 						this.setyy.scale=list1[3].cdVal || ""
 						this.setyy.fltime=list1[1].cdVal || ""
@@ -164,7 +170,11 @@
 						this.fkValue=new Date(parseInt(list7[0].cdVal)).Format('yyyy-MM-dd hh:mm:ss') || ""
 						this.skValue=new Date(parseInt(list7[1].cdVal)).Format('yyyy-MM-dd hh:mm:ss') || ""
 						//点赞数设置
-						this.numzan=list8[0].cdVal || ""
+						this.numzan=list8[2].cdVal || ""
+						this.dianzan=list8[1].cdVal || ""
+						this.pinglun=list8[0].cdVal || ""
+						//客服电话
+						this.kfphone=list9[0].cdVal || ""
 					})
 					.catch( (error)=> {
 					console.log(error);
@@ -294,14 +304,23 @@
 							cdVal: this.numzan
 							},
 							{
-							cdItem: "dianzanNum", 
+							cdItem: "dianzanIntegral", 
 							cdType: "Judge", 
 							cdVal: this.dianzan
 							},
 							{
-							cdItem: "dianzanNum", 
+							cdItem: "commentIntegral", 
 							cdType: "Judge", 
 							cdVal: this.pinglun
+							}
+						];
+						break;
+					case 9 :
+						var param = [
+							{
+							cdItem: "server_phone", 
+							cdType: "base_manage", 
+							cdVal: this.kfphone
 							}
 						];
 						break;

@@ -282,7 +282,7 @@
 									</div>
 								</Modal>
 								<Modal v-model="imageModal" title="图片查看" class="mymodal">
-									<Carousel v-if="imageModal">
+									<Carousel v-if="imageModal1">
 										<Carousel-Item v-for="(item,index) in imagelist" :key="index">
 											<div style="margin: 0 auto;text-align: center;display: flex;align-items: center;width: 488px;height: 300px;justify-content: center;">
 											<img :src="item" style="max-height:240px;max-width:440px;" alt=""/>
@@ -340,6 +340,7 @@ export default {
         return {
 			imagelist: [], //图片集合image
 			imageModal: false,
+			imageModal1: false,
 			showparent:true,
 			pamodal:false,
 			myinput:false,
@@ -665,17 +666,6 @@ export default {
 				if(this.yhlbmkAddObj.typeName=='' || this.yhlbmkAddObj.descInfo==''){
 					Util.error('正确填写表单');
 				}else{
-// 					if(this.model3=='自定义'){
-// 						let productType1 = {
-// 							typeName: this.yhlbmkAddObj.typeName,
-// 							descInfo: this.yhlbmkAddObj.descInfo,
-// 						};
-// 						let productType2 = {
-// 							typeName: this.yhlbmkAddObj.pname,
-// 						};
-// 						params.push(productType1);
-// 						params.push(productType2)
-// 					}else{
 						let formData = new FormData();
 						
 						 formData.append("typeName",this.yhlbmkAddObj.typeName)
@@ -698,15 +688,6 @@ export default {
 									formData.append('pic', this.yhlbmkAddObj.papic1[i]);
 							}
 						}
-// 						let productType1 = {
-// 							typeName: this.yhlbmkAddObj.typeName,
-// 							descInfo: this.yhlbmkAddObj.descInfo,
-// 						};
-// 						let productType2 = {
-// 							id: this.model3,
-// 						};
-// 						formData.append('productType1', JSON.stringify(productType1));
-// 						formData.append('productType2', JSON.stringify(productType2));
 						let config = {
 								headers: { 'Content-Type': 'multipart/form-data' }
 						};
@@ -804,14 +785,6 @@ export default {
 			const instance = axios.create({
 					withCredentials: true
 			});
-// 			let params = {
-// 				id:this.yhlbmkAddObj.id,
-// 				typeName: this.yhlbmkAddObj.typeName,
-// 				//pic: this.yhlbmkAddObj.pic,
-// 				pid: this.model4 ,
-// 				descInfo: this.yhlbmkAddObj.descInfo ,
-// 			};
-//             let postData = this.$qs.stringify(params);
             axios
                 .post('/api/auction/productType/updateNode',formData,config)
                 .then(response => {
@@ -841,6 +814,7 @@ export default {
         showimage(imagearr) {
 			this.imagelist=[];
             this.imageModal = true;
+			this.imageModal1 = true;
             this.imagelist.push(imagearr);
         },
 		//跳转出查询用户

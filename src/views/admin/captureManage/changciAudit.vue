@@ -23,6 +23,10 @@
         vertical-align: middle;
     }
 }
+
+.mymodal .ivu-modal-body {
+    padding: 0 16px 16px 16px;
+}
 </style>
 <style lang="less">
 .yhlb_table {
@@ -64,13 +68,10 @@
     height: 10px;
     background: #ffffff;
 }
-.mygoods .ivu-modal {
+.mygoods1 .ivu-modal {
     width: 1200px !important;
     max-height: 700px;
     overflow: scroll;
-}
-.mymodal .ivu-modal-body {
-    padding: 0 16px 16px 16px;
 }
 </style>
 
@@ -316,7 +317,7 @@
 										title="选择商品"
 										:loading="yhlbmkLoading"
 										@on-cancel="yhlbmkCancel"
-										class-name="mygoods"
+										class-name="mygoods1"
 									>
 										<Row style="padding: 10px 0;">
 												<Col span="5" style="textAlign:center;">
@@ -404,7 +405,7 @@
 										<div slot="footer"></div>
 									</Modal>
 									<Modal v-model="imageModal" title="图片查看" class="mymodal">
-										<Carousel v-if="imageModal">
+										<Carousel v-if="imageModal1">
 											<Carousel-Item v-for="(item,index) in imagelist" :key="index">
 											<div style="margin: 0 auto;text-align: center;display: flex;align-items: center;width: 488px;height: 300px;justify-content: center;">
 											<img :src="item" style="max-height:240px;max-width:440px;" alt=""/>
@@ -781,6 +782,7 @@ export default {
             },
             imagelist: [], //图片集合image
             imageModal: false,
+			imageModal1: false,
             model1: '', //商品类型,
             producenames: '', //商品名称
 
@@ -791,15 +793,18 @@ export default {
             ccidlist: {} //场次id
         };
     },
+	activated: function() {
+		this.yhlbmkGetList(1, this.yhlbmkIsSearch);
+	},
     mounted: function() {
         this.showtype();
         this.showdctype();
 		this.gettimes();
     },
-    created() {
-        // 获取用户列表数据
-        this.yhlbmkGetList(1, this.yhlbmkIsSearch);
-    },
+//     created() {
+//         // 获取用户列表数据
+//         this.yhlbmkGetList(1, this.yhlbmkIsSearch);
+//     },
     methods: {
         //获取档次id
         showdctype() {
@@ -1046,7 +1051,8 @@ export default {
         },
         //显示图片
         showimage(imagearr) {
-            this.imageModal = true;
+			this.imageModal = true;
+            this.imageModal1 = true;
             this.imagelist = imagearr;
         },
         searchgood(currentPage) {

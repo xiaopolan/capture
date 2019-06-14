@@ -27,6 +27,17 @@
         vertical-align: middle;
     }
 }
+.xuanze {
+    display: inline-block;
+    width: 200px;
+    height: 32px;
+    vertical-align: middle;
+    border: 1px solid #dcdee2;
+    border-radius: 4px;
+    line-height: 32px;
+    padding: 1px 7px;
+}
+
 </style>
 <style lang="less">
 .yhlb_table {
@@ -41,6 +52,11 @@
     border: 1px solid #dcdee2;
     border-radius: 4px;
     color: #515a6e;
+}
+.mygoods .ivu-modal {
+    width: 1200px !important;
+    max-height: 700px;
+    overflow: scroll;
 }
 </style>
 
@@ -101,6 +117,14 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
+											<span style="color:red;"></span>用户id：
+										</div>
+										<input class="xuanze" @click="setProduct" v-model="yhlbmkAddObj.userId" readonly="readonly"></input>
+									</div>
+									<div style="marginBottom:10px;textAlign:center">
+										<div
+											style="display:inline-block;width:86px;textAlign:left"
+										>
 											<span style="color:red;"></span>消息内容：
 										</div>
 										<Input
@@ -138,6 +162,14 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
+											<span style="color:red;"></span>用户id：
+										</div>
+										<input class="xuanze" @click="setProduct" v-model="yhlbmkAddObj.userId" readonly="readonly"></input>
+									</div>
+									<div style="marginBottom:10px;textAlign:center">
+										<div
+											style="display:inline-block;width:86px;textAlign:left"
+										>
 											<span style="color:red;"></span>消息内容：
 										</div>
 										<Input
@@ -153,6 +185,33 @@
 										>时间：</div>
 											<Date-picker :value="startValue" v-modal="startValue"  @on-change="handleChange"  type="datetime" placeholder="选择日期和时间" style="width: 200px"></Date-picker>
 									</div>
+								</Modal>
+								<Modal
+									v-model="goodModal"
+									title="选择用户"
+									:loading="yhlbmkLoading"
+									@on-cancel="yhlbmkCancel"
+									class-name="mygoods"
+								>
+									<Table
+										ref="yhlbmkTable"
+										border
+										:columns="goodsclo"
+										:data="choicegoodlist.list"
+										@on-row-dblclick="selectgoods"
+									></Table>
+									<div class="pageBox" :style="{marginTop: '25px',paddingBottom: '35px'}">
+										<!-- 分页 -->
+										<Page
+											:total="choicegoodlist.total"
+											:page-size="choicegoodlist.pageSize"
+											:current="choicegoodlist.currentPage"
+											show-elevator
+											@on-change="getlistgood"
+										></Page>
+										<span>共&nbsp;{{choicegoodlist.pages}}&nbsp;页</span>
+									</div>
+									<div slot="footer"></div>
 								</Modal>
                             </Col>
                         </Row>
@@ -210,6 +269,7 @@ export default {
     name: "userList",
     data() {
         return {
+			goodModal:false,
 			startValue:'',
 			statusList:[{
 				groupType:1,
@@ -225,6 +285,53 @@ export default {
             yhtjtableData: [], // 用户统计表格数据
             yhlbmkIpVal: "", // 用户列表的搜索条件
             yhlbmkIsSearch: false, // 是否加入搜索词
+			goodsclo: [
+				{
+					title: "用户id",
+					key: "id",
+					width: 70,
+					align: "center"
+				},
+				{
+					title: "用户名称",
+					key: "userName",
+					align: "center"
+				},
+				{
+					title: "用户类型",
+					key: "userType",
+					align: "center",
+					render: (h,params)=> {
+						let text = params.row.userType
+						if(text==1){
+							return h('div','低级')
+						}
+						else if(text==2){
+							return h('div','中级')
+						}
+						else if(text==3){
+							return h('div','高级')
+						}else{
+							return h('div','')
+						}
+					}
+				},
+				{
+					title: "最近请求时间",
+					key: "time",
+					align: "center"
+				},
+				{
+					title: "电话号码",
+					key: "phone",
+					align: "center"
+				},
+				{
+					title: "联系地址",
+					key: "address",
+					align: "center"
+				},
+			],
             // 用户列表表格的标题行数据（列属性名称）
             yhlbmkCols: [
                 {
@@ -363,7 +470,7 @@ export default {
 					}
 				}
             ],
-            // 用户列表表格分页数据
+            // 消息列表表格分页数据
             yhlbmktablePageData: {
                 list: [], // 表格列表
                 total: 0, // 总条数
@@ -371,6 +478,14 @@ export default {
                 pageSize: 0, // 每页条数
                 currentPage: 0 // 当前页码
             },
+			// 用户列表表格分页数据
+			choicegoodlist: {
+				list: [], // 表格列表
+				total: 0, // 总条数
+				pages: 0, // 总页数
+				pageSize: 0, // 每页条数
+				currentPage: 0 // 当前页码
+			},
             yhlbmkModal: false, // 添加新增用户的对话框显示状态
             yhlbmkLoading: true, // 添加新增用户的对话框加载状态
             // 新增用户的对话框表单
@@ -378,7 +493,8 @@ export default {
                 phone: "", // 用户手机号
                 pwd: "", // 用户密码
                 nickName: "", // 用户昵称
-                hotbirdNum: "" // 用户BinGo号
+                hotbirdNum: "" ,
+				userId:'请选择',
             },
 			model1:'',
 			model2:'',
@@ -494,11 +610,15 @@ export default {
 			}
 		},
 		yhlbmkOk(){
-			this.yhlbmkModal=false
+			this.yhlbmkModal=false;
+			if(this.yhlbmkAddObj.userId=='请选择'){
+				this.yhlbmkAddObj.userId=''
+			}
 			let json={
 				msg:this.yhlbmkAddObj.msg,
 				type:this.model1,
-				pushTime:this.startValue
+				pushTime:this.startValue,
+				userId:this.yhlbmkAddObj.userId
 			};
 			//let postData = this.$qs.stringify(json);
 			axios.post('/api/auction/message/add',json)
@@ -521,6 +641,7 @@ export default {
 		addgood() {
 			this.model2 = '';
 			this.yhlbmkAddObj.msg = '';
+			this.yhlbmkAddObj.userId='请选择'
 			this.yhlbmkModal = true;
 		},
 		deleteGood(id) {
@@ -559,11 +680,15 @@ export default {
 		//修改
 		updateOk() {
 			// 参数对象
+			if(this.yhlbmkAddObj.userId=='请选择'){
+				this.yhlbmkAddObj.userId=''
+			}
 			let params = {
 				msg:this.yhlbmkAddObj.msg,
 				type:this.model2,
 				id:this.yhlbmkAddObj.id,
-				pushTime:this.startValue
+				pushTime:this.startValue,
+				userId:this.yhlbmkAddObj.userId
 			};
 			//let postData = this.$qs.stringify(params);
 			axios.post('/api/auction/message/update',params)
@@ -593,6 +718,35 @@ export default {
 		//选择开始时间
 		handleChange(daterange) {
 			this.startValue = daterange;
+		},
+		//跳转出查询用户
+		setProduct() {
+			//this.yhlbmkModal = false; // 关闭当前模态
+			this.goodModal = true;
+			// 参数对象
+			this.getlistgood(1);
+		},
+		getlistgood(currentPage) {
+			var params = {
+				pageNum: currentPage, // 当前页码
+				pageSize: 10, // 每页条数
+			};
+			let postData = this.$qs.stringify(params);
+			console.log(postData)
+			axios.post('/api/auction/user/init',postData)
+				.then( (response)=> {
+				var res = response.data;
+				this.choicegoodlist=res.data;
+				})
+				.catch( (error)=> {
+				console.log(error);
+				});
+		},
+		selectgoods(row) {
+			this.goodchoiced = row;
+			this.yhlbmkAddObj.userId=this.goodchoiced.id
+			this.goodModal = false;
+			//this.yhlbmkModal = true;
 		},
     }
 };

@@ -140,8 +140,13 @@ export default {
 						}
 					}
                 },
+				{
+					title: "原始数量",
+					key: "num",
+					align: "center"
+				},
                 {
-                	title: "数量",
+                	title: "当前数量",
                 	key: "artcNum",
                 	align: "center"
                 },
@@ -160,7 +165,12 @@ export default {
 					}
 				},
 				{
-					title: "交易价格",
+					title: "原始价格",
+					key: "price",
+					align: "center"
+				},
+				{
+					title: "当前价格",
 					key: "totalPrice",
 					align: "center"
 				},

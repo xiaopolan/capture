@@ -75,6 +75,9 @@ const modules = {
                 dataOverview: {
                     title: '商品管理'
                 },
+				verifyGoods: {
+					title: '商品审核'
+				},
 				classifyManage:{
 					title:'分类管理'
 				},
