@@ -64,6 +64,12 @@
     border-radius: 4px;
     color: #515a6e;
 }
+.goodselect {
+    width: 150px;
+    height: 25px;
+    color: #515a6e;
+		border:none;
+}
 </style>
 
 <template>
@@ -238,13 +244,11 @@
 									</Col>
 									<Col span="5" style="textAlign:center;">
 											<div class="searchBox clearfix">
-												<div style="marginBottom:10px;textAlign:center">
+												<div style="marginBottom:10px;textAlign:center;display: flex;">
 													<div
-														style="display:inline-block;width:86px;textAlign:center;height: 20px;"
+														style="display:inline-block;width:86px;textAlign:center;height: 20px;margin-top: 5px;"
 													>商品类型：</div>
-													<select name="public-choice" v-model="model1" class="typeselect">                                        
-														<option :value="item.cdTypeDesc"  v-for="item in cityList" >{{item.cdTypeDesc}}</option>                                 																							
-													</select>
+													<Cascader ref="lists" :data="typelists" v-model="model1" class="goodselect"></Cascader>
 												</div>
 											</div>
 									</Col>
@@ -487,6 +491,7 @@ export default {
     name: 'zidongAudit',
     data() {
         return {
+			typelists:[],//商品类型
 			model3:'',
 			model2:'',
 			guizilist:[
@@ -579,7 +584,6 @@ export default {
 				pageSize1: 0, // 每页条数
 				currentPage1: 0 // 当前页码
             },
-            cityList: [], //商品类型
             model1: '', //商品类型,
             producenames: '', //商品名称
             startPrice: '',
@@ -959,11 +963,15 @@ export default {
         //跳转出查询商品
         setProduct() {
             //this.yhlbmkModal = false; // 关闭当前模态
+			this.model1=this.producenames=this.startPrice=this.endPrice=this.searchValue='';
             this.goodModal = true;
             // 参数对象
             this.getlistgood(1);
         },
         searchgood(currentPage) {
+			if(this.model1 !=''){
+				this.model1=this.$refs['lists'].tmpSelected[1].label;
+			}
 			this.listobjgood = false;
             if (
                 this.model1 ||
@@ -1029,10 +1037,10 @@ export default {
             params.cd_type = 'product_type';
             let postData = this.$qs.stringify(params);
             axios
-                .post('/api/auction/type/getTypeByParam', postData)
+                .post('/api/auction/productType/getAllNode', postData)
                 .then(response => {
                     var res = response.data;
-                    this.cityList = res.data;
+                    this.typelists = res.data;
                 })
                 .catch(error => {
                     console.log(error);

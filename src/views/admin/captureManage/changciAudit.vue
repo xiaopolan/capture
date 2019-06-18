@@ -23,7 +23,12 @@
         vertical-align: middle;
     }
 }
-
+.goodselect {
+    width: 150px;
+    height: 25px;
+    color: #515a6e;
+		border:none;
+}
 .mymodal .ivu-modal-body {
     padding: 0 16px 16px 16px;
 }
@@ -86,11 +91,13 @@
                             </Col>
 							<Col span="4">
 									<i-select v-model="model3" placeholder='请选择竞拍档次'>
+											<i-option >全部</i-option>
 											<i-option v-for="item in ccidlist" :value="item.id">{{ item.auctionGradeName }}</i-option>
 									</i-select>
 							</Col>
 							<Col span="4" style="margin-left: 10px;">
 									<i-select v-model="model4" placeholder='请选择生成类型'>
+											<i-option >全部</i-option>
 											<i-option v-for="item in typelist" :value="item.id">{{ item.name }}</i-option>
 									</i-select>
 							</Col>
@@ -338,13 +345,11 @@
 												</Col>
 												<Col span="5" style="textAlign:center;">
 														<div class="searchBox clearfix">
-															<div style="marginBottom:10px;textAlign:center">
+															<div style="marginBottom:10px;textAlign:center;display: flex;">
 																<div
-																	style="display:inline-block;width:86px;textAlign:center;height: 20px;"
+																	style="display:inline-block;width:86px;textAlign:center;height: 20px;margin-top: 5px;"
 																>商品类型：</div>
-																<select name="public-choice" v-model="model1" class="typeselect">                                        
-																	<option :value="item.cdTypeDesc"  v-for="item in cityList" >{{item.cdTypeDesc}}</option>                                    
-																</select>
+																<Cascader ref="lists" :data="typelists" v-model="model1" class="goodselect"></Cascader>
 															</div>
 														</div>
 												</Col>
@@ -448,6 +453,7 @@ export default {
     name: 'changciAudit',
     data() {
         return {
+			typelists:[],
 			startTimeOptions: {}, //开始日期设置
 			endTimeOptions: {}, //结束日期设置
 			upendTimeOptions:{},
@@ -960,6 +966,7 @@ export default {
         },
         //跳转出查询商品
         setProduct() {
+			this.model1=this.producenames=this.startPrice=this.endPrice=this.searchValue='';
             //this.yhlbmkModal = false; // 关闭当前模态
             this.goodModal = true;
             // 参数对象
@@ -1056,6 +1063,9 @@ export default {
             this.imagelist = imagearr;
         },
         searchgood(currentPage) {
+			if(this.model1 !=''){
+				this.model1=this.$refs['lists'].tmpSelected[1].label;
+			}
             if (
                 this.model1 ||
                 this.producenames ||
@@ -1086,7 +1096,11 @@ export default {
                         console.log(error);
                     });
             } else {
+                this.listobjgood = true;
                 this.getlistgood(1);
+                this.$nextTick(function(){
+                	this.$refs['pages'].currentPage = 1;
+                })
             }
         },
         updatatimeOk() {
@@ -1146,10 +1160,10 @@ export default {
             params.cd_type = 'product_type';
             let postData = this.$qs.stringify(params);
             axios
-                .post('/api/auction/type/getTypeByParam', postData)
+                .post('/api/auction/productType/getAllNode', postData)
                 .then(response => {
                     var res = response.data;
-                    this.cityList = res.data;
+                    this.typelists = res.data;
                 })
                 .catch(error => {
                     console.log(error);
@@ -1157,6 +1171,12 @@ export default {
         },
         //查询
         searchgoodName(currentPage) {
+			if(this.model4=='全部'){
+				this.model4=''
+			}
+			if(this.model3=='全部'){
+				this.model3=''
+			}
             let params = {
                 classId: this.model3,
                 productName: this.searchname,
@@ -1192,7 +1212,7 @@ export default {
 				.catch( (error)=> {
 				console.log(error);
 				}); 
-		}
+		},
     }
 };
 </script>

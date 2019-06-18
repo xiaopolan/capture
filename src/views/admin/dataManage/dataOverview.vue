@@ -353,13 +353,11 @@ export default {
                     title: '商品简介',
                     key: 'introduction',
                     align: 'center',
-					width: 400,
                     ellipsis: true
                 },
                 {
                     title: '操作',
                     key: 'action',
-                    width: 150,
                     align: 'center',
                     render: (h, params) => {
                         return h('div', [
