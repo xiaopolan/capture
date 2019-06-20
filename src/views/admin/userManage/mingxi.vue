@@ -199,7 +199,7 @@ export default {
             };
             console.log(params);
 			let postData = this.$qs.stringify(params);
-			axios.post('/api/auction/marginInfo/init',postData)
+			axios.post('/api/auction/marginInfo/sys/init',postData)
 				.then( (response)=> {
 				var res = response.data;
 				this.yhtsxxtablePageData=res.data;
@@ -223,7 +223,7 @@ export default {
 				};
 				console.log(params);
 				let postData = this.$qs.stringify(params);
-				axios.post('/api/auction/marginInfo/getMarginInfoByGrade',postData)
+				axios.post('/api/auction/marginInfo/sys/getMarginInfoByGrade',postData)
 					.then( (response)=> {
 					var res = response.data;
 					this.yhtsxxtablePageData=res.data;
@@ -234,7 +234,7 @@ export default {
 			}
         },
 		getdc(){
-			axios.post('/api/auction/marginInfo/getGradeName')
+			axios.post('/api/auction/marginInfo/sys/getGradeName')
 				.then( (response)=> {
 					var res = response.data;
 					this.yhtsxxSlObj=res.data;

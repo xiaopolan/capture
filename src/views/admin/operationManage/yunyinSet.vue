@@ -129,7 +129,7 @@
 // 				console.log(params);
 // 				let postData = this.$qs.stringify(params);
 // 				debugger
-				axios.post('/api/auction/operate/init')
+				axios.post('/api/auction/operate/sys/init')
 					.then( (response)=> {
 						var res = response.data;
 						var list1=res.data.setyy;
@@ -332,7 +332,7 @@
 // 				debugger
 // 				let postData = this.$qs.stringify(param);
 // 				console.log(postData)
-				axios.post('/api/auction/operate/updateOperate',param)
+				axios.post('/api/auction/operate/sys/updateOperate',param)
 					.then( (response)=> {
 					if(response.data.code==200){
 						Util.success("保存成功");

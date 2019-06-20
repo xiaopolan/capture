@@ -194,7 +194,7 @@ export default {
 										//permissionSign:0
                 };
 				let postData = this.$qs.stringify(params);
-				axios.post('/api/auction/sysUser/login',postData)
+				axios.post('/api/auction/sysUser/sys/login',postData)
 					.then( (response)=> {
 					if(response.data.code==200){
 						var res = response.data;

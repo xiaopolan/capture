@@ -204,7 +204,7 @@ export default {
             console.log(params);
             // 模拟请求接口返回的数据
 			let postData = this.$qs.stringify(params);
-			axios.post('/api/auction/integralDetail/init',postData)
+			axios.post('/api/auction/integralDetail/sys/init',postData)
 				.then( (response)=> {
 				var res = response.data;
 				this.yhlbmktablePageData=res.data;
@@ -228,7 +228,7 @@ export default {
 							phone:this.yhlbmkIpVal
 						};
            	let postData = this.$qs.stringify(params);
-           	axios.post('/api/auction/integralDetail/findIntegralByPhone',postData)
+           	axios.post('/api/auction/integralDetail/sys/findIntegralByPhone',postData)
            		.then( (response)=> {
            		var res = response.data;
            		this.yhlbmktablePageData=res.data;

@@ -249,7 +249,7 @@ export default {
             }
 			let postData = this.$qs.stringify(params);
 			console.log(postData)
-			axios.post('/api/auction/product/init',postData)
+			axios.post('/api/auction/product/sys/init',postData)
 				.then( (response)=> {
 				var res = response.data;
 				this.yhlbmktablePageData=res.data;
@@ -277,7 +277,7 @@ export default {
 				let params= {};
 				params.productName=this.yhlbmkIpVal
 				let postData = this.$qs.stringify(params);
-				axios.post('/api/auction/product/findProduct',postData)
+				axios.post('/api/auction/product/sys/findProduct',postData)
 					.then( (response)=> {
 					var res = response.data;
 					this.yhlbmktablePageData.list=res.data;
@@ -318,14 +318,14 @@ export default {
 			  withCredentials: true
 			 }) 
 				//console.log(postData)
-				axios.post('/api/auction/product/addProduct',formData,config)
+				axios.post('/api/auction/product/sys/addProduct',formData,config)
 					.then( (response)=> {
 						console.log(response)
 						if(response.data.code==200){
 							alert("添加成功");
 							this.yhlbmkGetList(1, this.yhlbmkIsSearch);
 						}else{
-							alert("添加失败");
+							alert("添加失败"+response.data.msg);
 						}
 					})
 					.catch( (error)=> {
@@ -360,7 +360,7 @@ export default {
 			let params={};
 			params.cd_type="product_type";
 			let postData = this.$qs.stringify(params);
-			axios.post('/api/auction/type/getTypeByParam',postData)
+			axios.post('/api/auction/type/sys/getTypeByParam',postData)
 				.then( (response)=> {
 				var res = response.data;
 				this.cityList=res.data;

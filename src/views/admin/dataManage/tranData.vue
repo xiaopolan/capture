@@ -261,7 +261,7 @@ export default {
 									},
 									on: {
 										click: () => {
-											this.deleteGood(params.row.sheetId);
+											this.deleteGood(params.row.sheetNo);
 										}
 									}
 								},
@@ -320,7 +320,7 @@ export default {
             console.log(params);
              let postData = this.$qs.stringify(params);
             console.log(postData)
-            axios.get('/api/auction/artcPayDetail/getArtcPayDetailList',{
+            axios.get('/api/auction/artcPayDetail/sys/getArtcPayDetailList',{
 				params:{
 					pageNum: currentPage, // 当前页码
 					pageSize: 10, // 每页条数
@@ -357,7 +357,7 @@ export default {
 					sheetId:this.yhlbmkIpVal
 				};
 				//let postData = this.$qs.stringify(params);
-				axios.get('/api/auction/artcPayDetail/getArtcPayDetailBySheetId',{params})
+				axios.get('/api/auction/artcPayDetail/sys/getArtcPayDetailBySheetId',{params})
 					.then( (response)=> {
 					var res = response.data;
 					if(res.data[0]==null){
@@ -375,18 +375,17 @@ export default {
 		},
 		deleteGood(id) {
 			if(confirm('是否确认删除')==true){
-				let params = {};
-				params.sheetId = id;
-				let postData = this.$qs.stringify(params);
-				console.log(postData);
+				let params = {
+					sheetId:id
+				};
 				axios
-						.post('/api/auction/artcPayDetail/deleteArtcPayDetailBySheetId', postData)
+						.get('/api/auction/artcPayDetail/sys/deleteArtcPayDetailBySheetId', {params})
 						.then(response => {
 								if (response.data.code == 200) {
 										Util.success('删除成功');
 										this.yhlbmkGetList(1, this.yhlbmkIsSearch);
 								} else {
-										Util.error('删除失败');
+										Util.error('删除失败'+response.data.msg);
 								}
 								//var res = response.data;
 								//this.yhlbmktablePageData.list=res.data;

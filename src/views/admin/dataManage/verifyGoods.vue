@@ -464,27 +464,48 @@ export default {
                     align: 'center',
                     render: (h, params) => { 
 												if(params.row.flag==1 && params.row.verifyResult==1){
-													return h('div', [
-															h(
-																	'Button',
-																	{
-																			props: {
-																					type: 'warning',
-																					size: 'small'
-																			},
-																			style: {
-																					// width: "70px",
-																					marginLeft: '10px'
-																			},
-																			on: {
-																					click: () => {
-																							this.updateGood(params.row);
-																					}
-																			}
-																	},
-																	'拍卖场'
-															)
-													]);
+													if(params.row.isAuction==0){
+														return h('div', [
+																h(
+																		'Button',
+																		{
+																				props: {
+																						type: 'warning',
+																						size: 'small'
+																				},
+																				style: {
+																						// width: "70px",
+																						marginLeft: '10px'
+																				},
+																				on: {
+																						click: () => {
+																								this.updateGood(params.row);
+																						}
+																				}
+																		},
+																		'拍卖场'
+																)
+														]);
+													}else{
+														return h('div', [
+																h(
+																		'Button',
+																		{
+																				props: {
+																						type: 'warning',
+																						disabled:'disabled',
+																						size: 'small'
+																				},
+																				style: {
+																						// width: "70px",
+																						marginLeft: '10px'
+																				},
+																		},
+																		'已拍卖'
+																)
+														]);
+													}
+													
 												}else{
 													return h('div', [
 															h(
@@ -567,7 +588,7 @@ export default {
         //获取轮次时长
         gettimes() {
             axios
-                .post('/api/auction/operate/init')
+                .post('/api/auction/operate/sys/init')
                 .then(response => {
                     var res = response.data;
                     var list = res.data.setlc;
@@ -604,7 +625,7 @@ export default {
             let postData = this.$qs.stringify(params);
             console.log(postData);
             axios
-                .post('/api/auction/product/verifyProductList', postData)
+                .post('/api/auction/product/sys/verifyProductList', postData)
                 .then(response => {
                     var res = response.data;
                     if (res.code == 200) {
@@ -645,7 +666,7 @@ export default {
                 };
                 let postData = this.$qs.stringify(params);
                 axios
-                    .post('/api/auction/product/getProduct', postData)
+                    .post('/api/auction/product/sys/getProduct', postData)
                     .then(response => {
                         var res = response.data;
 												if(res.code==200){
@@ -681,13 +702,13 @@ export default {
             };
             let postData = this.$qs.stringify(params);
             axios
-                .post('/api/auction/product/verifyProduct', postData)
+                .post('/api/auction/product/sys/verifyProduct', postData)
                 .then(response => {
                     if (response.data.code == 200) {
                         Util.success('操作成功');
                         this.yhlbmkGetList(this.currentp, this.yhlbmkIsSearch);
                     } else {
-                        Util.error('操作失败');
+                        Util.error('操作失败,'+response.data.msg);
                     }
 										//页码重置为1
                 })
@@ -697,7 +718,7 @@ export default {
         },
         showtype() {
             axios
-                .post('/api/auction/productType/getAllNode')
+                .post('/api/auction/productType/sys/getAllNode')
                 .then(response => {
                     var res = response.data;
                     this.cityList = res.data;
@@ -722,7 +743,7 @@ export default {
         //获取档次id
         showdctype() {
             axios
-                .post('/api/auction/auctionGrade/getSameDayGrade')
+                .post('/api/auction/auctionGrade/sys/getSameDayGrade')
                 .then(response => {
                     var res = response.data;
                     this.ccidlist = res.data;
@@ -789,7 +810,7 @@ export default {
                 let postData = this.$qs.stringify(params);
                 console.log(postData);
                 axios
-                    .post('/api/auction/auctionClass/addClassAuction', postData)
+                    .post('/api/auction/auctionClass/sys/addClassAuction', postData)
                     .then(response => {
                         if (response.data.code == 200) {
                             Util.success('添加成功');
@@ -805,7 +826,7 @@ export default {
                             this.endValue = '';
                             this.yhlbmkGetList(1, this.yhlbmkIsSearch);
                         } else {
-                            Util.error('添加失败');
+                            Util.error('添加失败,'+response.data.msg);
                         }
                         //var res = response.data;
                         //this.yhlbmktablePageData.list=res.data;

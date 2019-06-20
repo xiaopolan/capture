@@ -220,7 +220,7 @@ export default {
             // 模拟请求接口返回的数据
             let postData = this.$qs.stringify(params);
             console.log(postData)
-            axios.post('/api/auction/margin/init',postData)
+            axios.post('/api/auction/margin/sys/init',postData)
             	.then( (response)=> {
             	var res = response.data;
             	this.yhlbmktablePageData=res.data;
@@ -244,7 +244,7 @@ export default {
 					phone:this.yhlbmkIpVal
 				};
 				let postData = this.$qs.stringify(params);
-				axios.post('/api/auction/margin/getMarginByUser',postData)
+				axios.post('/api/auction/margin/sys/getMarginByUser',postData)
 					.then( (response)=> {
 					var res = response.data;
 					this.yhlbmktablePageData=res.data;

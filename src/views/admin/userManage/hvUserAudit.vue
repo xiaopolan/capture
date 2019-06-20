@@ -220,7 +220,7 @@ export default {
                 pageSize: 10, // 每页条数
             };
 			let postData = this.$qs.stringify(params);
-			axios.post('/api/auction/balanceDetail/init',postData)
+			axios.post('/api/auction/balanceDetail/sys/init',postData)
 				.then( (response)=> {
 				var res = response.data;
 				this.yhlbmktablePageData.list=res.data;
@@ -244,7 +244,7 @@ export default {
 					phone:this.yhlbmkIpVal
 				};
             	let postData = this.$qs.stringify(params);
-            	axios.post('/api/auction/balanceDetail/getBalanceByPhone',postData)
+            	axios.post('/api/auction/balanceDetail/sys/getBalanceByPhone',postData)
             		.then( (response)=> {
             		var res = response.data;
             		this.yhlbmktablePageData=res.data;

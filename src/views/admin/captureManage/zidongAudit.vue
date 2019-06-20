@@ -879,7 +879,7 @@ export default {
             let postData = this.$qs.stringify(params);
             console.log(postData);
             axios
-                .post('/api/auction/autoClassRule/init', postData)
+                .post('/api/auction/autoClassRule/sys/init', postData)
                 .then(response => {
                     var res = response.data;
                     this.yhlbmktablePageData = res.data;
@@ -906,7 +906,7 @@ export default {
                 };
                 let postData = this.$qs.stringify(params);
                 axios
-                    .post('/api/auction/autoClassRule/findAutoClassRuleByproductName', postData)
+                    .post('/api/auction/autoClassRule/sys/findAutoClassRuleByproductName', postData)
                     .then(response => {
                         var res = response.data;
                         this.yhlbmktablePageData = res.data;
@@ -941,7 +941,7 @@ export default {
             let postData = this.$qs.stringify(params);
             console.log(postData);
             axios
-                .post('/api/auction/autoClassRule/isUse', postData)
+                .post('/api/auction/autoClassRule/sys/isUse', postData)
                 .then(response => {
                     if (response.data.code == 200) {
                         Util.success('操作成功');
@@ -949,7 +949,7 @@ export default {
                     }else if(response.data.code == 60000){
 						Util.info('任务未到开始时间');
 					} else {
-                        Util.error('操作失败');
+                        Util.error('操作失败'+response.data.msg);
                     }
                 })
                 .catch(error => {
@@ -993,7 +993,7 @@ export default {
                 };
                 let postData = this.$qs.stringify(params);
                 axios
-                    .post('/api/auction/product/selectProduct', postData)
+                    .post('/api/auction/product/sys/selectProduct', postData)
                     .then(response => {
                         var res = response.data;
                         this.choicegoodlist = res.data;
@@ -1023,7 +1023,7 @@ export default {
             };
             let postData = this.$qs.stringify(params);
             axios
-                .post('/api/auction/product/getAllowProduct', postData)
+                .post('/api/auction/product/sys/getAllowProduct', postData)
                 .then(response => {
                     var res = response.data;
                     this.choicegoodlist = res.data;
@@ -1037,7 +1037,7 @@ export default {
             params.cd_type = 'product_type';
             let postData = this.$qs.stringify(params);
             axios
-                .post('/api/auction/productType/getAllNode', postData)
+                .post('/api/auction/productType/sys/getAllNode', postData)
                 .then(response => {
                     var res = response.data;
                     this.typelists = res.data;
@@ -1102,7 +1102,7 @@ export default {
 				let postData = this.$qs.stringify(params);
 				console.log(postData);
 				axios
-					.post('/api/auction/autoClassRule/addAutoClassRule', postData)
+					.post('/api/auction/autoClassRule/sys/addAutoClassRule', postData)
 					.then(response => {
 						if (response.data.code == 200) {
 							Util.success('添加成功');
@@ -1116,7 +1116,7 @@ export default {
 							this.yhlbmkAddObj.incrementValue = '';
 							this.yhlbmkGetList(1, this.yhlbmkIsSearch);
 						} else {
-							Util.error('添加失败');
+							Util.error('添加失败,'+response.data.msg);
 						}
 						//var res = response.data;
 						//this.yhlbmktablePageData.list=res.data;
@@ -1181,7 +1181,7 @@ export default {
 			// 清除表单
 			let postData = this.$qs.stringify(params);
 			console.log(postData);
-			axios.post('/api/auction/autoClassRule/updateAutoClassRule', postData)
+			axios.post('/api/auction/autoClassRule/sys/updateAutoClassRule', postData)
 				.then(response => {
 					if (response.data.code == 200) {
 						Util.success('修改成功');
@@ -1196,7 +1196,7 @@ export default {
 							this.$refs['pages'].currentPage = this.yhlbmktablePageData.pageNum;
 						})
 					} else {
-						Util.error('修改失败');
+						Util.error('修改失败,'+response.data.msg);
 					}
 					//var res = response.data;
 					//this.yhlbmktablePageData.list=res.data;
@@ -1209,7 +1209,7 @@ export default {
 		},
 		//获取轮次时长
 		gettimes(){
-			axios.post('/api/auction/operate/init')
+			axios.post('/api/auction/operate/sys/init')
 				.then( (response)=> {
 					var res = response.data;
 					var list=res.data.setlc;
@@ -1228,13 +1228,13 @@ export default {
 				let postData = this.$qs.stringify(params);
 				console.log(postData);
 				axios
-						.post('/api/auction/autoClassRule/deleteAutoClassRuleById', postData)
+						.post('/api/auction/autoClassRule/sys/deleteAutoClassRuleById', postData)
 						.then(response => {
 								if (response.data.code == 200) {
 										Util.success('删除成功');
 										this.yhlbmkGetList(1, this.yhlbmkIsSearch);
 								} else {
-										Util.error('删除失败');
+										Util.error('删除失败'+response.data.msg);
 								}
 								//var res = response.data;
 								//this.yhlbmktablePageData.list=res.data;
@@ -1250,7 +1250,7 @@ export default {
 		//获取档次id
 		showdctype() {
 			axios
-				.post('/api/auction/auctionGrade/getSameDayGrade')
+				.post('/api/auction/auctionGrade/sys/getSameDayGrade')
 				.then(response => {
 					var res = response.data;
 					this.ccidlist = res.data;

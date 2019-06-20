@@ -190,7 +190,7 @@ export default {
             // 模拟请求接口返回的数据
 			let postData = this.$qs.stringify(params);
 			console.log(postData)
-			axios.post('/api/auction/auctionGrade/init',postData)
+			axios.post('/api/auction/auctionGrade/sys/init',postData)
 				.then( (response)=> {
 				var res = response.data;
 				this.yhlbmktablePageData=res.data;
@@ -230,7 +230,7 @@ export default {
 				};
 				let postData = this.$qs.stringify(params);
 				console.log(postData)
-				axios.post('/api/auction/auctionGrade/updateAuctionGrade',postData)
+				axios.post('/api/auction/auctionGrade/sys/updateAuctionGrade',postData)
 					.then( (response)=> {
 						console.log(response)
 						if(response.data.code==200){
@@ -240,7 +240,7 @@ export default {
 								this.$refs['pages'].currentPage = this.yhlbmktablePageData.pageNum;
 							})
 						}else{
-							Util.error("修改失败");
+							Util.error("修改失败"+response.data.msg);
 						}
 					})
 					.catch( (error)=> {

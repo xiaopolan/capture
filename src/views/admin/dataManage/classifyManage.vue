@@ -152,7 +152,7 @@
 										>
 											<span style="color:red;"></span>介绍图片：
 										</div>
-										<input style="width:150px;" type="file"  @change="addupImg" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
+										<input style="width:150px;" type="file" id='file5'  @change="addupImg" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
 									</div>
 									<div style="marginBottom:10px;textAlign:center">
 										<div
@@ -160,7 +160,7 @@
 										>
 											<span style="color:red;"></span>类型图片：
 										</div>
-										<input style="width:150px;" type="file"  @change="addupImg1" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
+										<input style="width:150px;" type="file" id='file6'  @change="addupImg1" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
 									</div>
 								</Modal>
 								<Modal
@@ -209,7 +209,7 @@
 										>
 											<span style="color:red;"></span>介绍图片：
 										</div>
-										<input style="width:150px;" type="file"  @change="addchImg" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
+										<input style="width:150px;" type="file" id='file1'  @change="addchImg" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
 									</div>
 									<div style="marginBottom:10px;textAlign:center">
 										<div
@@ -217,7 +217,7 @@
 										>
 											<span style="color:red;"></span>类型图片：
 										</div>
-										<input style="width:150px;" type="file"  @change="addchImg1" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
+										<input style="width:150px;" type="file" id='file2'  @change="addchImg1" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
 									</div>
 									
 									<!-- <div style="marginBottom:10px;textAlign:center" v-if="myinput">
@@ -270,7 +270,7 @@
 										>
 											<span style="color:red;"></span>介绍图片：
 										</div>
-										<input style="width:150px;" type="file"  @change="addpaImg" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
+										<input style="width:150px;" type="file" id='file3'  @change="addpaImg" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
 									</div>
 									<div style="marginBottom:10px;textAlign:center">
 										<div
@@ -278,7 +278,7 @@
 										>
 											<span style="color:red;"></span>类型图片：
 										</div>
-										<input style="width:150px;" type="file"  @change="addpaImg1" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
+										<input style="width:150px;" type="file" id='file4'  @change="addpaImg1" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
 									</div>
 								</Modal>
 								<Modal v-model="imageModal" title="图片查看" class="mymodal">
@@ -584,7 +584,7 @@ export default {
             let postData = this.$qs.stringify(params);
             console.log(postData);
             axios
-                .post('/api/auction/productType/init', postData)
+                .post('/api/auction/productType/sys/init', postData)
                 .then(response => {
                     var res = response.data;
                     this.yhlbmktablePageData = res.data;
@@ -611,7 +611,7 @@ export default {
                 };
                 let postData = this.$qs.stringify(params);
                 axios
-                    .post('/api/auction/productType/findProductTypeByName', postData)
+                    .post('/api/auction/productType/sys/findProductTypeByName', postData)
                     .then(response => {
                         var res = response.data;
 						//分页切换
@@ -641,13 +641,13 @@ export default {
 				let postData = this.$qs.stringify(params);
 				console.log(postData);
 				axios
-					.post('/api/auction/productType/deleteNode', postData)
+					.post('/api/auction/productType/sys/deleteNode', postData)
 					.then(response => {
 						if (response.data.code == 200) {
 							Util.success('删除成功');
 							this.yhlbmkGetList(1, this.yhlbmkIsSearch);
 						} else {
-							Util.error('删除失败');
+							Util.error('删除失败,'+response.data.msg);
 						}
 						//var res = response.data;
 						//this.yhlbmktablePageData.list=res.data;
@@ -700,7 +700,7 @@ export default {
 // 					};
 					//let postData = this.$qs.stringify(params);
 						axios
-							.post('/api/auction/productType/addNode', formData,config)
+							.post('/api/auction/productType/sys/addNode', formData,config)
 							.then(response => {
 								console.log(response);
 								if (response.data.code == 200) {
@@ -708,7 +708,7 @@ export default {
 									this.showtype();
 									this.yhlbmkGetList(1, this.yhlbmkIsSearch);
 								} else {
-									Util.error('添加失败');
+									Util.error('添加失败,'+response.data.msg);
 								}
 							})
 							.catch(error => {
@@ -734,21 +734,34 @@ export default {
         // 点击新增用户的对话框的取消
         yhlbmkCancel() {
             console.log('点击取消');
-            // 清除表单
-            this.yhlbmkAddObj.typeName = '';
-            this.yhlbmkAddObj.descInfo = '';
-            this.model3 = '';
-            this.yhlbmkAddObj.id = '';
+            
         },
-        //增加商品
+        //增加子集
         addgood() {
+			document.getElementById('file1').value='';
+			document.getElementById('file2').value='';
+			// 清除表单
+			this.yhlbmkAddObj.typeName = '';
+			this.yhlbmkAddObj.descInfo = '';
+			this.model3 = '';
+			this.yhlbmkAddObj.id = '';
             this.yhlbmkModal = true;
         },
+		//增加父级
 		addparent(){
+			document.getElementById('file3').value='';
+			document.getElementById('file4').value='';
+			// 清除表单
+			this.yhlbmkAddObj.typeName = '';
+			this.yhlbmkAddObj.descInfo = '';
+			this.model3 = '';
+			this.yhlbmkAddObj.id = '';
 			this.pamodal=true
 		},
 		//点击修改
         updateGood(params) {
+			document.getElementById('file5').value='';
+			document.getElementById('file6').value='';
 			this.showparent=true
 			if(params.pid==0){
 				this.showparent=false
@@ -786,7 +799,7 @@ export default {
 					withCredentials: true
 			});
             axios
-                .post('/api/auction/productType/updateNode',formData,config)
+                .post('/api/auction/productType/sys/updateNode',formData,config)
                 .then(response => {
                     console.log(response);
                     if (response.data.code == 200) {
@@ -796,7 +809,7 @@ export default {
 							this.$refs['pages'].currentPage = this.yhlbmktablePageData.pageNum;
 						})
                     } else {
-                        Util.error('修改失败');
+                        Util.error('修改失败,'+response.data.msg);
                     }
                 })
                 .catch(error => {
@@ -832,7 +845,7 @@ export default {
 			};
 			let postData = this.$qs.stringify(params);
 			axios
-				.post('/api/auction/user/init', postData)
+				.post('/api/auction/user/sys/init', postData)
 				.then(response => {
 					var res = response.data;
 					this.choicegoodlist = res.data;
@@ -851,7 +864,7 @@ export default {
 				};
 				let postData = this.$qs.stringify(params);
 				axios
-					.post('/api/auction/user/getUserByPhone', postData)
+					.post('/api/auction/user/sys/getUserByPhone', postData)
 					.then(response => {
 						var res = response.data;
 						this.choicegoodlist = res.data;
@@ -878,7 +891,7 @@ export default {
 			}
 		},
 		showtype(){
-			axios.get('/api/auction/productType/getParentNode')
+			axios.get('/api/auction/productType/sys/getParentNode')
 					.then(response => {
 							var res = response.data;
 							this.statusList = res.data;

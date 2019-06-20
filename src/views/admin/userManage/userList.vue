@@ -322,7 +322,7 @@ export default {
             };
             let postData = this.$qs.stringify(params);
             console.log(postData)
-            axios.post('/api/auction/user/init',postData)
+            axios.post('/api/auction/user/sys/init',postData)
             	.then( (response)=> {
             	var res = response.data;
             	this.yhlbmktablePageData=res.data;
@@ -346,7 +346,7 @@ export default {
 				phone:this.yhlbmkIpVal
 			};
             let postData = this.$qs.stringify(params);
-            axios.post('/api/auction/user/getUserByPhone',postData)
+            axios.post('/api/auction/user/sys/getUserByPhone',postData)
             	.then( (response)=> {
             	var res = response.data;
             	this.yhlbmktablePageData=res.data;
@@ -371,7 +371,7 @@ export default {
 			}
 			let postData = this.$qs.stringify(json);
 			console.log(postData)
-			axios.post('/api/auction/user/noUser',postData)
+			axios.post('/api/auction/user/sys/noUser',postData)
 				.then( (response)=> {
 				if(response.data.code==200){
 					Util.success("操作成功");

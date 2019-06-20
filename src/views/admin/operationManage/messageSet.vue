@@ -529,7 +529,7 @@ export default {
             console.log(params);
             let postData = this.$qs.stringify(params);
             console.log(postData)
-            axios.get('/api/auction/message/findList',{
+            axios.get('/api/auction/message/sys/findList',{
 				params:{
 					pageNum: currentPage, // 当前页码
 					pageSize: 10, // 每页条数
@@ -570,7 +570,7 @@ export default {
 				id:params.row.id
 			};
 			//let postData = this.$qs.stringify(json);
-			axios.post('/api/auction/message/update',json)
+			axios.post('/api/auction/message/sys/update',json)
 				.then( (response)=> {
 				if(response.data.code==200){
 					Util.success("推送成功");
@@ -591,7 +591,7 @@ export default {
 					searchKey:this.yhlbmkIpVal
 				};
 				let postData = this.$qs.stringify(params);
-				axios.get('/api/auction/message/findList',{
+				axios.get('/api/auction/message/sys/findList',{
 					params:{
 						pageNum: currentPage, // 当前页码
 						pageSize: 10, // 每页条数
@@ -621,7 +621,7 @@ export default {
 				userId:this.yhlbmkAddObj.userId
 			};
 			//let postData = this.$qs.stringify(json);
-			axios.post('/api/auction/message/add',json)
+			axios.post('/api/auction/message/sys/add',json)
 				.then( (response)=> {
 				if(response.data.code==200){
 					Util.success("录入成功");
@@ -650,7 +650,7 @@ export default {
 			params.id = id;
 			//let postData = this.$qs.stringify(params);
 			axios
-				.post('/api/auction/message/delete', params)
+				.post('/api/auction/message/sys/delete', params)
 				.then(response => {
 					if (response.data.code == 200) {
 						Util.success('删除成功');
@@ -691,7 +691,7 @@ export default {
 				userId:this.yhlbmkAddObj.userId
 			};
 			//let postData = this.$qs.stringify(params);
-			axios.post('/api/auction/message/update',params)
+			axios.post('/api/auction/message/sys/update',params)
 				.then( (response)=> {
 					console.log(response)
 					if(response.data.code==200){
@@ -733,7 +733,7 @@ export default {
 			};
 			let postData = this.$qs.stringify(params);
 			console.log(postData)
-			axios.post('/api/auction/user/init',postData)
+			axios.post('/api/auction/user/sys/init',postData)
 				.then( (response)=> {
 				var res = response.data;
 				this.choicegoodlist=res.data;

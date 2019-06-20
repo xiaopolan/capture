@@ -289,7 +289,7 @@ export default {
             console.log(params);
             let postData = this.$qs.stringify(params);
             console.log(postData)
-            axios.post('/api/auction/orders/init',postData)
+            axios.post('/api/auction/orders/sys/init',postData)
             	.then( (response)=> {
             	var res = response.data;
             	this.yhlbmktablePageData=res.data;
@@ -333,14 +333,14 @@ export default {
 // 				.catch( (error)=> {
 // 				console.log(error);
 // 				});
-				axios.post('/api/auction/logistics/getLogisticsCompany')
+				axios.post('/api/auction/logistics/sys/getLogisticsCompany')
 					.then( (response)=> {
 					if(response.data.code==200){
 						var res = response.data;
 						this.cityList = res.data;
 						//this.yhlbmkGetList(1, this.yhlbmkIsSearch);
 					}else{
-						Util.error("接口获取失败");
+						Util.error("接口获取失败"+response.data.msg);
 					}
 					})
 					.catch( (error)=> {
@@ -355,7 +355,7 @@ export default {
 					orderId:this.yhlbmkIpVal
 				};
 				let postData = this.$qs.stringify(params);
-				axios.post('/api/auction/orders/findOrderByOrderId',postData)
+				axios.post('/api/auction/orders/sys/findOrderByOrderId',postData)
 					.then( (response)=> {
 					var res = response.data;
 					this.yhlbmktablePageData=res.data;
@@ -376,7 +376,7 @@ export default {
 				id:this.id
 			};
 			let postData = this.$qs.stringify(json);
-			axios.post('/api/auction/orders/send',postData)
+			axios.post('/api/auction/orders/sys/send',postData)
 				.then( (response)=> {
 				if(response.data.code==200){
 					Util.success("发货成功");
@@ -384,7 +384,7 @@ export default {
 					this.logisticsNo=""
 					this.yhlbmkGetList(1, this.yhlbmkIsSearch);
 				}else{
-					Util.error("发货失败");
+					Util.error("发货失败"+response.data.msg);
 				}
 				})
 				.catch( (error)=> {

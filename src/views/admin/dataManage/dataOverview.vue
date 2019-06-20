@@ -157,7 +157,7 @@
 										>
 											<span style="color:red;"></span>商品主图：
 										</div>
-										<input style="width:150px;" type="file"  @change="addImg" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
+										<input style="width:150px;" type="file" id='files'  @change="addImg" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
 									</div>
 									<div style="marginBottom:5px;textAlign:center;margin-top: 15px;height: 40px;">
 										<div
@@ -331,15 +331,29 @@ export default {
 										}
 								},
 								{
+										title: '发布状态',
+										key: 'isAuction',
+										align: 'center',
+										render: (h, params) => {
+												var str = params.row.isAuction;
+												if(str==0){
+													return h('div','未发布')
+												}
+												if(str==1){
+													return h('div','已发布')
+												}
+										}
+								},
+								{
 										title: '竞拍状态',
 										key: 'isPush',
 										align: 'center',
 										render: (h, params) => {
 												var str = params.row.isPush;
-												if(str==0){
+												if(str==1){
 													return h('div','可竞拍')
 												}
-												if(str==1){
+												if(str==0){
 													return h('div','不可竞拍')
 												}
 										}
@@ -357,6 +371,7 @@ export default {
                 },
                 {
                     title: '操作',
+										width:'150px',
                     key: 'action',
                     align: 'center',
                     render: (h, params) => {
@@ -447,7 +462,6 @@ export default {
             console.log(typeof this.yhlbmkAddObj.pic);
             // 通过DOM取文件数据
             this.yhlbmkAddObj.pic = inputDOM;
-            // debugger
             // 				let file = e.target.files[0];
             // 			  let param = new FormData(); //创建form对象
             // 			  param.append('file',file,file.name);//通过append向form对象添加数据
@@ -484,7 +498,7 @@ export default {
             let postData = this.$qs.stringify(params);
             console.log(postData);
             axios
-                .post('/api/auction/product/init', postData)
+                .post('/api/auction/product/sys/init', postData)
                 .then(response => {
 										var res = response.data;
 										if(res.code==200){
@@ -526,7 +540,7 @@ export default {
                 };
                 let postData = this.$qs.stringify(params);
                 axios
-                    .post('/api/auction/product/findProduct', postData)
+                    .post('/api/auction/product/sys/findProduct', postData)
                     .then(response => {
                         var res = response.data;
                         this.yhlbmktablePageData = res.data;
@@ -553,13 +567,13 @@ export default {
             let postData = this.$qs.stringify(params);
             console.log(postData);
             axios
-                .post('/api/auction/product/removeProductById', postData)
+                .post('/api/auction/product/sys/removeProductById', postData)
                 .then(response => {
                     if (response.data.code == 200) {
                         Util.success('删除成功');
                         this.yhlbmkGetList(1, this.yhlbmkIsSearch);
                     } else {
-                        Util.error('删除失败');
+                        Util.error('删除失败,'+response.data.msg);
                     }
                     //var res = response.data;
                     //this.yhlbmktablePageData.list=res.data;
@@ -604,14 +618,14 @@ export default {
                 });
                 //console.log(postData)
                 axios
-                    .post('/api/auction/product/addProduct', formData, config)
+                    .post('/api/auction/product/sys/addProduct', formData, config)
                     .then(response => {
                         console.log(response);
                         if (response.data.code == 200) {
                             Util.success('添加成功');
                             this.yhlbmkGetList(1, this.yhlbmkIsSearch);
                         } else {
-                            Util.error('添加失败');
+                            Util.error('添加失败,'+response.data.msg);
                         }
                     })
                     .catch(error => {
@@ -619,12 +633,6 @@ export default {
                     });
                 this.yhlbmkLoading = false; // 关闭加载状态
                 this.yhlbmkModal = false; // 关闭当前模态
-                // 清除表单
-                this.yhlbmkAddObj.productName = '';
-                this.yhlbmkAddObj.pic = '';
-                this.model1 = [];
-                this.yhlbmkAddObj.productPrice = '';
-                this.yhlbmkAddObj.introduction = '';
 								}
                 // 解决Modal表单验证中loading的bug
                 setTimeout(() => {
@@ -638,22 +646,22 @@ export default {
         yhlbmkCancel() {
             console.log('点击取消');
             // 清除表单
-            this.yhlbmkAddObj.productName = '';
-            this.yhlbmkAddObj.pic = '';
-            this.model1 = [];
-			this.model2 = [];
-            this.yhlbmkAddObj.productPrice = '';
-            this.yhlbmkAddObj.introduction = '';
-			var file = document.getElementById('file');
- 			file.value = '';
         },
         //增加商品
         addgood() {
-            this.yhlbmkModal = true;
+					this.yhlbmkAddObj.productName = '';
+					this.yhlbmkAddObj.pic = '';
+					this.model1 = [];
+					this.model2 = [];
+					this.yhlbmkAddObj.productPrice = '';
+					this.yhlbmkAddObj.introduction = '';
+					var file = document.getElementById('file');
+					file.value = '';
+          this.yhlbmkModal = true;
         },
         showtype() {
             axios
-                .post('/api/auction/productType/getAllNode')
+                .post('/api/auction/productType/sys/getAllNode')
                 .then(response => {
                     var res = response.data;
                     this.cityList = res.data;
@@ -664,6 +672,8 @@ export default {
                 });
         },
         updateGood(params) {
+						var file = document.getElementById('files');
+						file.value = '';
             this.upModal = true;
             this.yhlbmkAddObj.productName = params.productName;
             this.yhlbmkAddObj.pic = params.pic;
@@ -676,7 +686,7 @@ export default {
 						let postData = this.$qs.stringify(json);
 						console.log(postData);
 						axios
-							.post('/api/auction/productType/findProductTypeById', postData)
+							.post('/api/auction/productType/sys/findProductTypeById', postData)
 							.then(response => {
 								var res = response.data;
 								this.model2 = [res.data.pid,res.data.id];
@@ -716,7 +726,7 @@ export default {
             // 				};
             //let postData = this.$qs.stringify(params);
             axios
-                .post('/api/auction/product/updateProductById', formData, config)
+                .post('/api/auction/product/sys/updateProductById', formData, config)
                 .then(response => {
                     console.log(response);
                     if (response.data.code == 200) {
@@ -726,7 +736,7 @@ export default {
 							this.$refs['pages'].currentPage = this.yhlbmktablePageData.pageNum;
 						})
                     } else {
-                        Util.error('修改失败');
+                        Util.error('修改失败,'+response.data.msg);
                     }
                 })
                 .catch(error => {
@@ -743,7 +753,7 @@ export default {
         },
         showimage(imagearr) {
             this.imageModal = true;
-			this.imageModal1 = true;
+						this.imageModal1 = true;
             this.imagelist = imagearr;
         },
 		//测试支付接口

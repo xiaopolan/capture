@@ -571,7 +571,7 @@ export default {
             let postData = this.$qs.stringify(params);
             console.log(postData);
             axios
-                .post('/api/auction/groupManage/init', postData)
+                .post('/api/auction/groupManage/sys/init', postData)
                 .then(response => {
                     var res = response.data;
                     this.yhlbmktablePageData = res.data;
@@ -598,7 +598,7 @@ export default {
                 };
                 let postData = this.$qs.stringify(params);
                 axios
-                    .post('/api/auction/groupManage/findGroupByUserName', postData)
+                    .post('/api/auction/groupManage/sys/findGroupByUserName', postData)
                     .then(response => {
                         var res = response.data;
 						//分页切换
@@ -625,7 +625,7 @@ export default {
             let postData = this.$qs.stringify(params);
             console.log(postData);
             axios
-                .post('/api/auction/groupManage/removeGroupManage', postData)
+                .post('/api/auction/groupManage/sys/removeGroupManage', postData)
                 .then(response => {
                     if (response.data.code == 200) {
                         Util.success('删除成功');
@@ -676,7 +676,7 @@ export default {
 					Util.error('正确填写表单');
 				}else{
 						axios
-							.post('/api/auction/groupManage/addGroupManage', postData)
+							.post('/api/auction/groupManage/sys/addGroupManage', postData)
 							.then(response => {
 								console.log(response);
 								if (response.data.code == 200) {
@@ -749,7 +749,7 @@ export default {
 			};
             let postData = this.$qs.stringify(params);
             axios
-                .post('/api/auction/groupManage/updateGroupManage', postData)
+                .post('/api/auction/groupManage/sys/updateGroupManage', postData)
                 .then(response => {
                     console.log(response);
                     if (response.data.code == 200) {
@@ -792,7 +792,7 @@ export default {
 			};
 			let postData = this.$qs.stringify(params);
 			axios
-				.post('/api/auction/user/init', postData)
+				.post('/api/auction/user/sys/init', postData)
 				.then(response => {
 					var res = response.data;
 					this.choicegoodlist = res.data;
@@ -811,7 +811,7 @@ export default {
 				};
 				let postData = this.$qs.stringify(params);
 				axios
-					.post('/api/auction/user/getUserByPhone', postData)
+					.post('/api/auction/user/sys/getUserByPhone', postData)
 					.then(response => {
 						var res = response.data;
 						this.choicegoodlist = res.data;

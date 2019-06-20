@@ -274,7 +274,7 @@ export default {
             console.log(params);
              let postData = this.$qs.stringify(params);
             console.log(postData)
-            axios.get('/api/auction/artcMarket/getArtcMarketList',{
+            axios.get('/api/auction/artcMarket/sys/getArtcMarketList',{
 				params:{
 					pageNum: currentPage, // 当前页码
 					pageSize: 10, // 每页条数
@@ -304,7 +304,7 @@ export default {
 					userName:this.yhlbmkIpVal
 				};
 				//let postData = this.$qs.stringify(params);
-				axios.get('/api/auction/artcMarket/getArtcMarkeByUserName',{params})
+				axios.get('/api/auction/artcMarket/sys/getArtcMarkeByUserName',{params})
 					.then( (response)=> {
 						var res = response.data;
 						this.yhlbmktablePageData=res.data;
@@ -330,13 +330,13 @@ export default {
 				let postData = this.$qs.stringify(params);
 				console.log(postData);
 				axios
-						.post('/api/auction/artcMarket/deleteArtcMarket', postData)
+						.post('/api/auction/artcMarket/sys/deleteArtcMarket', postData)
 						.then(response => {
 								if (response.data.code == 200) {
 										Util.success('删除成功');
 										this.yhlbmkGetList(1, this.yhlbmkIsSearch);
 								} else {
-										Util.error('删除失败');
+										Util.error('删除失败'+response.data.msg);
 								}
 								//var res = response.data;
 								//this.yhlbmktablePageData.list=res.data;

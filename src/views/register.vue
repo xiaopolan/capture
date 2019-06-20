@@ -144,10 +144,10 @@ a{
 				 	<div class='itme_icon_psd'></div>
 				 	<input class="item_input_psd" type="password" placeholder="设置密码(6-20位,包含字母和数字)" v-model="password" v-on:input="changepwd"/>
 				 </div>
-				 <div v-show="texterror2" class="error">请按照提示输入密码</div>
+				 <div v-show="texterror2" class="error">密码(6-20位,包含字母和数字)</div>
 				 <div class='form_item'>
 				 	<div class='itme_icon_psd'></div>
-				 	<input class="item_input_psd" type="password" placeholder="确认密码" v-model="passwordagain" v-on:input="changepwdag"/>
+				 	<input class="item_input_psd" type="password" placeholder="确认密码(6-20位,包含字母和数字)" v-model="passwordagain" v-on:input="changepwdag"/>
 				 </div>
 				 <div v-show="texterror3" class="error">两次输入不一致</div>
 				 <div class='form_item'>
