@@ -120,6 +120,7 @@
 											v-model="yhlbmkAddObj.productPrice"
 											placeholder="请输入起拍价"
 											style="width:200px"
+											type="number"
 										></Input>
 									</div>
 									<div style="marginBottom:10px;textAlign:center">
@@ -130,6 +131,7 @@
 											v-model="yhlbmkAddObj.incrementValue"
 											placeholder="请输入每轮加价金额"
 											style="width:200px"
+											type="number"
 										></Input>
 									</div>
 									<div style="marginBottom:10px;textAlign:center">
@@ -160,6 +162,7 @@
 											v-model="yhlbmkAddObj.times"
 											placeholder="请输入抢拍默认时长"
 											style="width:200px"
+											type="number"
 										></Input>
 									</div>
 									<div style="marginBottom:10px;textAlign:center">
@@ -170,6 +173,7 @@
 											v-model="yhlbmkAddObj.wiat_time"
 											placeholder="请输入等待默认时长"
 											style="width:200px"
+											type="number"
 										></Input>
 									</div>
 									<div style="marginBottom:10px;textAlign:center">
@@ -180,6 +184,7 @@
 											v-model="yhlbmkAddObj.compute_time"
 											placeholder="请输入计算默认时长"
 											style="width:200px"
+											type="number"
 										></Input>
 									</div>
 								</Modal>
@@ -487,23 +492,7 @@ export default {
 																)
 														]);
 													}else{
-														return h('div', [
-																h(
-																		'Button',
-																		{
-																				props: {
-																						type: 'warning',
-																						disabled:'disabled',
-																						size: 'small'
-																				},
-																				style: {
-																						// width: "70px",
-																						marginLeft: '10px'
-																				},
-																		},
-																		'已拍卖'
-																)
-														]);
+														return h('div', "已拍卖");
 													}
 													
 												}else{

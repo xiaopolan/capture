@@ -126,6 +126,7 @@
 									v-model="goodchoiced.productPrice"
 									placeholder="请输入起拍价"
 									style="width:200px"
+									type="number"
 								></Input>
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
@@ -136,6 +137,7 @@
 									v-model="yhlbmkAddObj.incrementValue"
 									placeholder="请输入每轮加价金额"
 									style="width:200px"
+									type="number"
 								></Input>
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
@@ -197,6 +199,7 @@
 									v-model="yhlbmkAddObj.times"
 									placeholder="请输入抢拍默认时长"
 									style="width:200px"
+									type="number"
 								></Input>
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
@@ -207,6 +210,7 @@
 									v-model="yhlbmkAddObj.wiatTime"
 									placeholder="请输入等待默认时长"
 									style="width:200px"
+									type="number"
 								></Input>
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
@@ -217,6 +221,7 @@
 									v-model="yhlbmkAddObj.computeTime"
 									placeholder="请输入计算默认时长"
 									style="width:200px"
+									type="number"
 								></Input>
 							</div>
 						</Modal>
@@ -276,7 +281,7 @@
 												<div
 													style="display:inline-block;width:86px;textAlign:center;float: left;height: 30px;line-height: 30px;"
 												>生成日期：</div>
-												<Date-picker :value="searchValue" v-modal="searchValue"  @on-change="handleChange4" type="date" placeholder="选择生成日期" style="float:left;width: 150px"></Date-picker>
+												<Date-picker :value="searchValue" v-modal="searchValue"  @on-change="handleChange4" type="datetime" placeholder="选择生成日期" style="float:left;width: 150px"></Date-picker>
 											</div>
 									</Col>
 									<Col span="2">
@@ -350,6 +355,7 @@
 									v-model="updatacc.startPrice"
 									placeholder="请输入起拍价"
 									style="width:200px"
+									type="number"
 								></Input>
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
@@ -360,6 +366,7 @@
 									v-model="updatacc.incrementValue"
 									placeholder="请输入每轮加价金额"
 									style="width:200px"
+									type="number"
 								></Input>
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
@@ -421,6 +428,7 @@
 									v-model="updatacc.times"
 									placeholder="请输入抢拍默认时长"
 									style="width:200px"
+									type="number"
 								></Input>
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
@@ -431,6 +439,7 @@
 									v-model="updatacc.wiatTime"
 									placeholder="请输入等待默认时长"
 									style="width:200px"
+									type="number"
 								></Input>
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
@@ -441,6 +450,7 @@
 									v-model="updatacc.computeTime"
 									placeholder="请输入计算默认时长"
 									style="width:200px"
+									type="number"
 								></Input>
 							</div>
 						</Modal>
@@ -882,7 +892,16 @@ export default {
                 .post('/api/auction/autoClassRule/sys/init', postData)
                 .then(response => {
                     var res = response.data;
-                    this.yhlbmktablePageData = res.data;
+                    // this.yhlbmktablePageData = res.data;
+					if(res.code==200){
+						if(res.data==null){
+							this.yhlbmktablePageData.list=[];
+						}else{
+							this.yhlbmktablePageData = res.data;
+						}
+					}else{
+						this.yhlbmktablePageData.list=[];
+					}
                 })
                 .catch(error => {
                     console.log(error);
@@ -909,10 +928,19 @@ export default {
                     .post('/api/auction/autoClassRule/sys/findAutoClassRuleByproductName', postData)
                     .then(response => {
                         var res = response.data;
-                        this.yhlbmktablePageData = res.data;
-						this.yhlbmktablePageData.total1=res.data.total;
-						this.yhlbmktablePageData.pages1=res.data.pages;
-						this.yhlbmktablePageData.pageSize1=res.data.pageSize
+						if(res.code==200){
+							if(res.data==null){
+								this.yhlbmktablePageData.list=[];
+							}else{
+								this.yhlbmktablePageData = res.data;
+								this.yhlbmktablePageData.total1=res.data.total;
+								this.yhlbmktablePageData.pages1=res.data.pages;
+								this.yhlbmktablePageData.pageSize1=res.data.pageSize
+							}
+						}else{
+							this.yhlbmktablePageData.list=[];
+						}
+                        
                     })
                     .catch(error => {
                         console.log(error);
@@ -996,7 +1024,16 @@ export default {
                     .post('/api/auction/product/sys/selectProduct', postData)
                     .then(response => {
                         var res = response.data;
-                        this.choicegoodlist = res.data;
+                        // this.choicegoodlist = res.data;
+						if(res.code==200){
+							if(res.data==null){
+								this.choicegoodlist.list=[];
+							}else{
+								this.choicegoodlist = res.data;
+							}
+						}else{
+							this.choicegoodlist.list=[];
+						}
                         //this.goodModal=true
                     })
                     .catch(error => {

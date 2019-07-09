@@ -30,6 +30,12 @@ const modules = {
 				messageSet:{
 					title:"消息推送"
 				},
+				vipSet:{
+					title:"会员权益"
+				},
+				giftSet:{
+					title:"礼物列表"
+				},
             }
         },
         userManage: {
@@ -50,6 +56,9 @@ const modules = {
                 },
 				mingxi:{
 					title:'保证金明细'
+				},
+				xiaofei:{
+					title:'消费记录'
 				}
             }
         },
@@ -101,17 +110,17 @@ const modules = {
 // 部分导航（普通登录）
 const admintor = {
     admin: {
-        videoManage: {
+        captureManage: {
         	title: '竞拍管理',
         	icon: 'left_nav3.png',
         	list: {
-        		videoAudit: {
+        		dangciAudit: {
         			title: '竞拍档次管理'
         		},
-        		seniorVideoAudit: {
+        		changciAudit: {
         			title: '竞拍场次管理'
         		},
-        		dataStatistics:{
+        		zidongAudit:{
         			title: '自动场规则管理'
         		}
         	}
@@ -123,8 +132,20 @@ const admintor = {
         		dataOverview: {
         			title: '商品管理'
         		},
+        		verifyGoods: {
+        			title: '商品审核'
+        		},
+        		classifyManage:{
+        			title:'分类管理'
+        		},
         		userData: {
         			title: '订单管理'
+        		},
+        		tranData: {
+        			title: '交易单管理'
+        		},
+        		demand: {
+        			title: '交易需求管理'
         		},
         		goodChoise:{
         			title:'选择商品'
@@ -215,6 +236,13 @@ const routers = [{
         title: '注册结果',
     },
     component: (res) => require(['./views/result.vue'], res)
+},{
+    path: '/vipdetail',
+    // 路由元信息
+    meta: {
+        title: '会员权益',
+    },
+    component: (res) => require(['./views/vipdetail.vue'], res)
 }];
 
 // 导出路由信息数组
@@ -263,6 +291,5 @@ function Modules(_module, MN) {
     }
 
     
-     console.log(ret);
     return ret;
 }

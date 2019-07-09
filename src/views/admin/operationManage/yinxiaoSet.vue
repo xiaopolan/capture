@@ -574,7 +574,16 @@ export default {
                 .post('/api/auction/groupManage/sys/init', postData)
                 .then(response => {
                     var res = response.data;
-                    this.yhlbmktablePageData = res.data;
+                    // this.yhlbmktablePageData = res.data;
+					if(res.code==200){
+						if(res.data==null){
+							this.yhlbmktablePageData.list=[];
+						}else{
+							this.yhlbmktablePageData = res.data;
+						}
+					}else{
+						this.yhlbmktablePageData.list=[];
+					}
                 })
                 .catch(error => {
                     console.log(error);
@@ -601,11 +610,20 @@ export default {
                     .post('/api/auction/groupManage/sys/findGroupByUserName', postData)
                     .then(response => {
                         var res = response.data;
-						//分页切换
-                        this.yhlbmktablePageData = res.data;
-						this.yhlbmktablePageData.total1=res.data.total;
-						this.yhlbmktablePageData.pages1=res.data.pages;
-						this.yhlbmktablePageData.pageSize1=res.data.pageSize
+						if(res.code==200){
+							if(res.data==null){
+								this.yhlbmktablePageData.list=[];
+							}else{
+								//分页切换
+								this.yhlbmktablePageData = res.data;
+								this.yhlbmktablePageData.total1=res.data.total;
+								this.yhlbmktablePageData.pages1=res.data.pages;
+								this.yhlbmktablePageData.pageSize1=res.data.pageSize
+							}
+						}else{
+							this.yhlbmktablePageData.list=[];
+						}
+						
                     })
                     .catch(error => {
                         console.log(error);
@@ -792,10 +810,18 @@ export default {
 			};
 			let postData = this.$qs.stringify(params);
 			axios
-				.post('/api/auction/user/sys/init', postData)
+				.get('/api/auction/user/sys/init', {params})
 				.then(response => {
 					var res = response.data;
-					this.choicegoodlist = res.data;
+					if(res.code==200){
+						if(res.data==null){
+							this.choicegoodlist.list=[];
+						}else{
+							this.choicegoodlist = res.data;
+						}
+					}else{
+						this.choicegoodlist.list=[];
+					}
 				})
 				.catch(error => {
 					console.log(error);
@@ -814,8 +840,17 @@ export default {
 					.post('/api/auction/user/sys/getUserByPhone', postData)
 					.then(response => {
 						var res = response.data;
-						this.choicegoodlist = res.data;
+						// this.choicegoodlist = res.data;
 						//this.goodModal=true
+						if(res.code==200){
+							if(res.data==null){
+								this.choicegoodlist.list=[];
+							}else{
+								this.choicegoodlist = res.data;
+							}
+						}else{
+							this.choicegoodlist.list=[];
+						}
 					})
 					.catch(error => {
 						console.log(error);

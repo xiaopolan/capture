@@ -18,7 +18,7 @@ import App from './App.vue';
 // 引入通用的库文件
 import Util from '#/libs/util';
 // 引入路由信息数组
-import Routers from './router'
+import Routers from './router';
 // 引入iview组件库
 import iView from 'iview';
 // 引入echarts
@@ -52,11 +52,15 @@ router.beforeEach((to, from, next) => {
 				}
 		}
 		//若没有登录信息 则返回登录页面
-		if(objsession.permissionSign != 0 && objsession.permissionSign != 1){
-			if(to.path === '/login'){
-				next()
-			}else{
-				next({path: '/login'})
+		if(to.fullPath.indexOf("register") || to.fullPath.indexOf("vipdetail")){
+			next();
+		}else{
+			if(objsession.permissionSign != 0 && objsession.permissionSign != 1){
+				if(to.path === '/login'){
+					next()
+				}else{
+					next({path: '/login'})
+				}
 			}
 		}
 		if(to.meta.title){

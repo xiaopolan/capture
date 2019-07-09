@@ -207,6 +207,7 @@
 											:page-size="choicegoodlist.pageSize"
 											:current="choicegoodlist.currentPage"
 											show-elevator
+											ref="pages"
 											@on-change="getlistgood"
 										></Page>
 										<span>共&nbsp;{{choicegoodlist.pages}}&nbsp;页</span>
@@ -398,7 +399,21 @@ export default {
 					render: (h,params)=> {
 						let text = params.row.status
 						if(text==1){
-							return h('div','已推送')
+							return h(
+							"Button",
+							{
+								props: {
+									type: "dashed",
+									disabled:'disabled',
+									size: "small"
+								},
+								style: {
+									// width: "70px",
+									marginLeft: "10px"
+								}
+							},
+							"已推送"
+							)
 						}else{
 							return	h(
 									"Button",
@@ -536,8 +551,16 @@ export default {
 				}
 			})
             	.then( (response)=> {
-            	var res = response.data;
-            	this.yhlbmktablePageData=res.data;
+					var res = response.data;
+					if (res.code == 200) {
+						if (res.data == null) {
+							this.yhlbmktablePageData.list = [];
+						} else {
+							this.yhlbmktablePageData = res.data;
+						}
+					} else {
+						this.yhlbmktablePageData.list = [];
+					}
             	})
             	.catch( (error)=> {
             	console.log(error);
@@ -600,7 +623,18 @@ export default {
 				})
 					.then( (response)=> {
 					var res = response.data;
-					this.yhlbmktablePageData=res.data;
+					if(res.code==200){
+						if(res.data==null){
+							this.yhlbmktablePageData.list=[];
+						}else{
+							this.yhlbmktablePageData = res.data;
+							this.yhlbmktablePageData.total1=res.data.total;
+							this.yhlbmktablePageData.pages1=res.data.pages;
+							this.yhlbmktablePageData.pageSize1=res.data.pageSize
+						}
+					}else{
+						this.yhlbmktablePageData.list=[];
+					}
 					})
 					.catch( (error)=> {
 						console.log(error);
@@ -731,12 +765,19 @@ export default {
 				pageNum: currentPage, // 当前页码
 				pageSize: 10, // 每页条数
 			};
-			let postData = this.$qs.stringify(params);
-			console.log(postData)
-			axios.post('/api/auction/user/sys/init',postData)
+			// let postData = this.$qs.stringify(params);
+			axios.get('/api/auction/user/sys/init',{params})
 				.then( (response)=> {
 				var res = response.data;
-				this.choicegoodlist=res.data;
+				if(res.code==200){
+					if(res.data==null){
+						this.choicegoodlist.list=[];
+					}else{
+						this.choicegoodlist = res.data;
+					}
+				}else{
+					this.choicegoodlist.list=[];
+				}
 				})
 				.catch( (error)=> {
 				console.log(error);

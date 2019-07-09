@@ -18,9 +18,8 @@
 			<Tabs active-key="key1">
 				<TabPane label="运营设置" key="key1">
 					<div class="fanli"><span>二级返利比例</span><i-input v-model="setyy.scale" placeholder="请输入二级返利比例" style="width: 300px;margin-left: 10px;"></i-input></div>
-					<div class="fanli"><span>每日返利时间</span><i-input v-model="setyy.fltime" placeholder="请输入每日返利时间" style="width: 300px;margin-left: 10px;"></i-input></div>
+					<div class="fanli"><span>每日返利时间</span><Date-picker :value="startValue" v-modal="startValue"  @on-change="handleChange"  type="datetime" placeholder="选择日期和时间" style="width: 300px;margin-left: 10px;"></Date-picker></div>
 					<div class="fanli"><span>返利比例</span><i-input v-model="setyy.flscale" placeholder="请输入返利比例" style="width: 300px;margin-left: 10px;"></i-input></div>
-					<div class="fanli"><span>积分价格</span><i-input v-model="setyy.jfprice" placeholder="请输入积分价格" style="width: 300px;margin-left: 10px;"></i-input></div>
 					<div class="fanli"><i-button type="success" small @click="saveyy(1)">保存</i-button></div>
 				</TabPane>
 				<TabPane label="抢拍轮次时间设置" key="key2">
@@ -54,8 +53,8 @@
 					<div class="fanli"><i-button type="success" small  @click="saveyy(6)">保存</i-button></div>
 				</TabPane>
 				<TabPane label="付款时限设置" key="key4">
-					<div class="fanli"><span style="margin-right: 10px;">确认付款时限</span><Date-picker :value="fkValue" v-modal="fkValue" @on-change="handleChange1" type="datetime" placeholder="选择日期和时间" style="width: 300px"></Date-picker></div>
-					<div class="fanli"><span style="margin-right: 10px;">确认收款时限</span><Date-picker :value="skValue" v-modal="skValue" @on-change="handleChange2" type="datetime" placeholder="选择日期和时间" style="width: 300px"></Date-picker></div>
+					<div class="fanli"><span>确认付款时限</span><i-input v-model="fkValue" placeholder="请输入确认付款时限" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分</div>
+					<div class="fanli"><span>确认收款时限</span><i-input v-model="skValue" placeholder="请输入确认收款时限" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分</div>
 					<div class="fanli"><i-button type="success" small  @click="saveyy(7)">保存</i-button></div>
 				</TabPane>
 				<TabPane label="品鉴设置" key="key4">
@@ -67,6 +66,10 @@
 				<TabPane label="系统设置" key="key4">
 					<div class="fanli"><span>客服电话</span><i-input v-model="kfphone" placeholder="请输入客服电话" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input></div>
 					<div class="fanli"><i-button type="success" small  @click="saveyy(9)">保存</i-button></div>
+				</TabPane>
+				<TabPane label="订单超时时间" key="key4">
+					<div class="fanli"><span>订单超时时间</span><i-input v-model="payOutTime" placeholder="请输入订单超时时间" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分钟</div>
+					<div class="fanli"><i-button type="success" small  @click="saveyy(10)">保存</i-button></div>
 				</TabPane>
 			</Tabs>
 		</div>
@@ -80,6 +83,8 @@
 		name: "yunyinSet",
 		data() {
 			return {
+				startValue:'',
+				payOutTime:'',
 				kfphone:'',
 				fkValue:null,
 				skValue:null,
@@ -141,9 +146,10 @@
 						var list7=res.data.artcTradeSheet;
 						var list8=res.data.Judge;
 						var list9=res.data.base_manage;
+						var list10=res.data.order;
 						//运营
 						this.setyy.scale=list1[3].cdVal || ""
-						this.setyy.fltime=list1[1].cdVal || ""
+						this.startValue=new Date(parseInt(list1[1].cdVal)).Format('yyyy-MM-dd hh:mm:ss') || ""
 						this.setyy.jfprice=list1[2].cdVal || ""
 						this.setyy.flscale=list1[0].cdVal || ""
 						//轮次
@@ -167,14 +173,16 @@
 						//积分价格
 						this.integral.price=list6[0].cdVal || ""
 						//付款时间设置
-						this.fkValue=new Date(parseInt(list7[0].cdVal)).Format('yyyy-MM-dd hh:mm:ss') || ""
-						this.skValue=new Date(parseInt(list7[1].cdVal)).Format('yyyy-MM-dd hh:mm:ss') || ""
+						this.fkValue=(list7[0].cdVal)/60000 || ""
+						this.skValue=(list7[1].cdVal)/60000 || ""
 						//点赞数设置
 						this.numzan=list8[2].cdVal || ""
 						this.dianzan=list8[1].cdVal || ""
 						this.pinglun=list8[0].cdVal || ""
 						//客服电话
 						this.kfphone=list9[0].cdVal || ""
+						//超时时间
+						this.payOutTime=list10[0].cdVal || ""
 					})
 					.catch( (error)=> {
 					console.log(error);
@@ -182,7 +190,9 @@
 			},
 			saveyy(flag){
 				switch(flag){
-					case 1 : 
+					case 1 :
+					var time= new Date(this.startValue);
+					var times=time.getTime();
 					var param = [{
 							cdItem: "flscale", 
 							cdType: "setyy", 
@@ -190,7 +200,7 @@
 						},{
 							cdItem: "fltime", 
 							cdType: "setyy", 
-							cdVal: this.setyy.fltime
+							cdVal: times
 						},{
 							cdItem: "jfprice", 
 							cdType: "setyy", 
@@ -279,20 +289,16 @@
 						];
 						break;
 					case 7 :
-						var time= new Date(this.fkValue)
-						var time1=time.getTime();
-						var time2= new Date(this.skValue)
-						var time3=time2.getTime();
 						var param = [
 							{
 							cdItem: "pay_timeout", 
 							cdType: "artcTradeSheet", 
-							cdVal: time1
+							cdVal: this.fkValue*60000
 							},
 							{
 							cdItem: "confirm_timeout", 
 							cdType: "artcTradeSheet", 
-							cdVal: time3
+							cdVal: this.skValue*60000
 							}
 						];
 						break;
@@ -324,6 +330,15 @@
 							}
 						];
 						break;
+					case 10 :
+						var param = [
+							{
+							cdItem: "payOutTime", 
+							cdType: "order", 
+							cdVal: this.payOutTime
+							}
+						];
+						break;
 				}
 
 //  				console.log(typeof(param));
@@ -349,6 +364,10 @@
 			},
 			handleChange2(daterange) {
 				this.skValue=daterange;
+			},
+			//返利时间
+			handleChange(daterange) {
+				this.startValue = daterange;
 			},
 		}
 	}

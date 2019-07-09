@@ -157,6 +157,7 @@
 												v-model="goodchoiced.productPrice"
 												placeholder="请输入起拍价"
 												style="width:200px"
+												type="number"
 											></Input>
 										</div>
 										<div style="marginBottom:10px;textAlign:center">
@@ -167,6 +168,7 @@
 												v-model="yhlbmkAddObj.incrementValue"
 												placeholder="请输入每轮加价金额"
 												style="width:200px"
+												type="number"
 											></Input>
 										</div>
 										<div style="marginBottom:10px;textAlign:center">
@@ -197,6 +199,7 @@
 												v-model="yhlbmkAddObj.times"
 												placeholder="请输入抢拍默认时长"
 												style="width:200px"
+												type="number"
 											></Input>
 										</div>
 										<div style="marginBottom:10px;textAlign:center">
@@ -207,6 +210,7 @@
 												v-model="yhlbmkAddObj.wiat_time"
 												placeholder="请输入等待默认时长"
 												style="width:200px"
+												type="number"
 											></Input>
 										</div>
 										<div style="marginBottom:10px;textAlign:center">
@@ -217,6 +221,7 @@
 												v-model="yhlbmkAddObj.compute_time"
 												placeholder="请输入计算默认时长"
 												style="width:200px"
+												type="number"
 											></Input>
 										</div>
 										
@@ -256,6 +261,7 @@
 												v-model="updatacc.startPrice"
 												placeholder="请输入起拍价"
 												style="width:200px"
+												type="number"
 											></Input>
 										</div>
 										<div style="marginBottom:10px;textAlign:center">
@@ -266,6 +272,7 @@
 												v-model="updatacc.incrementValue"
 												placeholder="请输入加价金额"
 												style="width:200px"
+												type="number"
 											></Input>
 										</div>
 										<div style="marginBottom:10px;textAlign:center">
@@ -296,6 +303,7 @@
 												v-model="updatacc.times"
 												placeholder="请输入抢拍默认时长"
 												style="width:200px"
+												type="number"
 											></Input>
 										</div>
 										<div style="marginBottom:10px;textAlign:center">
@@ -306,6 +314,7 @@
 												v-model="updatacc.wiat_time"
 												placeholder="请输入等待默认时长"
 												style="width:200px"
+												type="number"
 											></Input>
 										</div>
 										<div style="marginBottom:10px;textAlign:center">
@@ -316,6 +325,7 @@
 												v-model="updatacc.compute_time"
 												placeholder="请输入计算默认时长"
 												style="width:200px"
+												type="number"
 											></Input>
 										</div>
 									</Modal>
@@ -434,6 +444,7 @@
                             <!-- 分页 -->
                             <Page
                                 :total="yhlbmktablePageData.total"
+								ref="pages"
                                 :page-size="yhlbmktablePageData.pageSize"
                                 :current="yhlbmktablePageData.currentPage"
                                 show-elevator
@@ -492,7 +503,6 @@ export default {
                     width: 150,
                     align: 'center',
                     render: (h, params) => {
-                        console.log(params.row.pic);
                         var str = params.row.pic;
                         if (str) {
                             //str = str.substring(0, str.lastIndexOf(','))
@@ -799,18 +809,19 @@ export default {
             ccidlist: {} //场次id
         };
     },
-	activated: function() {
-		this.yhlbmkGetList(1, this.yhlbmkIsSearch);
-	},
+	//每次进入页面都会执行
+// 	activated: function() {
+// 		this.yhlbmkGetList(1, this.yhlbmkIsSearch);
+// 	},
     mounted: function() {
         this.showtype();
         this.showdctype();
 		this.gettimes();
     },
-//     created() {
-//         // 获取用户列表数据
-//         this.yhlbmkGetList(1, this.yhlbmkIsSearch);
-//     },
+    created() {
+        // 获取用户列表数据
+        this.yhlbmkGetList(1, this.yhlbmkIsSearch);
+    },
     methods: {
         //获取档次id
         showdctype() {
@@ -838,14 +849,21 @@ export default {
                 pageNum: currentPage, // 当前页码
                 pageSize: 10 // 每页条数
             };
-            console.log(params);
             let postData = this.$qs.stringify(params);
-            console.log(postData);
             axios
                 .post('/api/auction/auctionClass/sys/init', postData)
                 .then(response => {
                     var res = response.data;
-                    this.yhlbmktablePageData = res.data;
+                    // this.yhlbmktablePageData = res.data;
+					if(res.code==200){
+						if(res.data==null){
+							this.yhlbmktablePageData.list=[];
+						}else{
+							this.yhlbmktablePageData = res.data;
+						}
+					}else{
+						this.yhlbmktablePageData.list=[];
+					}
                 })
                 .catch(error => {
                     console.log(error);
@@ -982,7 +1000,16 @@ export default {
                 .post('/api/auction/product/sys/getAllowProduct', postData)
                 .then(response => {
                     var res = response.data;
-                    this.choicegoodlist = res.data;
+                    // this.choicegoodlist = res.data;
+					if(res.code==200){
+						if(res.data==null){
+							this.choicegoodlist.list=[];
+						}else{
+							this.choicegoodlist = res.data;
+						}
+					}else{
+						this.choicegoodlist.list=[];
+					}
                 })
                 .catch(error => {
                     console.log(error);
@@ -1132,7 +1159,7 @@ export default {
                 incrementValue: this.updatacc.incrementValue,
                 startTime: time1,
                 endTime: time2,
-                auctionGradeId: this.updatacc.auctionGradeId,
+                auctionGradeId: this.model2,
                 wiatTime: this.updatacc.wiat_time,
                 computeTime: this.updatacc.compute_time,
                 times: this.updatacc.times
@@ -1199,7 +1226,16 @@ export default {
                     .post('/api/auction/auctionClass/sys/findAuctionClassInitVoByproductName', postData)
                     .then(response => {
                         var res = response.data;
-                        this.yhlbmktablePageData = res.data;
+                        // this.yhlbmktablePageData = res.data;
+						if(res.code==200){
+							if(res.data==null){
+								this.yhlbmktablePageData.list=[];
+							}else{
+								this.yhlbmktablePageData = res.data;
+							}
+						}else{
+							this.yhlbmktablePageData.list=[];
+						}
                     })
                     .catch(error => {
                         console.log(error);

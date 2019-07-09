@@ -102,7 +102,7 @@ body {
             <Sider class="layout_left" :width="menuWidth">
                 <!-- logo -->
                 <div class="logo">
-                    <h1>抢拍后台管理系统</h1>
+                    <h1>小牛趣拍后台系统</h1>
                 </div>
                 <!-- 
                     Menu：导航菜单。为页面和功能提供导航的菜单列表，常用于网站顶部和左侧 
@@ -177,16 +177,16 @@ body {
 </template>
 <script>
 // 引入通用的库文件
-import Util from "@/libs/util";
-import Time from "#/libs/time";
+import Util from '@/libs/util';
+import Time from '#/libs/time';
 
 // 引入router.js中的变量及方法
-import { homePage, getMenus } from "#/router";
+import { homePage, getMenus } from '#/router';
 
 var DEBUG;
 // console.log(process.env.NODE_ENV);
 // 根据process.env.NODE_ENV判断执行的命令
-if (process.env.NODE_ENV == "development") {
+if (process.env.NODE_ENV == 'development') {
     // 执行的是： npm run serve
     DEBUG = true;
 } else {
@@ -195,17 +195,17 @@ if (process.env.NODE_ENV == "development") {
 }
 
 export default {
-    name: "index",
+    name: 'index',
     components: {},
     data() {
         return {
             DEBUG: DEBUG,
-            actor: "", //角色身份
+            actor: '', //角色身份
             actors: [], //角色身份
             user: null, //用户信息
             menus: [], //菜单
             menuWidth: 200, //菜单宽度
-            currentMenuItem: "", //当前菜单激活的子菜单
+            currentMenuItem: '', //当前菜单激活的子菜单
             breadcrumbs: [homePage], //面包屑（路径）
             loading: true, //是否在加载，用于缓冲数据加载时动画的卡顿
             version: window.App.version // 版本信息
@@ -216,15 +216,13 @@ export default {
          * 角色对应的身份
          */
         actorName() {
-			console.log("111"+this.getActor(this.actor))
             return this.getActor(this.actor);
         }
     },
     created() {
         // 将身份设为admin
-		this.initFormatter();
-		console.log(this.$route.params)
-		this.actors.push("admin");
+        this.initFormatter();
+        this.actors.push('admin');
         if (this.switchActor()) {
             // 获取用户信息
             this.getUserInfo();
@@ -235,60 +233,61 @@ export default {
             });
         }
     },
-    mounted () {
+    mounted() {
         // 设置主内容高度
         Util.setMainHeight();
     },
     methods: {
-		initFormatter() {
-			Date.prototype.Format = function(fmt) {
-				//
-				let o = {
-					'M+': this.getMonth() + 1, //月份
-					'd+': this.getDate(), //日
-					'h+': this.getHours(), //小时
-					'm+': this.getMinutes(), //分
-					's+': this.getSeconds(), //秒
-					'q+': Math.floor((this.getMonth() + 3) / 3), //季度
-					S: this.getMilliseconds() //毫秒
-				};
-				if (/(y+)/.test(fmt))
-					fmt = fmt.replace(
-						RegExp.$1,
-						(this.getFullYear() + '').substr(4 - RegExp.$1.length)
-					);
-				for (var k in o)
-					if (new RegExp('(' + k + ')').test(fmt))
-						fmt = fmt.replace(
-							RegExp.$1,
-							RegExp.$1.length == 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length)
-						);
-				return fmt;
-			};
-		},
-        // 
+        initFormatter() {
+            Date.prototype.Format = function(fmt) {
+                //
+                let o = {
+                    'M+': this.getMonth() + 1, //月份
+                    'd+': this.getDate(), //日
+                    'h+': this.getHours(), //小时
+                    'm+': this.getMinutes(), //分
+                    's+': this.getSeconds(), //秒
+                    'q+': Math.floor((this.getMonth() + 3) / 3), //季度
+                    S: this.getMilliseconds() //毫秒
+                };
+                if (/(y+)/.test(fmt))
+                    fmt = fmt.replace(
+                        RegExp.$1,
+                        (this.getFullYear() + '').substr(4 - RegExp.$1.length)
+                    );
+                for (var k in o)
+                    if (new RegExp('(' + k + ')').test(fmt))
+                        fmt = fmt.replace(
+                            RegExp.$1,
+                            RegExp.$1.length == 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length)
+                        );
+                return fmt;
+            };
+        },
+        //
         switchActor(actor) {
             if (!actor) {
                 // 未传参数
-                actor = Util.user().actor || this.actors[0] || "user";
+                actor = Util.user().actor || this.actors[0] || 'user';
             }
             Util.initRouter(actor);
             this.actor = actor;
             //this.menus = getMenus(actor);
-			console.log(sessionStorage.getItem('objStr'))
-			var objsession=JSON.parse(sessionStorage.getItem('objStr'))
-			var proid;
-			if(objsession){
-				proid=objsession.permissionSign
+            var objsession = JSON.parse(sessionStorage.getItem('objStr'));
+            var proid;
+            if (objsession) {
+                proid = objsession.permissionSign;
+            }
+            this.menus = getMenus('admin', proid);
+
+            //             delete this.menus.userManage.list.userDetail; // 导航里删除用户详情
+            //             delete this.menus.videoManage.list.videoSeniorDetail; // 导航里删除高级审核用户详情
+            //             delete this.menus.videoManage.list.videoGeneralDetail; // 导航里删除普通审核用户详情
+            //             delete this.menus.operationManage.list.userStatusTable; // 导航里删除用户状态表
+			if(proid==0){
+				delete this.menus.userManage.list.mingxi; // 导航里删除保证金明细
 			}
-			this.menus = getMenus('admin',proid);
-			
-//             delete this.menus.userManage.list.userDetail; // 导航里删除用户详情
-//             delete this.menus.videoManage.list.videoSeniorDetail; // 导航里删除高级审核用户详情
-//             delete this.menus.videoManage.list.videoGeneralDetail; // 导航里删除普通审核用户详情
-//             delete this.menus.operationManage.list.userStatusTable; // 导航里删除用户状态表
-							 delete this.menus.dataManage.list.goodChoise; // 导航里删除商品选择
-							 delete this.menus.userManage.list.mingxi; // 导航里删除保证金明细
+            delete this.menus.dataManage.list.goodChoise; // 导航里删除商品选择
             // console.log(this.menus);
             if (this.$refs.pageTags) this.$refs.pageTags.checkTags(actor);
             return true;
@@ -303,17 +302,14 @@ export default {
                 if (submenus) {
                     var currentSubmenu = route.meta.control.name;
                     for (var i = 0, n = submenus.length; i < n; i++) {
-                        if (
-                            !submenus[i].opened &&
-                            submenus[i].name == currentSubmenu
-                        ) {
+                        if (!submenus[i].opened && submenus[i].name == currentSubmenu) {
                             submenus[i].handleClick();
                             break;
                         }
                     }
                 }
             } else {
-                this.currentMenuItem = "";
+                this.currentMenuItem = '';
             }
         },
         /**
@@ -321,7 +317,7 @@ export default {
          */
         getUserInfo() {
             /** 临时代码 */
-			var objsession=JSON.parse(sessionStorage.getItem('objStr'))
+            var objsession = JSON.parse(sessionStorage.getItem('objStr'));
             this.user = {
                 nickname: objsession.userName
             };
@@ -339,14 +335,14 @@ export default {
          */
         getActor(actor) {
             return {
-                admin: "管理员"
+                admin: '管理员'
             }[actor];
         },
 
         // 自己的
         logout() {
-			sessionStorage.clear()
-			this.$router.push('/login')
+            sessionStorage.clear();
+            this.$router.push('/login');
         }
     },
     watch: {

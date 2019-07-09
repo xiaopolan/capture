@@ -184,7 +184,13 @@ export default {
 				{
 					title: "发货时间",
 					key: "sendTime",
-					align: "center"
+					align: "center",
+					render: (h, params) => {
+							return h(
+									'div',
+									new Date(params.row.sendTime).Format('yyyy-MM-dd hh:mm:ss')
+							); /*这里的this.row能够获取当前行的数据*/
+					}
 				},
 				{
 					title: '订单生成时间',

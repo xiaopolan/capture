@@ -27,8 +27,8 @@
     width: 150px;
     height: 25px;
     color: #515a6e;
-		border:none;
-		float:left
+    border: none;
+    float: left;
 }
 </style>
 <style lang="less">
@@ -118,6 +118,7 @@
 											v-model="yhlbmkAddObj.productPrice"
 											placeholder="请输入商品价格"
 											style="width:150px"
+											type="number"
 										></Input>
 									</div>
 									<div style="marginBottom:10px;textAlign:center">
@@ -174,6 +175,7 @@
 											v-model="yhlbmkAddObj.productPrice"
 											placeholder="请输入商品价格"
 											style="width:150px"
+											type="number"
 										></Input>
 									</div>
 									<div style="marginBottom:10px;textAlign:center">
@@ -189,8 +191,8 @@
 									</div>
 								</Modal>
 								<Modal v-model="imageModal" title="图片查看" class="mymodal">
-									<Carousel v-if="imageModal1">
-										<Carousel-Item v-for="(item,index) in imagelist" :key="index">
+									<Carousel v-if="imageModal1" v-model="indexcu">
+										<Carousel-Item v-for="(item,index) in imagelist" :key="index" >
 										  <div style="margin: 0 auto;text-align: center;display: flex;align-items: center;width: 488px;height: 300px;justify-content: center;">
 										   <img :src="item" style="max-height:240px;max-width:440px;" alt=""/>
 										   </div>
@@ -217,21 +219,21 @@
                                 :total="yhlbmktablePageData.total"
                                 :page-size="yhlbmktablePageData.pageSize"
                                 show-elevator
-																ref="pages"
+								ref="pages"
                                 @on-change="yhlbmkPageChange"
                             ></Page>
                             <span>共&nbsp;{{yhlbmktablePageData.pages}}&nbsp;页</span>
                         </div>
-												<div v-else class="pageBox" :style="{marginTop: '25px',paddingBottom: '35px'}">
-														<!-- 分页 -->
-														<Page
-																:total="yhlbmktablePageData.total1"
-																:page-size="yhlbmktablePageData.pageSize1"
-																show-elevator
-																@on-change="searchepageChange"
-														></Page>
-														<span>共&nbsp;{{yhlbmktablePageData.pages1}}&nbsp;页</span>
-												</div>
+						<div v-else class="pageBox" :style="{marginTop: '25px',paddingBottom: '35px'}">
+								<!-- 分页 -->
+								<Page
+										:total="yhlbmktablePageData.total1"
+										:page-size="yhlbmktablePageData.pageSize1"
+										show-elevator
+										@on-change="searchepageChange"
+								></Page>
+								<span>共&nbsp;{{yhlbmktablePageData.pages1}}&nbsp;页</span>
+						</div>
                     </div>
                 </div>
     </div>
@@ -245,9 +247,10 @@ export default {
 
     data() {
         return {
+            indexcu: 0,
             cityList: [], //商品类型
             model1: [],
-						model2: [],
+            model2: [],
             listobj: true,
             yhtjtableData: [], // 用户统计表格数据
             // 用户列表相关
@@ -310,59 +313,59 @@ export default {
                     key: 'productPrice',
                     align: 'center'
                 },
-								{
-										title: '点赞数',
-										key: 'dianzanNum',
-										//width: 180,
-										align: 'center'
-								},
-								{
-										title: '商品来源',
-										key: 'source',
-										align: 'center',
-										render: (h, params) => {
-												var str = params.row.source;
-												if(str==0){
-													return h('div','平台发布')
-												}
-												if(str==1){
-													return h('div','用户发布')
-												}
-										}
-								},
-								{
-										title: '发布状态',
-										key: 'isAuction',
-										align: 'center',
-										render: (h, params) => {
-												var str = params.row.isAuction;
-												if(str==0){
-													return h('div','未发布')
-												}
-												if(str==1){
-													return h('div','已发布')
-												}
-										}
-								},
-								{
-										title: '竞拍状态',
-										key: 'isPush',
-										align: 'center',
-										render: (h, params) => {
-												var str = params.row.isPush;
-												if(str==1){
-													return h('div','可竞拍')
-												}
-												if(str==0){
-													return h('div','不可竞拍')
-												}
-										}
-								},
-								{
-										title: '发布人',
-										key: 'userName',
-										align: 'center',
-								},
+                {
+                    title: '点赞数',
+                    key: 'dianzanNum',
+                    //width: 180,
+                    align: 'center'
+                },
+                {
+                    title: '商品来源',
+                    key: 'source',
+                    align: 'center',
+                    render: (h, params) => {
+                        var str = params.row.source;
+                        if (str == 0) {
+                            return h('div', '平台发布');
+                        }
+                        if (str == 1) {
+                            return h('div', '用户发布');
+                        }
+                    }
+                },
+                {
+                    title: '发布状态',
+                    key: 'isAuction',
+                    align: 'center',
+                    render: (h, params) => {
+                        var str = params.row.isAuction;
+                        if (str == 0) {
+                            return h('div', '未发布');
+                        }
+                        if (str == 1) {
+                            return h('div', '已发布');
+                        }
+                    }
+                },
+                {
+                    title: '竞拍状态',
+                    key: 'isPush',
+                    align: 'center',
+                    render: (h, params) => {
+                        var str = params.row.isPush;
+                        if (str == 1) {
+                            return h('div', '可竞拍');
+                        }
+                        if (str == 0) {
+                            return h('div', '不可竞拍');
+                        }
+                    }
+                },
+                {
+                    title: '发布人',
+                    key: 'userName',
+                    align: 'center'
+                },
                 {
                     title: '商品简介',
                     key: 'introduction',
@@ -371,7 +374,7 @@ export default {
                 },
                 {
                     title: '操作',
-										width:'150px',
+                    width: '150px',
                     key: 'action',
                     align: 'center',
                     render: (h, params) => {
@@ -423,12 +426,11 @@ export default {
                 total: 0, // 总条数
                 pages: 0, // 总页数
                 pageSize: 0, // 每页条数
-                currentPage: 0 ,// 当前页码
-								total1: 0, // 总条数
-								pages1: 0, // 总页数
-								pageSize1: 0, // 每页条数
-								currentPage1: 0 // 当前页码
-
+                currentPage: 0, // 当前页码
+                total1: 0, // 总条数
+                pages1: 0, // 总页数
+                pageSize1: 0, // 每页条数
+                currentPage1: 0 // 当前页码
             },
             yhlbmkModal: false, // 添加新增用户的对话框显示状态
             yhlbmkLoading: true, // 添加新增用户的对话框加载状态
@@ -444,7 +446,7 @@ export default {
             },
             imagelist: [], //图片集合image
             imageModal: false,
-			imageModal1: false
+            imageModal1: false
         };
     },
     created() {
@@ -500,16 +502,16 @@ export default {
             axios
                 .post('/api/auction/product/sys/init', postData)
                 .then(response => {
-										var res = response.data;
-										if(res.code==200){
-											if(res.data==null){
-												this.yhlbmktablePageData.list=[];
-											}else{
-												this.yhlbmktablePageData = res.data;
-											}
-										}else{
-											this.yhlbmktablePageData.list=[];
-										}
+                    var res = response.data;
+                    if (res.code == 200) {
+                        if (res.data == null) {
+                            this.yhlbmktablePageData.list = [];
+                        } else {
+                            this.yhlbmktablePageData = res.data;
+                        }
+                    } else {
+                        this.yhlbmktablePageData.list = [];
+                    }
                 })
                 .catch(error => {
                     console.log(error);
@@ -531,7 +533,7 @@ export default {
         // 点击用户列表的查询
         yhlbmkSearch(currentPage1) {
             this.listobj = false;
-						
+
             if (this.yhlbmkIpVal) {
                 let params = {
                     productName: this.yhlbmkIpVal,
@@ -544,9 +546,9 @@ export default {
                     .then(response => {
                         var res = response.data;
                         this.yhlbmktablePageData = res.data;
-						this.yhlbmktablePageData.total1=res.data.total;
-						this.yhlbmktablePageData.pages1=res.data.pages;
-						this.yhlbmktablePageData.pageSize1=res.data.pageSize
+                        this.yhlbmktablePageData.total1 = res.data.total;
+                        this.yhlbmktablePageData.pages1 = res.data.pages;
+                        this.yhlbmktablePageData.pageSize1 = res.data.pageSize;
                     })
                     .catch(error => {
                         console.log(error);
@@ -554,61 +556,67 @@ export default {
             } else {
                 this.listobj = true;
                 this.yhlbmkGetList(1, this.yhlbmkIsSearch);
-								//页码重置为1
-								this.$nextTick(function(){
-									this.$refs['pages'].currentPage = 1;
-								})
+                //页码重置为1
+                this.$nextTick(function() {
+                    this.$refs['pages'].currentPage = 1;
+                });
             }
         },
         deleteGood(id) {
-					if(confirm('是否确认删除')==true){
-            let params = {};
-            params.id = id;
-            let postData = this.$qs.stringify(params);
-            console.log(postData);
-            axios
-                .post('/api/auction/product/sys/removeProductById', postData)
-                .then(response => {
-                    if (response.data.code == 200) {
-                        Util.success('删除成功');
-                        this.yhlbmkGetList(1, this.yhlbmkIsSearch);
-                    } else {
-                        Util.error('删除失败,'+response.data.msg);
-                    }
-                    //var res = response.data;
-                    //this.yhlbmktablePageData.list=res.data;
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-					}
+            if (confirm('是否确认删除') == true) {
+                let params = {};
+                params.id = id;
+                let postData = this.$qs.stringify(params);
+                console.log(postData);
+                axios
+                    .post('/api/auction/product/sys/removeProductById', postData)
+                    .then(response => {
+                        if (response.data.code == 200) {
+                            Util.success('删除成功');
+                            this.yhlbmkGetList(1, this.yhlbmkIsSearch);
+                        } else {
+                            Util.error('删除失败,' + response.data.msg);
+                        }
+                        //var res = response.data;
+                        //this.yhlbmktablePageData.list=res.data;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
             //this.sqlbmkApplyHandle(id, -1); // 申请处理
             // 重新获取申请列表数据
             //this.sqlbmkGetList(1, this.sqlbmkIsSearch);
         },
         // 点击新增用户的对话框的ok
         yhlbmkOk() {
-                // 参数对象
-                // 				let params = {
-                // 					productName: this.yhlbmkAddObj.productName,
-                // 					pic: this.$qs.stringify(this.yhlbmkAddObj.pic),
-                // 					productType: this.model1 ,
-                // 					productPrice: this.yhlbmkAddObj.productPrice ,
-                // 					introduction: this.yhlbmkAddObj.introduction
-                // 				};
-                // 				let postData = this.$qs.stringify(params);
-                let formData = new FormData();
-                formData.append('productName', this.yhlbmkAddObj.productName);
-                for (var i = 0; i < this.yhlbmkAddObj.pic.length; i++) {
-                    formData.append('pic', this.yhlbmkAddObj.pic[i]);
-                }
-                // formData.append("pic",this.yhlbmkAddObj.pic[0])
-                formData.append('productType', this.model1[1]);
-                formData.append('productPrice', this.yhlbmkAddObj.productPrice);
-                formData.append('introduction', this.yhlbmkAddObj.introduction);
-								if(this.yhlbmkAddObj.pic.length==0 || this.model1.length==0 || this.yhlbmkAddObj.productPrice=='' || this.yhlbmkAddObj.introduction=='' ||this.yhlbmkAddObj.productName==''){
-									Util.error('正确填写表单');
-								}else{
+            // 参数对象
+            // 				let params = {
+            // 					productName: this.yhlbmkAddObj.productName,
+            // 					pic: this.$qs.stringify(this.yhlbmkAddObj.pic),
+            // 					productType: this.model1 ,
+            // 					productPrice: this.yhlbmkAddObj.productPrice ,
+            // 					introduction: this.yhlbmkAddObj.introduction
+            // 				};
+            // 				let postData = this.$qs.stringify(params);
+            let formData = new FormData();
+            formData.append('productName', this.yhlbmkAddObj.productName);
+            for (var i = 0; i < this.yhlbmkAddObj.pic.length; i++) {
+                formData.append('pic', this.yhlbmkAddObj.pic[i]);
+            }
+            // formData.append("pic",this.yhlbmkAddObj.pic[0])
+            formData.append('productType', this.model1[1]);
+            formData.append('productPrice', this.yhlbmkAddObj.productPrice);
+            formData.append('introduction', this.yhlbmkAddObj.introduction);
+            if (
+                this.yhlbmkAddObj.pic.length == 0 ||
+                this.model1.length == 0 ||
+                this.yhlbmkAddObj.productPrice == '' ||
+                this.yhlbmkAddObj.introduction == '' ||
+                this.yhlbmkAddObj.productName == ''
+            ) {
+                Util.error('正确填写表单');
+            } else {
                 console.log(formData);
                 let config = {
                     headers: { 'Content-Type': 'multipart/form-data' }
@@ -625,7 +633,7 @@ export default {
                             Util.success('添加成功');
                             this.yhlbmkGetList(1, this.yhlbmkIsSearch);
                         } else {
-                            Util.error('添加失败,'+response.data.msg);
+                            Util.error('添加失败,' + response.data.msg);
                         }
                     })
                     .catch(error => {
@@ -633,14 +641,14 @@ export default {
                     });
                 this.yhlbmkLoading = false; // 关闭加载状态
                 this.yhlbmkModal = false; // 关闭当前模态
-								}
-                // 解决Modal表单验证中loading的bug
-                setTimeout(() => {
-                    this.yhlbmkLoading = false;
-                    this.$nextTick(() => {
-                        this.yhlbmkLoading = true;
-                    });
-                }, 10);
+            }
+            // 解决Modal表单验证中loading的bug
+            setTimeout(() => {
+                this.yhlbmkLoading = false;
+                this.$nextTick(() => {
+                    this.yhlbmkLoading = true;
+                });
+            }, 10);
         },
         // 点击新增用户的对话框的取消
         yhlbmkCancel() {
@@ -649,15 +657,15 @@ export default {
         },
         //增加商品
         addgood() {
-					this.yhlbmkAddObj.productName = '';
-					this.yhlbmkAddObj.pic = '';
-					this.model1 = [];
-					this.model2 = [];
-					this.yhlbmkAddObj.productPrice = '';
-					this.yhlbmkAddObj.introduction = '';
-					var file = document.getElementById('file');
-					file.value = '';
-          this.yhlbmkModal = true;
+            this.yhlbmkAddObj.productName = '';
+            this.yhlbmkAddObj.pic = '';
+            this.model1 = [];
+            this.model2 = [];
+            this.yhlbmkAddObj.productPrice = '';
+            this.yhlbmkAddObj.introduction = '';
+            let file = document.getElementById('file');
+            file.value = '';
+            this.yhlbmkModal = true;
         },
         showtype() {
             axios
@@ -665,35 +673,35 @@ export default {
                 .then(response => {
                     var res = response.data;
                     this.cityList = res.data;
-										console.log(this.cityList)
+                    console.log(this.cityList);
                 })
                 .catch(error => {
                     console.log(error);
                 });
         },
         updateGood(params) {
-						var file = document.getElementById('files');
-						file.value = '';
+            let file = document.getElementById('files');
+            file.value = '';
             this.upModal = true;
             this.yhlbmkAddObj.productName = params.productName;
             this.yhlbmkAddObj.pic = params.pic;
             //this.model2 = params.productTypeId;
-            this.yhlbmkAddObj.productPrice = params.productPrice;
+            this.yhlbmkAddObj.productPrice = params.productPrice || '';
             this.yhlbmkAddObj.introduction = params.introduction;
             this.yhlbmkAddObj.id = params.id;
-						let json = {};
-						json.id = params.productTypeId;
-						let postData = this.$qs.stringify(json);
-						console.log(postData);
-						axios
-							.post('/api/auction/productType/sys/findProductTypeById', postData)
-							.then(response => {
-								var res = response.data;
-								this.model2 = [res.data.pid,res.data.id];
-							})
-							.catch(error => {
-								console.log(error);
-							});
+            let json = {};
+            json.id = params.productTypeId;
+            let postData = this.$qs.stringify(json);
+            console.log(postData);
+            axios
+                .post('/api/auction/productType/sys/findProductTypeById', postData)
+                .then(response => {
+                    var res = response.data;
+                    this.model2 = [res.data.pid, res.data.id];
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         },
         updateOk() {
             // 参数对象
@@ -731,12 +739,12 @@ export default {
                     console.log(response);
                     if (response.data.code == 200) {
                         Util.success('修改成功');
-						this.yhlbmkGetList(this.yhlbmktablePageData.pageNum, this.yhlbmkIsSearch);
-						this.$nextTick(function(){
-							this.$refs['pages'].currentPage = this.yhlbmktablePageData.pageNum;
-						})
+                        this.yhlbmkGetList(this.yhlbmktablePageData.pageNum, this.yhlbmkIsSearch);
+                        this.$nextTick(function() {
+                            this.$refs['pages'].currentPage = this.yhlbmktablePageData.pageNum;
+                        });
                     } else {
-                        Util.error('修改失败,'+response.data.msg);
+                        Util.error('修改失败,' + response.data.msg);
                     }
                 })
                 .catch(error => {
@@ -753,32 +761,34 @@ export default {
         },
         showimage(imagearr) {
             this.imageModal = true;
-						this.imageModal1 = true;
+            this.imageModal1 = true;
+            this.indexcu = 0; //初始化为第一张图片
+            // $('.ivu-carousel-track').css("transform","translate3d(0,0,0)")
             this.imagelist = imagearr;
-        },
-		//测试支付接口
-// 		showmoeny(){
-// 				let params = {
-// 						pay_memberid: '10173',
-// 						pay_orderid	: "20190513151208971527", // 当前页码
-// 						pay_applydate: '2019-05-13 15:12:08', // 每页条数
-// 						pay_bankcode: '904',
-// 						pay_notifyurl: 'http://localhost:8080/auction/aa/auction/orders/aa',
-// 						pay_callbackurl: 'http://www.baidu.com',
-// 						pay_amount: '100',
-// 						pay_md5sign: '4239A36CC576F216D8BA3FE7515196A1',
-// 						pay_productname: '鞋子',
-// 				};
-// 				let postData = this.$qs.stringify(params);
-// 				axios
-// 						.post('/pay', postData)
-// 						.then(response => {
-// 								var res = response.data;
-// 						})
-// 						.catch(error => {
-// 								console.log(error);
-// 						});
-// 		}
+        }
+        //测试支付接口
+        // 		showmoeny(){
+        // 				let params = {
+        // 						pay_memberid: '10173',
+        // 						pay_orderid	: "20190513151208971527", // 当前页码
+        // 						pay_applydate: '2019-05-13 15:12:08', // 每页条数
+        // 						pay_bankcode: '904',
+        // 						pay_notifyurl: 'http://localhost:8080/auction/aa/auction/orders/aa',
+        // 						pay_callbackurl: 'http://www.baidu.com',
+        // 						pay_amount: '100',
+        // 						pay_md5sign: '4239A36CC576F216D8BA3FE7515196A1',
+        // 						pay_productname: '鞋子',
+        // 				};
+        // 				let postData = this.$qs.stringify(params);
+        // 				axios
+        // 						.post('/pay', postData)
+        // 						.then(response => {
+        // 								var res = response.data;
+        // 						})
+        // 						.catch(error => {
+        // 								console.log(error);
+        // 						});
+        // 		}
     }
 };
 </script>

@@ -77,6 +77,7 @@
                             <Page
                                 :total="yhlbmktablePageData.total"
                                 :page-size="yhlbmktablePageData.pageSize"
+								ref="pages"
                                 :current="yhlbmktablePageData.currentPage"
                                 show-elevator
                                 @on-change="yhlbmkPageChange"
@@ -116,11 +117,11 @@ export default {
                     key: "phone",
                     align: "center"
                 },
-                {
-                    title: "竞拍档次名称",
-                    key: "auctionClassName",
-                    align: "center"
-                },
+//                 {
+//                     title: "竞拍档次名称",
+//                     key: "auctionClassName",
+//                     align: "center"
+//                 },
                 {
                     title: "保证金余额",
                     width: 150,
@@ -210,7 +211,9 @@ export default {
         yhlbmkGetList(currentPage, isSearch) {
             // currentPage：当前页数   isLimitTime：是否限制时间段
             console.log("获取第" + currentPage + "页数据");
-
+			this.$nextTick(function() {
+				this.$refs['pages'].currentPage = currentPage;
+			});
             // 参数对象
             var params = {
                 pageNum: currentPage, // 当前页码
@@ -220,10 +223,18 @@ export default {
             // 模拟请求接口返回的数据
             let postData = this.$qs.stringify(params);
             console.log(postData)
-            axios.post('/api/auction/margin/sys/init',postData)
+            axios.get('/api/auction/margin/sys/init',{params})
             	.then( (response)=> {
             	var res = response.data;
-            	this.yhlbmktablePageData=res.data;
+            	if(res.code==200){
+            		if(res.data==null){
+            			this.yhlbmktablePageData.list=[];
+            		}else{
+            			this.yhlbmktablePageData = res.data;
+            		}
+            	}else{
+            		this.yhlbmktablePageData.list=[];
+            	}
             	})
             	.catch( (error)=> {
             	console.log(error);
@@ -243,11 +254,18 @@ export default {
 					pageSize: 10, // 每页条数
 					phone:this.yhlbmkIpVal
 				};
-				let postData = this.$qs.stringify(params);
-				axios.post('/api/auction/margin/sys/getMarginByUser',postData)
+				axios.get('/api/auction/margin/sys/getMarginByUser',{params})
 					.then( (response)=> {
 					var res = response.data;
-					this.yhlbmktablePageData=res.data;
+					if(res.code==200){
+						if(res.data==null){
+							this.yhlbmktablePageData.list=[];
+						}else{
+							this.yhlbmktablePageData = res.data;
+						}
+					}else{
+						this.yhlbmktablePageData.list=[];
+					}
 					})
 					.catch( (error)=> {
 						console.log(error);

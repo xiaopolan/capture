@@ -193,7 +193,15 @@ export default {
 			axios.post('/api/auction/auctionGrade/sys/init',postData)
 				.then( (response)=> {
 				var res = response.data;
-				this.yhlbmktablePageData=res.data;
+				if(res.code==200){
+					if(res.data==null){
+						this.yhlbmktablePageData.list=[];
+					}else{
+						this.yhlbmktablePageData = res.data;
+					}
+				}else{
+					this.yhlbmktablePageData.list=[];
+				}
 				})
 				.catch( (error)=> {
 				console.log(error);

@@ -113,22 +113,16 @@ export default {
                     align: "center"
                 },
 				{
+					title: "牛票",
+					key: "eqValue",
+					align: "center"
+				},
+				{
 					title: "用户类型",
-					key: "userType",
+					key: "grade",
 					align: "center",
 					render: (h,params)=> {
-						let text = params.row.userType
-						if(text==1){
-							return h('div','低级')
-						}
-						else if(text==2){
-							return h('div','中级')
-						}
-						else if(text==3){
-							return h('div','高级')
-						}else{
-							return h('div','')
-						}
+						return h('div',"V"+params.row.grade)
 					}
 				},
                 {
@@ -320,12 +314,20 @@ export default {
                 pageNum: currentPage, // 当前页码
                 pageSize: 10, // 每页条数
             };
-            let postData = this.$qs.stringify(params);
-            console.log(postData)
-            axios.post('/api/auction/user/sys/init',postData)
+//             let postData = this.$qs.stringify(params);
+             console.log(params)
+            axios.get('/api/auction/user/sys/init',{params})
             	.then( (response)=> {
             	var res = response.data;
-            	this.yhlbmktablePageData=res.data;
+				if(res.code==200){
+					if(res.data==null){
+						this.yhlbmktablePageData.list=[];
+					}else{
+						this.yhlbmktablePageData = res.data;
+					}
+				}else{
+					this.yhlbmktablePageData.list=[];
+				}
             	})
             	.catch( (error)=> {
             	console.log(error);
@@ -345,11 +347,19 @@ export default {
 				pageSize: 10, // 每页条数
 				phone:this.yhlbmkIpVal
 			};
-            let postData = this.$qs.stringify(params);
-            axios.post('/api/auction/user/sys/getUserByPhone',postData)
+            // let postData = this.$qs.stringify(params);
+            axios.get('/api/auction/user/sys/getUserByPhone',{params})
             	.then( (response)=> {
             	var res = response.data;
-            	this.yhlbmktablePageData=res.data;
+				if(res.code==200){
+					if(res.data==null){
+						this.yhlbmktablePageData.list=[];
+					}else{
+						this.yhlbmktablePageData = res.data;
+					}
+				}else{
+					this.yhlbmktablePageData.list=[];
+				}
             	})
             	.catch( (error)=> {
             		console.log(error);
@@ -361,16 +371,16 @@ export default {
 		//启用禁用
 		qiyong(params){
 			let json={
-				phone:params.row.phone
+				phone:params.row.phone,
 			};
-			if(params.row.openno==1){
-				json.openno=0
-			}
-			if(params.row.openno==0){
-				json.openno=1
-			}
+// 			if(params.row.openno==1){
+// 				json.openno=0
+// 			}
+// 			if(params.row.openno==0){
+// 				json.openno=1
+// 			}
+			json.openno=params.row.openno==1?0:1;
 			let postData = this.$qs.stringify(json);
-			console.log(postData)
 			axios.post('/api/auction/user/sys/noUser',postData)
 				.then( (response)=> {
 				if(response.data.code==200){

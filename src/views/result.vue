@@ -43,10 +43,10 @@
 </style>
 <template>
     <div class="registerBox">
-		<div class="success" v-if="status">
+		<div class="success" v-if="!status">
 			<div class='logo_image'></div>
 			<p>注册成功!</p>
-			<p class='msgtext'>请打开app登录帐号</p>
+			<a class='msgtext' v-bind:href="link">点击下载app</a>
 		</div>
 		<div class="failed" v-else>
 			<div class='logo_image2'></div>
@@ -61,15 +61,39 @@ export default {
     components: {},
     data() {
         return {
+						link:"",
             status:''
         };
     },
     created() {
 		this.status=this.$route.query.status
 		console.log(this.status)
+// 		var u = navigator.userAgent;
+// 		if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+// 				//安卓手机
+// 				this.link="https://cloudshell-cn-shanghai-jfittniogs.oss-cn-shanghai.aliyuncs.com/app-release.apk.1?Expires=1561722673&OSSAccessKeyId=TMP.AgF-O4HvXI5js6AOhREYSBLjJC60zeeWd1oP_wyXfGBM_fhnUeACMpGFviIrMC4CFQDo0WGBA0DRDD6-HTzz-wvO3laf4AIVAICKfgsn3TJOtWwEf2bdPcuPXLOq&Signature=zkIX2rRa0JO7ZLDSrABNtA4PxfI%3D"
+// 		} else if (u.indexOf('iPhone') > -1) {
+// 				//苹果手机
+// 		} else if (u.indexOf('Windows Phone') > -1) {
+// 				//winphone手机
+// 		}
     },
-	mounted() {
-	},
+		activated(){
+			 var u = navigator.userAgent;
+			 if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+					 //安卓手机
+					 alert("安卓")
+					 this.link="https://cloudshell-cn-shanghai-jfittniogs.oss-cn-shanghai.aliyuncs.com/app-release.apk.1?Expires=1561722673&OSSAccessKeyId=TMP.AgF-O4HvXI5js6AOhREYSBLjJC60zeeWd1oP_wyXfGBM_fhnUeACMpGFviIrMC4CFQDo0WGBA0DRDD6-HTzz-wvO3laf4AIVAICKfgsn3TJOtWwEf2bdPcuPXLOq&Signature=zkIX2rRa0JO7ZLDSrABNtA4PxfI%3D"
+			 } else if (u.indexOf('iPhone') > -1) {
+					alert("iphone")
+					 //苹果手机
+			 } else if (u.indexOf('Windows Phone') > -1) {
+					 //winphone手机
+			 }
+		},
+		mounted() {
+				
+		},
     methods: {
 			
     }

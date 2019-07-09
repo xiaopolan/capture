@@ -1,4 +1,4 @@
-<!-- 用户投诉管理页 -->
+<!-- 保证金存取 -->
 <style lang="less" scoped>
 .itemBox_yhtsxx {
     .remark_box{
@@ -42,15 +42,6 @@
                 <Row>
                     <Col span="13">
                         <h3>保证金存取明细</h3>
-                    </Col>
-                    <Col span="8" style="textAlign:center;">
-                        <div class="yhtsxx_slbox">
-                            <span>竞拍档次</span>
-							<select name="public-choice" v-model="model1" class="typeselect" @change="yhtsxxSlChange(1)"> 
-								<option >全部</option> 
-								<option :value="item.id"  v-for="item in yhtsxxSlObj" >{{item.grade_name}}</option>                                    
-							</select>
-                        </div>
                     </Col>
                 </Row>
             </div>
@@ -119,11 +110,6 @@ export default {
                     align: "center"
                 },
                 {
-                    title: "竞拍档次名称",
-                    key: "gradeName",
-                    align: "center"
-                },
-                {
                     title: "交易金额",
                     key: "limitno",
                     align: "center",
@@ -166,7 +152,6 @@ export default {
         };
     },
 	created(){
-		this.getdc();
 	},
 	activated() {
 		// 获取用户列表数据
@@ -182,11 +167,9 @@ export default {
 		
 	},
     methods: {
-        // 用户投诉信息列表的页码改变
         yhtsxxPageChange(currentPage) {
-            this.yhtsxxGetList(currentPage); // 获取用户投诉信息列表数据
+            this.yhtsxxGetList(currentPage); 
         },
-        // 获取用户投诉信息列表数据（调用接口的）---接口
         yhtsxxGetList(currentPage) {
             // currentPage：当前页数
             console.log("获取第" + currentPage + "页数据");
@@ -202,47 +185,20 @@ export default {
 			axios.post('/api/auction/marginInfo/sys/init',postData)
 				.then( (response)=> {
 				var res = response.data;
-				this.yhtsxxtablePageData=res.data;
+					if(res.code==200){
+						if(res.data==null){
+							this.yhtsxxtablePageData.list=[];
+						}else{
+							this.yhtsxxtablePageData = res.data;
+						}
+					}else{
+						this.yhtsxxtablePageData.list=[];
+					}
 				})
 				.catch( (error)=> {
 				console.log(error);
 				});
         },
-        // 用户投诉信息的选择器任意一个发生变化
-        yhtsxxSlChange(currentPage) {
-            // 获取用户投诉信息列表数据
-			if(this.model1=="全部"){
-				this.yhtsxxGetList(1);
-			}else{
-				var params = {
-					pageNum: currentPage, // 当前页码
-					pageSize: 10, // 每页条数
-					// contentSelect: this.yhtsxxSlObj.contentSelect // 内容筛选
-					userId:this.userid,
-					gradeId:this.model1
-				};
-				console.log(params);
-				let postData = this.$qs.stringify(params);
-				axios.post('/api/auction/marginInfo/sys/getMarginInfoByGrade',postData)
-					.then( (response)=> {
-					var res = response.data;
-					this.yhtsxxtablePageData=res.data;
-					})
-					.catch( (error)=> {
-					console.log(error);
-					});
-			}
-        },
-		getdc(){
-			axios.post('/api/auction/marginInfo/sys/getGradeName')
-				.then( (response)=> {
-					var res = response.data;
-					this.yhtsxxSlObj=res.data;
-				})
-				.catch( (error)=> {
-				console.log(error);
-				});
-		}
     }
 };
 </script>

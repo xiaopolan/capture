@@ -614,11 +614,20 @@ export default {
                     .post('/api/auction/productType/sys/findProductTypeByName', postData)
                     .then(response => {
                         var res = response.data;
-						//分页切换
-                        this.yhlbmktablePageData = res.data;
-						this.yhlbmktablePageData.total1=res.data.total;
-						this.yhlbmktablePageData.pages1=res.data.pages;
-						this.yhlbmktablePageData.pageSize1=res.data.pageSize
+						if(res.code==200){
+							if(res.data==null){
+								this.yhlbmktablePageData.list=[];
+							}else{
+								//分页切换
+								this.yhlbmktablePageData = res.data;
+								this.yhlbmktablePageData.total1=res.data.total;
+								this.yhlbmktablePageData.pages1=res.data.pages;
+								this.yhlbmktablePageData.pageSize1=res.data.pageSize
+							}
+						}else{
+							this.yhlbmktablePageData.list=[];
+						}
+						
                     })
                     .catch(error => {
                         console.log(error);
@@ -805,9 +814,9 @@ export default {
                     if (response.data.code == 200) {
                         Util.success('修改成功');
                         this.yhlbmkGetList(this.yhlbmktablePageData.pageNum, this.yhlbmkIsSearch);
-						this.$nextTick(function(){
-							this.$refs['pages'].currentPage = this.yhlbmktablePageData.pageNum;
-						})
+// 						this.$nextTick(function(){
+// 							this.$refs['pages'].currentPage = this.yhlbmktablePageData.pageNum;
+// 						})
                     } else {
                         Util.error('修改失败,'+response.data.msg);
                     }
@@ -867,7 +876,16 @@ export default {
 					.post('/api/auction/user/sys/getUserByPhone', postData)
 					.then(response => {
 						var res = response.data;
-						this.choicegoodlist = res.data;
+						// this.choicegoodlist = res.data;
+						if(res.code==200){
+							if(res.data==null){
+								this.choicegoodlist.list=[];
+							}else{
+								this.choicegoodlist = res.data;
+							}
+						}else{
+							this.choicegoodlist.list=[];
+						}
 						//this.goodModal=true
 					})
 					.catch(error => {

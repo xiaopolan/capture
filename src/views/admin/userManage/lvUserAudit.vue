@@ -81,7 +81,7 @@
                             :columns="yhlbmkCols"
                             :data="yhlbmktablePageData.list"
                         ></Table>
-                        <div class="pageBox" :style="{marginTop: '25px',paddingBottom: '35px'}">
+                        <div v-if="listobj" class="pageBox" :style="{marginTop: '25px',paddingBottom: '35px'}">
                             <!-- 分页 -->
                             <Page
                                 :total="yhlbmktablePageData.total"
@@ -92,6 +92,16 @@
                             ></Page>
                             <span>共&nbsp;{{yhlbmktablePageData.pages}}&nbsp;页</span>
                         </div>
+												<div v-else class="pageBox" :style="{marginTop: '25px',paddingBottom: '35px'}">
+														<!-- 分页 -->
+														<Page
+																:total="yhlbmktablePageData.total1"
+																:page-size="yhlbmktablePageData.pageSize1"
+																show-elevator
+																@on-change="searchepageChange"
+														></Page>
+														<span>共&nbsp;{{yhlbmktablePageData.pages1}}&nbsp;页</span>
+												</div>
                     </div>
                 </div>
     </div>
@@ -104,6 +114,7 @@ export default {
     name: "userList",
     data() {
         return {
+						listobj: true,
             yhtjtableData: [], // 用户统计表格数据
             // 用户列表相关
             yhlbmkIpVal: "", // 用户列表的搜索条件
@@ -155,7 +166,11 @@ export default {
                 total: 0, // 总条数
                 pages: 0, // 总页数
                 pageSize: 0, // 每页条数
-                currentPage: 0 // 当前页码
+                currentPage: 0 ,// 当前页码
+								total1: 0, // 总条数
+								pages1: 0, // 总页数
+								pageSize1: 0, // 每页条数
+								currentPage1: 0 // 当前页码
             },
             yhlbmkModal: false, // 添加新增用户的对话框显示状态
             yhlbmkLoading: true, // 添加新增用户的对话框加载状态
@@ -207,20 +222,32 @@ export default {
 			axios.post('/api/auction/integralDetail/sys/init',postData)
 				.then( (response)=> {
 				var res = response.data;
-				this.yhlbmktablePageData=res.data;
+					if(res.code==200){
+						if(res.data==null){
+							this.yhlbmktablePageData.list=[];
+						}else{
+							this.yhlbmktablePageData = res.data;
+						}
+					}else{
+						this.yhlbmktablePageData.list=[];
+					}
 				})
 				.catch( (error)=> {
 				console.log(error);
 				});
         },
         // 用户列表的选择器发生变化
-        yhlbmkSlChange() {
+        yhlbmkSlChange(currentPage) {
             // console.log("选择器变化");
             // 获取用户列表数据
-            this.yhlbmkGetList(1, this.yhlbmkIsSearch);
+            this.yhlbmkGetList(currentPage, this.yhlbmkIsSearch);
         },
+				searchepageChange(currentPage) {
+					this.yhlbmkSearch(currentPage);
+				},
         // 点击用户列表的查询
         yhlbmkSearch(currentPage) {
+					 this.listobj = false;
            if (this.yhlbmkIpVal) {
            	let params= {
 							pageNum: currentPage, // 当前页码
@@ -231,13 +258,29 @@ export default {
            	axios.post('/api/auction/integralDetail/sys/findIntegralByPhone',postData)
            		.then( (response)=> {
            		var res = response.data;
-           		this.yhlbmktablePageData=res.data;
+           		if(res.code==200){
+           			if(res.data==null){
+           				this.yhlbmktablePageData.list=[];
+           			}else{
+           				this.yhlbmktablePageData = res.data;
+									this.yhlbmktablePageData.total1=res.data.total;
+									this.yhlbmktablePageData.pages1=res.data.pages;
+									this.yhlbmktablePageData.pageSize1=res.data.pageSize
+           			}
+           		}else{
+           			this.yhlbmktablePageData.list=[];
+           		}
            		})
            		.catch( (error)=> {
            			console.log(error);
            		});
            } else {
-           	this.yhlbmkGetList(1, this.yhlbmkIsSearch);
+							this.listobj = true;
+							this.yhlbmkGetList(1, this.yhlbmkIsSearch);
+							//页码重置为1
+							this.$nextTick(function(){
+								this.$refs['pages'].currentPage = 1;
+							})
            }
         },
     }

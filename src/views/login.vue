@@ -86,7 +86,7 @@
             <!-- logo部分 -->
             <div class="login_logo">
                 <img src="../assets/img/logoreg.png" alt>
-                <h2>抢拍后台管理系统</h2>
+                <h2>小牛趣拍</h2>
             </div>
             <!-- 表单部分 -->
             <div class="login_cardBox">
@@ -205,8 +205,8 @@ export default {
 							params:params,
 						});
 					}else{
-						 $this.loading = false;
-						Util.error("接口获取失败");
+						$this.loading = false;
+						Util.error("登录失败，请重新登录");
 					}
 					})
 					.catch( (error)=> {
