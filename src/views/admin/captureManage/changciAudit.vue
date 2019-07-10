@@ -66,7 +66,7 @@
     padding: 1px 7px;
 }
 .serchinput-on {
-    width: 80px;
+    width: 60px;
 }
 .box-top {
     width: 100%;
@@ -353,17 +353,7 @@
 																</div>
 														</div>
 												</Col>
-												<Col span="5" style="textAlign:center;">
-														<div class="searchBox clearfix">
-															<div style="marginBottom:10px;textAlign:center;display: flex;">
-																<div
-																	style="display:inline-block;width:86px;textAlign:center;height: 20px;margin-top: 5px;"
-																>商品类型：</div>
-																<Cascader ref="lists" :data="typelists" v-model="model1" class="goodselect"></Cascader>
-															</div>
-														</div>
-												</Col>
-												<Col span="6">
+												<Col span="5">
 														<div style="marginBottom:10px;textAlign:left">
 															<div
 																style="display:inline-block;width:86px;textAlign:center;height: 20px;"
@@ -382,12 +372,21 @@
 															</input>
 														</div>
 												</Col>
-												<Col span="5">
-														<div style="marginBottom:10px;textAlign:left">
-															<div
-																style="display:inline-block;width:86px;textAlign:center;float: left;height: 30px;line-height: 30px;"
-															>生成日期：</div>
-															<Date-picker :value="searchValue" v-modal="searchValue"  @on-change="handleChange4" type="date" placeholder="选择生成日期" style="float:left;width: 150px"></Date-picker>
+												<Col span="5" style="textAlign:center;">
+														<div class="searchBox clearfix">
+															<div style="marginBottom:10px;textAlign:center;display: flex;">
+																<div
+																	style="display:inline-block;width:86px;textAlign:center;height: 20px;margin-top: 5px;"
+																>商品类型：</div>
+																<Cascader ref="lists" :data="typelists" v-model="model1" class="goodselect"></Cascader>
+															</div>
+														</div>
+												</Col>
+												
+												<Col span="7">
+														<div style="marginBottom:10px;textAlign:left;margin-left: 10px;">
+															<Date-picker :value="searchValue" v-modal="searchValue"  @on-change="handleChange4" type="date" placeholder="选择开始时间" style="float:left;width: 150px"></Date-picker>
+															<Date-picker :value="searchenValue" v-modal="searchenValue"  @on-change="handleChange5" type="date" placeholder="选择结束时间" style="width: 150px"></Date-picker>
 														</div>
 												</Col>
 												<Col span="2">
@@ -415,7 +414,6 @@
 												show-elevator
 												@on-change="getlistgood"
 											></Page>
-											<span>共&nbsp;{{choicegoodlist.pages}}&nbsp;页</span>
 										</div>
 										<div slot="footer"></div>
 									</Modal>
@@ -464,6 +462,7 @@ export default {
     name: 'changciAudit',
     data() {
         return {
+			searchenValue:'',
 			typelists:[],
 			startTimeOptions: {}, //开始日期设置
 			endTimeOptions: {}, //结束日期设置
@@ -736,7 +735,17 @@ export default {
                     ellipsis: true,
                     align: 'center'
                 },
-				
+				{
+					title: '生成时间',
+					key: 'createTime',
+					align: 'center',
+					render: (h, params) => {
+						return h(
+							'div',
+							new Date(params.row.createTime).Format('yyyy-MM-dd hh:mm:ss')
+						); /*这里的this.row能够获取当前行的数据*/
+					}
+				},
             ],
             // 用户列表表格分页数据
             yhlbmktablePageData: {
@@ -1067,6 +1076,9 @@ export default {
         handleChange4(daterange) {
             this.searchValue = daterange;
         },
+		handleChange5(daterange) {
+			this.searchenValue = daterange;
+		},
         //修改
         updataCC(row) {
             this.updataTime = true;
@@ -1098,10 +1110,12 @@ export default {
                 this.producenames ||
                 this.startPrice ||
                 this.endPrice ||
-                this.searchValue
+                this.searchValue ||
+				this.searchenValue
             ) {
-                var seartime = this.searchValue;
-                seartime = seartime.replace(/-/g, '');
+				var searchValue = new Date(this.searchValue);
+				var searchenValue=new Date(this.searchenValue);
+				// var time1 = data.getTime();
                 var params = {
                     pageNum: currentPage, // 当前页码
                     pageSize: 10, // 每页条数
@@ -1109,7 +1123,8 @@ export default {
                     productType: this.model1,
                     startPrice: this.startPrice,
                     endPrice: this.endPrice,
-                    createTime: seartime
+                    startTime: searchValue.getTime(),
+					endTime:searchenValue.getTime()
                 };
                 let postData = this.$qs.stringify(params);
                 axios

@@ -146,7 +146,7 @@
 										>
 											<span style="color:red;"></span>礼物图片：
 										</div>
-										<input style="width:200px;" type="file" id="files"  @change="addImg" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
+										<input style="width:200px;" type="file" id="files"  @change="addImg" ref="inputer" accept="image/png,image/jpeg,image/gif,image/jpg"/>
 									</div>
 									<div style="marginBottom:10px;textAlign:center">
 										<div

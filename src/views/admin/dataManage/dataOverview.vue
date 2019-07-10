@@ -372,6 +372,17 @@ export default {
                     align: 'center',
                     ellipsis: true
                 },
+								{
+									title: '生成时间',
+									key: 'createTime',
+									align: 'center',
+									render: (h, params) => {
+										return h(
+											'div',
+											new Date(params.row.createTime).Format('yyyy-MM-dd hh:mm:ss')
+										); /*这里的this.row能够获取当前行的数据*/
+									}
+								},
                 {
                     title: '操作',
                     width: '150px',

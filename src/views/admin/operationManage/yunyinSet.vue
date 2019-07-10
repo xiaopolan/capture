@@ -61,6 +61,7 @@
 					<div class="fanli"><span>点赞数设置</span><i-input v-model="numzan" placeholder="请输入点赞数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>个</div>
 					<div class="fanli"><span>点赞换积分</span><i-input v-model="dianzan" placeholder="请输入换取积分数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分</div>
 					<div class="fanli"><span>评论换积分</span><i-input v-model="pinglun" placeholder="请输入换取积分数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分</div>
+					<div class="fanli"><span>打赏奖励积分</span><i-input v-model="gift" placeholder="请输入积分数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分</div>
 					<div class="fanli"><i-button type="success" small  @click="saveyy(8)">保存</i-button></div>
 				</TabPane>
 				<TabPane label="系统设置" key="key4">
@@ -83,6 +84,7 @@
 		name: "yunyinSet",
 		data() {
 			return {
+				gift:'',
 				startValue:'',
 				payOutTime:'',
 				kfphone:'',
@@ -172,6 +174,7 @@
 						this.setje.dsfarm=list5[0].cdVal || ""
 						//积分价格
 						this.integral.price=list6[0].cdVal || ""
+						
 						//付款时间设置
 						this.fkValue=(list7[0].cdVal)/60000 || ""
 						this.skValue=(list7[1].cdVal)/60000 || ""
@@ -179,6 +182,7 @@
 						this.numzan=list8[2].cdVal || ""
 						this.dianzan=list8[1].cdVal || ""
 						this.pinglun=list8[0].cdVal || ""
+						this.gift=list8[3].cdVal || ""
 						//客服电话
 						this.kfphone=list9[0].cdVal || ""
 						//超时时间
@@ -285,7 +289,8 @@
 							cdItem: "price", 
 							cdType: "integral", 
 							cdVal: this.integral.price
-							}
+							},
+							
 						];
 						break;
 					case 7 :
@@ -318,6 +323,11 @@
 							cdItem: "commentIntegral", 
 							cdType: "Judge", 
 							cdVal: this.pinglun
+							},
+							{
+							cdItem: "gift", 
+							cdType: "Judge", 
+							cdVal: this.gift
 							}
 						];
 						break;

@@ -106,7 +106,7 @@
                 		:current="yhlbmktablePageData.currentPage"
                 		show-elevator
 						ref="pages"
-                		@on-change="yhlbmkPageChange"
+                		@on-change="yhtsxxPageChange"
                 	></Page>
                 	<span>共&nbsp;{{yhlbmktablePageData.pages}}&nbsp;页</span>
                 </div>

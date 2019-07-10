@@ -55,13 +55,11 @@
                             </Col>
 														<Col span="4">
 																<i-select v-model="model3" placeholder='请选择审核状态'>
-																		<i-option >全部</i-option>
 																		<i-option v-for="item in shlist" :key='item.name' :value="item.id">{{ item.name }}</i-option>
 																</i-select>
 														</Col>
 														<Col span="4" style="margin-left: 10px;">
 																<i-select v-model="model4" placeholder='请选择竞拍意愿'>
-																		<i-option >全部</i-option>
 																		<i-option v-for="item in typelist" :key='item.name' :value="item.id">{{ item.name }}</i-option>
 																</i-select>
 														</Col>
@@ -255,6 +253,10 @@ export default {
             model3: '', //审核
             model4: '', //竞拍
             shlist: [
+								{
+										id: 2,
+										name: '全部'
+								},
                 {
                     id: 0,
                     name: '未审核'
@@ -262,9 +264,14 @@ export default {
                 {
                     id: 1,
                     name: '已审核'
-                }
+                },
+								
             ],
             typelist: [
+								{
+										id: 2,
+										name: '全部'
+								},
                 {
                     id: 1,
                     name: '提交竞拍'
@@ -272,7 +279,7 @@ export default {
                 {
                     id: 0,
                     name: '未提交竞拍'
-                }
+                },
             ],
             startTimeOptions: {}, //开始日期设置
             endTimeOptions: {}, //结束日期设置
@@ -640,10 +647,10 @@ export default {
         // 点击用户列表的查询
         yhlbmkSearch(currentPage1) {
             this.listobj = false;
-						if(this.model4=='全部'){
+						if(this.model4==2){
 							this.model4=''
 						}
-						if(this.model3=='全部'){
+						if(this.model3==2){
 							this.model3=''
 						}
                 let params = {
