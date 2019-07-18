@@ -1,4 +1,4 @@
-<!-- 登录页 -->
+<!-- 下载页 -->
 <style scoped>
 	#body{
 		background: #FFFFFF !important;
@@ -40,18 +40,10 @@
 		margin: 0 auto;
 		margin-bottom: 20px;
 	}
-	.down_image_dev{
+	.down_image{
 		width:120px;
 		height:120px;
 		background: url(../assets/img/down.png) no-repeat;
-		background-size: 100% 100%;
-		margin: 0 auto;
-		margin-top: 20px;
-	}
-	.down_image_prod{
-		width:120px;
-		height:120px;
-		background: url(../assets/img/prod.png) no-repeat;
 		background-size: 100% 100%;
 		margin: 0 auto;
 		margin-top: 20px;
@@ -62,32 +54,54 @@
 </style>
 <template>
     <div class="registerBox">
-		<div class="success" v-if="status">
-			<div class='logo_image'></div>
-			<p>注册成功!</p>
-			<!-- <a class='msgtext' v-bind:href="link">点击下载app</a> -->
-			<div class='down_image_dev'></div>
-			<p class="saomiao">扫描二维码下载app</p>
-		</div>
-		<div class="failed" v-else>
-			<div class='logo_image2'></div>
-			<p>注册失败!</p>
-			<p class='msgtext' style="color: #999999;">请重新注册</p>
+		<div class="success">
+			<p class="msgtext">正在跳转到下载页...</p>
 		</div>
     </div>
 </template>
 <script>
+	import Util from "@/libs/util";
+	import Rule from "#/libs/rule";
+	import axios from 'axios'
+	import CryptoJS from 'crypto-js'
 export default {
     name: "result",
     components: {},
     data() {
         return {
-            status:''
+			link:"",
         };
     },
     created() {
-		this.status=this.$route.query.status
+		var u = navigator.userAgent;
+		if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+				//安卓手机
+				this.link="android"
+		} else if (u.indexOf('iPhone') > -1) {
+				//苹果手机
+				this.link="ios"
+		} else if (u.indexOf('Windows Phone') > -1) {
+				//winphone手机
+		}
+		axios
+			.get('/api/auction/url/sys/getUrl', {
+				params:{
+					desc: this.link
+				}
+			})
+			.then(response => {
+				var res = response.data;
+				// this.yhlbmktablePageData = res.data;
+				if(res.code==200){
+					window.location.href=res.data
+				}
+			})
+			.catch(error => {
+				console.log(error);
+			});
     },
+	activated(){
+	},
 	mounted() {
 			
 	},

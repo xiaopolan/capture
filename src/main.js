@@ -11,7 +11,8 @@ import '#/assets/css/reset.less';
 // import 'iview/dist/styles/iview.css';
 // 引入公共样式
 import '#/assets/css/common.less';
-
+import 'swiper/dist/css/swiper.css';
+import "#/assets/css/barrager.css"
 // 引入根组件
 import App from './App.vue';
 
@@ -24,7 +25,7 @@ import iView from 'iview';
 // 引入echarts
 import echarts from 'echarts';
 // 引入jquery
-// import "jquery";
+import "jquery";
 import QS from 'querystring';
 Vue.prototype.$qs = QS;
 Vue.prototype.$echarts = echarts; // 为vue的原型添加echarts
@@ -52,7 +53,7 @@ router.beforeEach((to, from, next) => {
 				}
 		}
 		//若没有登录信息 则返回登录页面
-		if(to.fullPath.indexOf("register") || to.fullPath.indexOf("vipdetail")){
+		if(to.fullPath.indexOf("register") || to.fullPath.indexOf("vipdetail") || to.fullPath.indexOf("result") || to.fullPath.indexOf("download") || to.fullPath.indexOf("judge")){
 			next();
 		}else{
 			if(objsession.permissionSign != 0 && objsession.permissionSign != 1){

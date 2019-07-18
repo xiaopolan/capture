@@ -243,6 +243,22 @@ const routers = [{
         title: '会员权益',
     },
     component: (res) => require(['./views/vipdetail.vue'], res)
+},
+{
+    path: '/download',
+    // 路由元信息
+    meta: {
+        title: '下载',
+    },
+    component: (res) => require(['./views/download.vue'], res)
+},
+{
+    path: '/judge',
+    // 路由元信息
+    meta: {
+        title: '品鉴',
+    },
+    component: (res) => require(['./views/judge.vue'], res)
 }];
 
 // 导出路由信息数组

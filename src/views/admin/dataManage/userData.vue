@@ -178,7 +178,7 @@ export default {
                 },
                 {
                 	title: "竞拍场次",
-                	key: "title",
+                	key: "gradeName",
                 	align: "center"
                 },
 				{

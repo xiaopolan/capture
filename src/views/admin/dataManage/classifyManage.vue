@@ -200,7 +200,7 @@
 										>上级目录：</div>
 										<select name="public-choice" v-model="model3" class="typeselect" @change="yhtsxxSlChange">     
 											<!-- <option >自定义</option> -->
-											<option :value="item.value" :key='item'  v-for="item in statusList" >{{item.label}}</option>                                   
+											<option :value="item" :key='item'  v-for="item in statusList" >{{item.label}}</option>                                   
 										</select>
 									</div>
 									<div style="marginBottom:10px;textAlign:center">
@@ -343,7 +343,6 @@ export default {
 			imageModal1: false,
 			showparent:true,
 			pamodal:false,
-			myinput:false,
 			goodModal:false,
 			// 商品列表表格分页数据
 			choicegoodlist: {
@@ -646,7 +645,7 @@ export default {
 				let params = {};
 				params.id = json.id;
 				params.pId = json.pid;
-	
+				params.videoClassId = json.videoClassId;
 				let postData = this.$qs.stringify(params);
 				console.log(postData);
 				axios
@@ -680,7 +679,8 @@ export default {
 						 formData.append("typeName",this.yhlbmkAddObj.typeName)
 						formData.append("descInfo",this.yhlbmkAddObj.descInfo)
 						if(flag==1){
-							formData.append("pId",this.model3)
+							formData.append("pId",this.model3.value)
+							formData.append("videoClassId",this.model3.videoClassId)
 							for (var i = 0; i < this.yhlbmkAddObj.chpic.length; i++) {
 									formData.append('introductionPic', this.yhlbmkAddObj.chpic[i]);
 							}
@@ -690,6 +690,7 @@ export default {
 						}
 						if(flag==2){
 							formData.append("pId",0)
+							formData.append("videoClassId",-1)
 							for (var i = 0; i < this.yhlbmkAddObj.papic.length; i++) {
 									formData.append('introductionPic', this.yhlbmkAddObj.papic[i]);
 							}
@@ -730,7 +731,6 @@ export default {
 						this.yhlbmkAddObj.typeName = '';
 						this.yhlbmkAddObj.descInfo = '';
 						this.model3 = '';
-						this.myinput=false
 				}
                 // 解决Modal表单验证中loading的bug
                 setTimeout(() => {
@@ -778,6 +778,7 @@ export default {
             this.upModal = true;
             this.yhlbmkAddObj.typeName = params.typeName;
             this.yhlbmkAddObj.descInfo = params.descInfo;
+			this.yhlbmkAddObj.videoClassId = params.videoClassId;
 			this.yhlbmkAddObj.id = params.id;
 			this.model4=params.pid
         },
@@ -789,6 +790,7 @@ export default {
 						
 			formData.append("typeName",this.yhlbmkAddObj.typeName)
 			formData.append("descInfo",this.yhlbmkAddObj.descInfo)
+			formData.append("videoClassId",this.yhlbmkAddObj.videoClassId)
 			formData.append("pId",this.model4)
 			formData.append("id",this.yhlbmkAddObj.id)
 			if(this.yhlbmkAddObj.uppic.length>0){
@@ -902,11 +904,6 @@ export default {
 		},
 		// 用户投诉信息的选择器任意一个发生变化
 		yhtsxxSlChange() {
-			if(this.model3=='自定义'){
-				this.myinput=true
-			}else{
-				this.myinput=false
-			}
 		},
 		showtype(){
 			axios.get('/api/auction/productType/sys/getParentNode')
