@@ -134,6 +134,7 @@
                                 :page-size="yhlbmktablePageData.pageSize"
                                 :current="yhlbmktablePageData.currentPage"
                                 show-elevator
+								ref="pages"
                                 @on-change="yhlbmkPageChange"
                             ></Page>
                             <span>共&nbsp;{{yhlbmktablePageData.pages}}&nbsp;页</span>
@@ -222,7 +223,7 @@ export default {
 						let text = params.row.status
 						if(text==0){
 							return h('div','已发货')
-						}else{
+						}else if(text==1){
 							return	h(
 									"Button",
 									{
@@ -242,6 +243,12 @@ export default {
 									},
 									"发货"
 								)
+						}else if(text==2){
+							return h('div','代付款')
+						}else if(text==3){
+							return h('div','超时')
+						}else if(text==4){
+							return h('div','确认收货')
 						}
 					}
                 }
@@ -374,7 +381,7 @@ export default {
 			}
 		},
 		yhlbmkOk(){
-			this.yhlbmkModal=false
+			
 			let json={
 				orderId:this.orderId,
 				logisticsCompany:this.logisticsCompany,
@@ -382,20 +389,34 @@ export default {
 				id:this.id
 			};
 			let postData = this.$qs.stringify(json);
-			axios.post('/api/auction/orders/sys/send',postData)
-				.then( (response)=> {
-				if(response.data.code==200){
-					Util.success("发货成功");
-					this.logisticsCompany='';
-					this.logisticsNo=""
-					this.yhlbmkGetList(1, this.yhlbmkIsSearch);
-				}else{
-					Util.error("发货失败"+response.data.msg);
-				}
-				})
-				.catch( (error)=> {
-				console.log(error);
+			if(this.logisticsCompany=='' || this.logisticsNo==''){
+				Util.error("请正确填写表单");
+			}else{
+				axios.post('/api/auction/orders/sys/send',postData)
+					.then( (response)=> {
+					if(response.data.code==200){
+						Util.success("发货成功");
+						this.logisticsCompany='';
+						this.logisticsNo=""
+						this.yhlbmkGetList(this.yhlbmktablePageData.pageNum, this.yhlbmkIsSearch);
+						this.$nextTick(function() {
+							this.$refs['pages'].currentPage = this.yhlbmktablePageData.pageNum;
+						});
+					}else{
+						Util.error("发货失败"+response.data.msg);
+					}
+					})
+					.catch( (error)=> {
+					console.log(error);
+					});
+				this.yhlbmkModal=false
+			}
+			setTimeout(() => {
+				this.yhlbmkLoading = false;
+				this.$nextTick(() => {
+					this.yhlbmkLoading = true;
 				});
+			}, 10);
 		}
     }
 };

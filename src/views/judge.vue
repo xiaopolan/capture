@@ -69,6 +69,10 @@
     margin-left: 5px;
     font-size: 14px;
 }
+.blank{
+	height: 150px;
+	background: #000000;
+}
 .intro {
     height: 60px;
     width: 50%;
@@ -88,7 +92,15 @@
     border-radius: 35px;
     margin-left: 12px;
 }
-input::-webkit-input-placeholder {
+.comtext1 {
+    width: 94%;
+    height: 35px;
+    background:rgba(231,231,232,1);
+    border-radius: 35px;
+    margin-left: 12px;
+		margin-top:60px;
+}
+.comtext::-webkit-input-placeholder {
     color: rgba(238, 238, 238, 1);
 }
 .bottom {
@@ -178,7 +190,6 @@ input::-webkit-input-placeholder {
 	position: fixed;
 	bottom: 0;
 	z-index: 9999;
-	overflow: scroll;
 }
 .cotop{
 	text-align: center;
@@ -194,6 +205,77 @@ font-weight: bold;
 float: left;
 margin-top: 18px;
 }
+.comdiv{
+	height: 270px;
+	overflow: scroll;
+}
+.listdiv{
+	clear: both;
+	padding: 15px 0;
+	position: relative;
+}
+.listdiv img,.listname,.zanicon{
+	float: left;
+}
+.zanicon{
+	width: 20%;
+}
+.zanicon img{
+	width: 14px;
+	height: 14px;
+	margin-left: 60%;
+}
+.listdiv>img{
+	height: 36px;
+	width: 36px;
+	border-radius:50%;
+	margin-left: 15px;
+}
+.listname{
+	margin-left: 10px;
+	width: 60%;
+}
+.listborder{
+	width:80%;
+height:1px;
+background: rgba(238,238,238,1);
+    margin-left: 10%;
+    margin-top: -6px;
+}
+.fivideo{
+    /* object-fit:fill;  */
+}
+.gradeclass{
+	position: absolute;
+	top: 120%;
+	left: 10%;
+	height: 15px;
+	width: 15px;
+}
+.gradeclass2{
+	background: url(../assets/img/v2.png) no-repeat;
+	background-size: 100% 100%;
+}
+.gradeclass0{
+	background: url(../assets/img/v0.png) no-repeat;
+	background-size: 100% 100%;
+}
+.gradeclass1{
+	background: url(../assets/img/v1.png) no-repeat;
+	background-size: 100% 100%;
+}
+.gradeclass3{
+	background: url(../assets/img/v3.png) no-repeat;
+	background-size: 100% 100%;
+}
+.gradeclass4{
+	background: url(../assets/img/v4.png) no-repeat;
+	background-size: 100% 100%;
+}
+.gradeclass5{
+	background: url(../assets/img/v5.png) no-repeat;
+	background-size: 100% 100%;
+}
 </style>
 <template>
     <div class="dmBox">
@@ -207,34 +289,38 @@ margin-top: 18px;
 				</div>
 			</div>
 			<div class="danmu"></div>
+			
 			<div class="imagebox">
 				<div class="swiper-container">
 					 <div class="swiper-wrapper">
-							 <div class="swiper-slide">
-								 <img src="https://cloudshell-cn-shanghai-jfittniogs.oss-cn-shanghai.aliyuncs.com/producttype/pic/2019/07/9251dbbf03d945069be09b45d8a111f5.jpg?Expires=1878542291&OSSAccessKeyId=LTAIz3qX7Lpr1Y7F&Signature=t8uqd4iLbKsKGQ0Q4B1dsx0YaEU%3D" />
+							 <div class="swiper-slide" v-if="flag">
+								 <video  id="video" class="fivideo" width="100%" height="260" :poster="imglist[0]" controls>
+								   <source :src="videourl" type="video/mp4">
+								</video>
 							 </div>
-							 <div class="swiper-slide"><img src="https://cloudshell-cn-shanghai-jfittniogs.oss-cn-shanghai.aliyuncs.com/producttype/pic/2019/07/74fcba75b4534d598e195d9ccf1baed1.jpg?Expires=1878542291&OSSAccessKeyId=LTAIz3qX7Lpr1Y7F&Signature=WqJgOpER0%2F%2BveWA8VCRhLXi2RGs%3D" /></div>
-							 <div class="swiper-slide"><img src="https://cloudshell-cn-shanghai-jfittniogs.oss-cn-shanghai.aliyuncs.com/producttype/pic/2019/07/37f474e0648b4075a7ad0ff43d513ce7.jpg?Expires=1878542291&OSSAccessKeyId=LTAIz3qX7Lpr1Y7F&Signature=qY80hWF17g0TVl1wlPvtU%2Bsmmuc%3D" /></div>
+							 <div class="swiper-slide" v-for="item in imglist"  :key="item"><img :src="item" /></div>
 						</div>
 				</div>
 			</div>
-			<img class="gift"  src="../assets/img/gift.png"/>
-			<div class="userbtm">
-				<img v-bind:src="info.icon" />
-				<div class="btmname">{{info.userName}}</div>
-				<div style="clear: both;"></div>
-			</div>
-			<div class="intro">
-				商品简介：{{info.productDetail}}<span class='showmore' @click="detailbox=true">查看更多></span>
-			</div>
-			<div class="bottom">
-				<input class="comtext" type="text" placeholder="    说点什么 ~ "/>
-				<img class="firstimg" src="../assets/img/build.png"/>
-				<img class="otherimg" src="../assets/img/good.png" />
-				<img class="otherimg" src="../assets/img/comment.png" @click="commentbox=true"/>
-				<img class="otherimg" src="../assets/img/share.png" />
-				<div class='totalnum num1'>{{info.dianzanNum}}</div>
-				<div class='totalnum num2'>{{info.commentNum}}</div>
+			<img class="gift"  src="../assets/img/gift.png" @click="toregister"/>
+			<div class="blank">
+				<div class="userbtm">
+					<img v-bind:src="info.icon" />
+					<div class="btmname">{{info.userName}}</div>
+					<div style="clear: both;"></div>
+				</div>
+				<div class="intro">
+					商品简介：{{info.productDetail}}<span class='showmore' @click="detailbox=true">查看更多></span>
+				</div>
+				<div class="bottom">
+					<input class="comtext" type="text" placeholder="    说点什么 ~ "/>
+					<img class="firstimg" src="../assets/img/build.png" @click="toregister"/>
+					<img class="otherimg" src="../assets/img/good.png" @click="toregister"/>
+					<img class="otherimg" src="../assets/img/comment.png" @click="commentbox=true"/>
+					<img class="otherimg" src="../assets/img/share.png" @click="toregister"/>
+					<div class='totalnum num1'>{{info.dianzanNum}}</div>
+					<div class='totalnum num2'>{{info.commentNum}}</div>
+				</div>
 			</div>
 			<div v-show="detailbox" class="detailbox">
 				<div class="box-top">
@@ -256,6 +342,21 @@ margin-top: 18px;
 				<div class="cotop">
 					<img src="../assets/img/fanhui@3x.png" @click="commentbox=false"/>
 					评论</div>
+					<div class="comdiv" >
+						<div class="listdiv" v-for="(item,index) in commentlist" :key=index>
+							<img v-bind:src="item.icon" />
+							<div v-bind:class=[gradeclass,gradeclass+item.grade]></div>
+							<div class="listname">
+								<p class='listp1'>{{item.userName}}   <span style="color:rgba(153,153,153,1);">{{showtime}}</span></p>
+								<p class="listp2">{{item.content}}</p>
+							</div>
+							<div class="zanicon">
+								<img src="../assets/img/zan.png" /><span style="margin-left: 5px;">{{item.dianZanNum}}</span>
+							</div>
+							<div v-if="index>0" class="listborder"></div>
+						</div>
+					</div>
+					<input class="comtext1" type="text" placeholder="    说点什么 ~ "/>
 			</div>
     </div>
 </template>
@@ -266,48 +367,88 @@ import axios from 'axios';
 import CryptoJS from 'crypto-js';
 import Swiper from 'swiper';
 import '@/libs/jquery.barrager.js';
-var datas;
+var pId,userId;
 export default {
     name: 'result',
     components: {},
     data() {
         return {
+			gradeclass:'gradeclass',
             link: '',
             info: {},
-						showtime:'',
-						detailbox:false,
-						commentbox:false,
+			showtime:'',
+			showtime1:'',
+			detailbox:false,
+			commentbox:false,
+			commentlist:[],
+			imglist:[],
+			videourl:'',
+			flag:false,
+			pId:"",
+			userId:''
         };
     },
     created() {
-			this.initFormatter();
-        axios
-            .get('/api/auction/judge/sys/getProductDetailInfo', {
-                params: {
-                    pId: '627',
-                    userId: '1160'
-                }
-            })
-            .then(response => {
-                var res = response.data;
-                // this.yhlbmktablePageData = res.data;
-                if (res.code == 200) {
-                    this.info = res.data;
-										this.showtime=new Date(this.info.pushTime).Format('MM-dd hh:mm:ss')
-										
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            });
+		pId=this.$route.query.pId
+		userId=this.$route.query.userId
+		this.initFormatter();
     },
     mounted() {
         var mySwiper = new Swiper('.swiper-container', {
-            autoplay: true,
-            loop: true
+            observer:true,//修改swiper自己或子元素时，自动初始化swiper
+// 			observeParents:true,//修改swiper的父元素时，自动初始化swiper
+// 			loop: true, // 循环模式选项
         });
+		this.getdata();
     },
     methods: {
+			getdata(){
+				axios.get('/api/auction/judge/sys/getProductDetailInfo', {
+						params: {
+							pId: pId,
+							userId: userId
+						}
+					})
+					.then(response => {
+						var res = response.data;
+						// this.yhlbmktablePageData = res.data;
+						if (res.code == 200) {
+							this.info = res.data;
+							this.showtime=new Date(this.info.pushTime).Format('MM-dd hh:mm:ss')
+							var str=res.data.pic;
+							str = str.substring(0, str.lastIndexOf(','));
+							if(res.data.videoUrl){
+								this.flag=true
+								this.videourl=res.data.videoUrl
+							}
+							this.imglist= str.split(',');
+							console.log(this.imglist);
+						}
+					})
+					.catch(error => {
+						console.log(error);
+					});
+					axios.get('/api/auction/judge/sys/getProHistoryComment', {
+							params: {
+								pId: pId,
+								userId: userId
+							}
+					})
+					.then(response => {
+							var res = response.data;
+							// this.yhlbmktablePageData = res.data;
+							if (res.code == 200) {
+									this.commentlist = res.data;
+									console.log(this.commentlist)
+									this.showtime1=new Date(this.commentlist.createTime).Format('MM-dd hh:mm:ss')
+									
+							}
+					})
+					.catch(error => {
+							console.log(error);
+					});
+				
+			},
 			initFormatter() {
 				Date.prototype.Format = function(fmt) {
 					//
@@ -334,6 +475,11 @@ export default {
 					return fmt;
 				};
 			},
+			toregister(){
+				this.$router.push({
+					path:'/register',
+				})
+			}
 		}
 };
 $(function() {
@@ -344,11 +490,10 @@ $(function() {
     // 			return res.msg;
     // 		}
     // 	})
-    axios
-        .get('/api/auction/judge/sys/getProductDetailInfo', {
+    axios.get('/api/auction/judge/sys/getProductDetailInfo', {
             params: {
-                pId: '627',
-                userId: '1160'
+                pId: pId,
+                userId: userId
             }
         })
         .then(response => {

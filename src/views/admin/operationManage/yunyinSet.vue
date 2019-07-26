@@ -70,7 +70,12 @@
 				</TabPane>
 				<TabPane label="订单超时时间" key="key4">
 					<div class="fanli"><span>订单超时时间</span><i-input v-model="payOutTime" placeholder="请输入订单超时时间" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分钟</div>
+					<div class="fanli"><span>确认收货超时时间</span><i-input v-model="confirmOutTime" placeholder="请输入订单超时时间" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分钟</div>
 					<div class="fanli"><i-button type="success" small  @click="saveyy(10)">保存</i-button></div>
+				</TabPane>
+				<TabPane label="分账" key="key4">
+					<div class="fanli"><span>用户获取比例</span><i-input v-model="scale" placeholder="请输入用户获取比例" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input></div>
+					<div class="fanli"><i-button type="success" small  @click="saveyy(11)">保存</i-button></div>
 				</TabPane>
 			</Tabs>
 		</div>
@@ -84,6 +89,8 @@
 		name: "yunyinSet",
 		data() {
 			return {
+				scale:'',
+				confirmOutTime:'',
 				gift:'',
 				startValue:'',
 				payOutTime:'',
@@ -149,6 +156,7 @@
 						var list8=res.data.Judge;
 						var list9=res.data.base_manage;
 						var list10=res.data.order;
+						var list11=res.data.payment;
 						//运营
 						this.setyy.scale=list1[3].cdVal || ""
 						this.startValue=new Date(parseInt(list1[1].cdVal)).Format('yyyy-MM-dd hh:mm:ss') || ""
@@ -186,7 +194,10 @@
 						//客服电话
 						this.kfphone=list9[0].cdVal || ""
 						//超时时间
-						this.payOutTime=list10[0].cdVal || ""
+						this.payOutTime=list10[1].cdVal || ""
+						this.confirmOutTime=list10[0].cdVal || ""
+						//分账
+						this.scale=list11[0].cdVal || ""
 					})
 					.catch( (error)=> {
 					console.log(error);
@@ -346,6 +357,20 @@
 							cdItem: "payOutTime", 
 							cdType: "order", 
 							cdVal: this.payOutTime
+							},
+							{
+							cdItem: "confirmOutTime", 
+							cdType: "order", 
+							cdVal: this.confirmOutTime
+							}
+						];
+						break;
+					case 11 :
+						var param = [
+							{
+							cdItem: "payOutTime", 
+							cdType: "payment", 
+							cdVal: this.scale
 							}
 						];
 						break;

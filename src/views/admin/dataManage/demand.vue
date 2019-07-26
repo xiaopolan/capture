@@ -162,6 +162,9 @@ export default {
 						if(text==1){
 							return h('div','完成')
 						}
+						if(text==2){
+							return h('div','取消')
+						}
 					}
 				},
 				{
@@ -344,6 +347,9 @@ export default {
 						.catch(error => {
 								console.log(error);
 						});
+				this.$nextTick(function(){
+					this.$refs['pages'].currentPage = 1;
+				})
 			}
 		},
     }

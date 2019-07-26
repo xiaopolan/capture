@@ -62,18 +62,19 @@
 </style>
 <template>
     <div class="registerBox">
-		<div class="success" v-if="status">
+		<div class="success" v-if="$route.query.status==true">
 			<div class='logo_image'></div>
 			<p>注册成功!</p>
 			<!-- <a class='msgtext' v-bind:href="link">点击下载app</a> -->
 			<div class='down_image_dev'></div>
+			<!-- <div class='down_image_prod'></div> -->
 			<p class="saomiao">扫描二维码下载app</p>
 		</div>
-		<div class="failed" v-else>
+		 <div class="failed" v-else>
 			<div class='logo_image2'></div>
 			<p>注册失败!</p>
 			<p class='msgtext' style="color: #999999;">请重新注册</p>
-		</div>
+		</div> 
     </div>
 </template>
 <script>
@@ -82,14 +83,16 @@ export default {
     components: {},
     data() {
         return {
-            status:''
+			
         };
     },
+	beforeCreate(){
+		
+	},
     created() {
-		this.status=this.$route.query.status
+		
     },
 	mounted() {
-			
 	},
     methods: {
 			

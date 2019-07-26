@@ -195,6 +195,12 @@
 										</Carousel-Item>
 									</Carousel>
 								</Modal>
+								<Modal v-model="imageModal2" title="视频" class="mymodal"  @on-ok="stopvideo"
+									@on-cancel="stopvideo">
+									<div>
+										<video style="display: block;margin: 0 auto;" :src="video" :key="video" id="video" controls="controls"></video>
+									</div>
+								</Modal>
 								<Modal title='审核' v-model="confirm">
 										<p style='height:50px;line-height: 50px;font-size: 17px;text-align: center;'>是否审核通过</p>
 										<div slot="footer">
@@ -250,13 +256,14 @@ export default {
 
     data() {
         return {
+            imageModal2: false,
             model3: '', //审核
             model4: '', //竞拍
             shlist: [
-								{
-										id: 2,
-										name: '全部'
-								},
+                {
+                    id: 2,
+                    name: '全部'
+                },
                 {
                     id: 0,
                     name: '未审核'
@@ -264,14 +271,13 @@ export default {
                 {
                     id: 1,
                     name: '已审核'
-                },
-								
+                }
             ],
             typelist: [
-								{
-										id: 2,
-										name: '全部'
-								},
+                {
+                    id: 2,
+                    name: '全部'
+                },
                 {
                     id: 1,
                     name: '提交竞拍'
@@ -279,7 +285,7 @@ export default {
                 {
                     id: 0,
                     name: '未提交竞拍'
-                },
+                }
             ],
             startTimeOptions: {}, //开始日期设置
             endTimeOptions: {}, //结束日期设置
@@ -307,6 +313,32 @@ export default {
                     key: 'productName',
                     //width: 280,
                     align: 'center'
+                },
+                {
+                    title: '视频',
+                    align: 'center',
+                    render: (h, params) => {
+                        var str = params.row.videoUrl;
+                        if (str) {
+                            return h('video', {
+                                attrs: {
+                                    src: str
+                                },
+                                style: {
+                                    width: '50px',
+                                    height: '50px',
+                                    margin: '10px 0'
+                                },
+                                on: {
+                                    click: () => {
+                                        this.showvideo(str);
+                                    }
+                                }
+                            });
+                        } else {
+                            return h('div', {}, '暂无视频');
+                        }
+                    }
                 },
                 {
                     title: '商品主图',
@@ -456,7 +488,7 @@ export default {
                                 {
                                     props: {
                                         type: 'dashed',
-																				disabled:'disabled',
+                                        disabled: 'disabled',
                                         size: 'small'
                                     },
                                     style: {
@@ -474,60 +506,57 @@ export default {
                     key: 'action',
                     width: 150,
                     align: 'center',
-                    render: (h, params) => { 
-												if(params.row.flag==1 && params.row.verifyResult==1){
-													if(params.row.isAuction==0){
-														return h('div', [
-																h(
-																		'Button',
-																		{
-																				props: {
-																						type: 'warning',
-																						size: 'small'
-																				},
-																				style: {
-																						// width: "70px",
-																						marginLeft: '10px'
-																				},
-																				on: {
-																						click: () => {
-																								this.updateGood(params.row);
-																						}
-																				}
-																		},
-																		'拍卖场'
-																)
-														]);
-													}else{
-														return h('div', "已拍卖");
-													}
-													
-												}else{
-													return h('div', [
-															h(
-																	'Button',
-																	{
-																			props: {
-																					type: 'warning',
-																					disabled:'disabled',
-																					size: 'small'
-																			},
-																			style: {
-																					// width: "70px",
-																					marginLeft: '10px'
-																			},
-																			on: {
-																					click: () => {
-																							this.updateGood(params.row);
-																					}
-																			}
-																	},
-																	'拍卖场'
-															)
-													]);
-												}
-												
-                       
+                    render: (h, params) => {
+                        if (params.row.flag == 1 && params.row.verifyResult == 1) {
+                            if (params.row.isAuction == 0) {
+                                return h('div', [
+                                    h(
+                                        'Button',
+                                        {
+                                            props: {
+                                                type: 'warning',
+                                                size: 'small'
+                                            },
+                                            style: {
+                                                // width: "70px",
+                                                marginLeft: '10px'
+                                            },
+                                            on: {
+                                                click: () => {
+                                                    this.updateGood(params.row);
+                                                }
+                                            }
+                                        },
+                                        '拍卖场'
+                                    )
+                                ]);
+                            } else {
+                                return h('div', '已拍卖');
+                            }
+                        } else {
+                            return h('div', [
+                                h(
+                                    'Button',
+                                    {
+                                        props: {
+                                            type: 'warning',
+                                            disabled: 'disabled',
+                                            size: 'small'
+                                        },
+                                        style: {
+                                            // width: "70px",
+                                            marginLeft: '10px'
+                                        },
+                                        on: {
+                                            click: () => {
+                                                this.updateGood(params.row);
+                                            }
+                                        }
+                                    },
+                                    '拍卖场'
+                                )
+                            ]);
+                        }
                     }
                 }
             ],
@@ -568,7 +597,7 @@ export default {
             imagelist: [], //图片集合image
             imageModal: false,
             mageModal1: false,
-						currentp:1,//当前页码
+            currentp: 1 //当前页码
         };
     },
     created() {
@@ -598,11 +627,11 @@ export default {
         },
         // 用户列表的页码改变
         yhlbmkPageChange(currentPage) {
-						this.currentp=currentPage;
+            this.currentp = currentPage;
             this.yhlbmkGetList(currentPage, this.yhlbmkIsSearch); // 获取用户列表数据
         },
         searchepageChange(currentPage) {
-						this.currentp=currentPage;
+            this.currentp = currentPage;
             this.yhlbmkSearch(currentPage);
         },
         // 获取用户列表数据（调用接口的）---接口
@@ -647,43 +676,49 @@ export default {
         // 点击用户列表的查询
         yhlbmkSearch(currentPage1) {
             this.listobj = false;
-						if(this.model4==2){
-							this.model4=''
-						}
-						if(this.model3==2){
-							this.model3=''
-						}
-                let params = {
-                    productName: this.yhlbmkIpVal,
-                    flag: this.model4,
-                    verify: this.model3,
-                    pageNum: currentPage1, // 当前页码
-                    pageSize: 10 // 每页条数
-                };
-                let postData = this.$qs.stringify(params);
-                axios
-                    .post('/api/auction/product/sys/getProduct', postData)
-                    .then(response => {
-                        var res = response.data;
-												if(res.code==200){
-// 													this.model3='';
-// 													this.model4='';
-// 													this.yhlbmkIpVal='';
-													if(res.data==null){
-														this.yhlbmktablePageData.list=[];
-													}else{
-														this.yhlbmktablePageData = res.data;
-														this.yhlbmktablePageData.total1 = res.data.total;
-														this.yhlbmktablePageData.pages1 = res.data.pages;
-														this.yhlbmktablePageData.pageSize1 = res.data.pageSize;
+            if (this.model4 == 2) {
+                this.model4 = '';
+            }
+            if (this.model3 == 2) {
+                this.model3 = '';
+            }
+            let params = {
+                productName: this.yhlbmkIpVal,
+                flag: this.model4,
+                verify: this.model3,
+                pageNum: currentPage1, // 当前页码
+                pageSize: 10 // 每页条数
+            };
+            let postData = this.$qs.stringify(params);
+						if(this.model4=='' && this.model3=="" && this.yhlbmkIpVal==''){
+							this.listobj = true;
+							this.yhlbmkGetList(1, this.yhlbmkIsSearch);
+							//页码重置为1
+							this.$nextTick(function() {
+								this.$refs['pages'].currentPage = 1;
+							});
+						}else{
+							axios
+									.post('/api/auction/product/sys/getProduct', postData)
+									.then(response => {
+											var res = response.data;
+											if (res.code == 200) {
+													if (res.data == null) {
+															this.yhlbmktablePageData.list = [];
+													} else {
+															this.yhlbmktablePageData = res.data;
+															this.yhlbmktablePageData.total1 = res.data.total;
+															this.yhlbmktablePageData.pages1 = res.data.pages;
+															this.yhlbmktablePageData.pageSize1 = res.data.pageSize;
 													}
-												}else{
-													this.yhlbmktablePageData.list=[];
-												}
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
+											} else {
+													this.yhlbmktablePageData.list = [];
+											}
+									})
+									.catch(error => {
+											console.log(error);
+									});
+						}
         },
         deleteGood(id) {
             this.confirm = true;
@@ -704,9 +739,9 @@ export default {
                         Util.success('操作成功');
                         this.yhlbmkGetList(this.currentp, this.yhlbmkIsSearch);
                     } else {
-                        Util.error('操作失败,'+response.data.msg);
+                        Util.error('操作失败,' + response.data.msg);
                     }
-										//页码重置为1
+                    //页码重置为1
                 })
                 .catch(error => {
                     console.log(error);
@@ -727,7 +762,7 @@ export default {
         updateGood(params) {
             this.upModal = true;
             this.yhlbmkAddObj.productName = params.productName;
-						this.yhlbmkAddObj.pic = params.pic;
+            this.yhlbmkAddObj.pic = params.pic;
             this.yhlbmkAddObj.pid = params.pid;
             this.yhlbmkAddObj.id = params.id;
         },
@@ -735,6 +770,10 @@ export default {
             this.imageModal = true;
             this.imageModal1 = true;
             this.imagelist = imagearr;
+        },
+        showvideo(imagearr) {
+            this.imageModal2 = true;
+            this.video = imagearr;
         },
         //获取档次id
         showdctype() {
@@ -788,7 +827,6 @@ export default {
             if (
                 params.title == '' ||
                 params.productId == '' ||
-                params.productPic == '' ||
                 params.startPrice == '' ||
                 params.incrementValue == '' ||
                 params.startTime == '' ||
@@ -822,7 +860,7 @@ export default {
                             this.endValue = '';
                             this.yhlbmkGetList(1, this.yhlbmkIsSearch);
                         } else {
-                            Util.error('添加失败,'+response.data.msg);
+                            Util.error('添加失败,' + response.data.msg);
                         }
                         //var res = response.data;
                         //this.yhlbmktablePageData.list=res.data;
@@ -838,6 +876,11 @@ export default {
                     this.yhlbmkLoading = true;
                 });
             }, 10);
+        },
+        //视频暂停播放
+        stopvideo() {
+            var myVideo = document.getElementById('video');
+            myVideo.pause();
         }
     }
 };

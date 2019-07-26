@@ -199,6 +199,12 @@
 										</Carousel-Item>
 									</Carousel>
 								</Modal>
+								<Modal v-model="imageModal2" title="视频" class="mymodal"  @on-ok="stopvideo"
+									@on-cancel="stopvideo">
+									<div>
+										<video style="display: block;margin: 0 auto;" :src="video" :key="video" id="video" controls="controls"></video>
+									</div>
+								</Modal>
                             </Col>
                         </Row>
                     </div>
@@ -247,6 +253,7 @@ export default {
 
     data() {
         return {
+					imageModal2:false,
             indexcu: 0,
             cityList: [], //商品类型
             model1: [],
@@ -271,6 +278,32 @@ export default {
                     //width: 280,
                     align: 'center'
                 },
+								{
+									title: '视频',
+									align: 'center',
+									render: (h, params) => {
+											var str = params.row.videoUrl;
+											if (str) {
+													return h('video', {
+															attrs: {
+																	src: str
+															},
+															style: {
+																	width: '50px',
+																	height: '50px',
+																	margin: '10px 0'
+															},
+															on: {
+																	click: () => {
+																			this.showvideo(str);
+																	}
+															}
+													});
+											} else {
+													return h('div', {}, '暂无视频');
+											}
+									}
+								},
                 {
                     title: '商品主图',
                     key: 'pic',
@@ -577,10 +610,9 @@ export default {
             if (confirm('是否确认删除') == true) {
                 let params = {};
                 params.id = id;
-                let postData = this.$qs.stringify(params);
-                console.log(postData);
+                // let postData = this.$qs.stringify(params);
                 axios
-                    .post('/api/auction/product/sys/removeProductById', postData)
+                    .post('/api/auction/product/sys/removeProductById', params)
                     .then(response => {
                         if (response.data.code == 200) {
                             Util.success('删除成功');
@@ -776,7 +808,11 @@ export default {
             this.indexcu = 0; //初始化为第一张图片
             // $('.ivu-carousel-track').css("transform","translate3d(0,0,0)")
             this.imagelist = imagearr;
-        }
+        },
+				showvideo(imagearr) {
+						this.imageModal2 = true;
+						this.video = imagearr;
+				},
         //测试支付接口
         // 		showmoeny(){
         // 				let params = {

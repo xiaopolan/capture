@@ -266,6 +266,7 @@ export default {
 					 },1000)
 					 setTimeout(()=>{
 						 this.showcode=true
+						 this.code=60
 						 clearInterval(set)
 					 },60000)
 					 axios.get('/api/auction/shortMessage/sendRegCode', {

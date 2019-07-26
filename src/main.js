@@ -53,7 +53,7 @@ router.beforeEach((to, from, next) => {
 				}
 		}
 		//若没有登录信息 则返回登录页面
-		if(to.fullPath.indexOf("register") || to.fullPath.indexOf("vipdetail") || to.fullPath.indexOf("result") || to.fullPath.indexOf("download") || to.fullPath.indexOf("judge")){
+		if(to.fullPath.indexOf("register")==1 || to.fullPath.indexOf("vipdetail")==1 || to.fullPath.indexOf("result")==1 || to.fullPath.indexOf("download")==1 || to.fullPath.indexOf("judge")==1 || to.fullPath.indexOf("download")==1){
 			next();
 		}else{
 			if(objsession.permissionSign != 0 && objsession.permissionSign != 1){
