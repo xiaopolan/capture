@@ -127,6 +127,12 @@ export default {
 						if(text==1){
 							return h('div','取款')
 						}
+						if(text==2){
+							return h('div','平台扣除')
+						}
+						if(text==3){
+							return h('div','冻结')
+						}
 					}
 				},
 				{

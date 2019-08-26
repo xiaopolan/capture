@@ -178,19 +178,26 @@ export default {
                 	align: "center"
                 },
                 {
-                	title: "竞拍场次",
+                	title: "竞拍挡次",
                 	key: "gradeName",
                 	align: "center"
                 },
+				{
+					title: "竞拍场次",
+					key: "title",
+					align: "center"
+				},
 				{
 					title: "发货时间",
 					key: "sendTime",
 					align: "center",
 					render: (h, params) => {
+						if(params.row.sendTime!=null){
 							return h(
 									'div',
 									new Date(params.row.sendTime).Format('yyyy-MM-dd hh:mm:ss')
 							); /*这里的this.row能够获取当前行的数据*/
+						}
 					}
 				},
 				{

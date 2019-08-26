@@ -88,6 +88,7 @@
                                 :page-size="yhlbmktablePageData.pageSize"
                                 :current="yhlbmktablePageData.currentPage"
                                 show-elevator
+								ref="pages"
                                 @on-change="yhlbmkPageChange"
                             ></Page>
                             <span>共&nbsp;{{yhlbmktablePageData.pages}}&nbsp;页</span>
@@ -138,7 +139,7 @@ export default {
                 },
                 {
                     title: "来源",
-                    key: "channerName",
+                    key: "channelName",
                     align: "center"
                 },
                 {
@@ -149,7 +150,7 @@ export default {
                 },
                 {
                     title: "交易额度",
-                    key: "limit",
+                    key: "limitno",
                     width: 90,
                     align: "center"
                 },

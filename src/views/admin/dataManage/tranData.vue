@@ -261,7 +261,7 @@ export default {
 									},
 									on: {
 										click: () => {
-											this.deleteGood(params.row.sheetNo);
+											this.deleteGood(params.row.sheetId);
 										}
 									}
 								},
@@ -346,7 +346,7 @@ export default {
                 this.yhlbmkIsSearch = true; // 加入搜索词
                 this.yhlbmkGetList(1, this.yhlbmkIsSearch); // 获取用户列表数据
             } else {
-                Util.error("请输入电话号码号");
+                Util.error("请输入电话号码");
             }
         },
 		queryOrder(currentPage){
@@ -360,10 +360,10 @@ export default {
 				axios.get('/api/auction/artcPayDetail/sys/getArtcPayDetailBySheetId',{params})
 					.then( (response)=> {
 					var res = response.data;
-					if(res.data[0]==null){
-						this.yhlbmktablePageData.list=[];
+					if(res==null){
+						this.yhlbmktablePageData=[];
 					}else{
-						this.yhlbmktablePageData.list=res.data;
+						this.yhlbmktablePageData=res.data;
 					}
 					})
 					.catch( (error)=> {

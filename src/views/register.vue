@@ -84,7 +84,7 @@ input::-webkit-input-placeholder{
 	border-radius: 19px;
 	background: #DD3138;
 	height: 38px;
-	margin-top: 100px;
+	margin-top: 50px;
 	border: 0;
 	color: #FFFFFF;
 	font-size: 17px;
@@ -112,17 +112,18 @@ a{
 	color: #DD3138;
 }
 .errorreg{
-	color: #DD3138;
-    width: 40%;
+	color: #FFFFFF;
+	background: #000000;
+    width: 41%;
     margin: 0 auto;
     position: absolute;
     text-align: center;
-    top: 80%;
+    top: 10px;
     left: 30%;
     font-size: 15px;
     border: 1px solid #ccc;
     border-radius: 15px;
-		font-weight: bold;
+		padding:15px
 }
 </style>
 <template>
@@ -155,7 +156,10 @@ a{
 				 	<input class="item_input_psd" type="text" placeholder="请输入邀请码(新用户必填)" v-model="invitate" minlength="6" maxlength="6"/>
 				 </div>
 			 </div>
-			 <div v-show="texterror4" class="errorreg">请正确填写表单!</div>
+			 <div v-show="texterror4" class="errorreg">{{errmsg}}</div>
+			 <div style="text-align: center;margin-top: 50px;">
+				 <router-link to="/result">直接下载</router-link>
+			 </div>
 			 <button class="reg_btn" @click="register">注册</button>
 			 <div class="btm_xieyi">
 				 <p class="radio_ck"></p>
@@ -164,6 +168,7 @@ a{
 			 
     </div>
 </template>
+
 <script>
 // 引入通用的库文件
 import Util from "@/libs/util";
@@ -176,6 +181,7 @@ export default {
     components: {},
     data() {
         return {
+						errmsg:'请正确填写表单!',
             phone:'',
 						yzm:'',
 						password:'',
@@ -205,6 +211,11 @@ export default {
 			changepwd(){
 				if(this.password=='' || !(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/.test(this.password))){
 					this.texterror2=true
+					if(this.passwordagain=='' || this.passwordagain!=this.password){
+						this.texterror3=true
+					}else{
+						this.texterror3=false
+					}
 				}else{
 					this.texterror2=false
 				}
@@ -217,7 +228,7 @@ export default {
 				}
 			},
        register(){
-				 if(this.phone=='' || this.password==''|| this.passwordagain=='' || this.yzm=='' || this.invitate==''){
+				 if(this.phone=='' || this.password==''|| this.passwordagain=='' || this.yzm=='' || this.invitate=='' || this.texterror || this.texterror2 || this.texterror3){
 					 this.texterror4=true
 					 setTimeout(() => {
 					 	this.texterror4=false
@@ -232,24 +243,22 @@ export default {
 						pwd:newcode,
 					 	shortMessageCode:this.yzm,
 						invitationCode:this.invitate,
+						regType:2
 					 };
 					 axios
 					 	.post('/api/auction/register/userRegister', params)
 					 	.then(response => {
+							var res = response.data;
 					 		if (response.data.code == 200) {
 					 				this.$router.push({
 					 					path:'/result',
-					 					query:{
-					 						status:true
-					 					}
 					 				})
 					 		} else {
-					 				this.$router.push({
-					 					path:'/result',
-					 					query:{
-					 						status:false
-					 					}
-					 				})
+					 				this.errmsg=res.msg+",请重新注册!"
+					 				this.texterror4=true
+					 				setTimeout(() => {
+					 				this.texterror4=false
+					 				}, 1000);
 					 		}
 					 	})
 					 	.catch(error => {
@@ -260,21 +269,30 @@ export default {
 			 //获取验证码
 			 getsms(){
 				 if(this.phone!='' && (/^1[34578]\d{9}$/.test(this.phone))){
-					 this.showcode=false
-					var set= setInterval(()=>{
-						 this.code--;
-					 },1000)
-					 setTimeout(()=>{
-						 this.showcode=true
-						 this.code=60
-						 clearInterval(set)
-					 },60000)
 					 axios.get('/api/auction/shortMessage/sendRegCode', {
 						 params:{
 							 phone: this.phone, 
 						 }
 					 })
 					 .then(response => {
+						 var res = response.data;
+						 if(res.code == 200){
+							 this.showcode=false
+							 var set= setInterval(()=>{
+							 this.code--;
+							 },1000)
+							 setTimeout(()=>{
+							 this.showcode=true
+							 this.code=60
+							 clearInterval(set)
+							 },60000)
+						 }else{
+							 this.errmsg=res.msg
+							 this.texterror4=true
+							 setTimeout(() => {
+							 this.texterror4=false
+							 }, 1000);
+						 }
 					 })
 					 .catch(error => {
 					 	console.log(error);
@@ -282,6 +300,7 @@ export default {
 				 }
 				
 			 },
+			 
 			 Encrypt3Des(str, aStrKey, ivstr) {
 						const KeyHex = CryptoJS.enc.Utf8.parse(aStrKey);
 						const encrypted = CryptoJS.TripleDES.encrypt(str,

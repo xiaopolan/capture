@@ -758,6 +758,7 @@ export default {
             // 商品列表表格分页数据
             choicegoodlist: {
                 list: [], // 表格列表
+				list2: [], // 表格列表
                 total: 0, // 总条数
                 pages: 0, // 总页数
                 pageSize: 0, // 每页条数
@@ -1009,12 +1010,19 @@ export default {
                 .post('/api/auction/product/sys/getAllowProduct', postData)
                 .then(response => {
                     var res = response.data;
-                    // this.choicegoodlist = res.data;
 					if(res.code==200){
 						if(res.data==null){
 							this.choicegoodlist.list=[];
 						}else{
 							this.choicegoodlist = res.data;
+							let onlygood=res.data.list;
+							let listone=[]
+							for(var i=0;i<onlygood.length;i++){
+								if(onlygood[i].pic.length>0){
+									listone.push(onlygood[i])
+								}
+							}
+							this.choicegoodlist.list=listone
 						}
 					}else{
 						this.choicegoodlist.list=[];
@@ -1138,6 +1146,14 @@ export default {
 								this.choicegoodlist.list=[];
 							}else{
 								this.choicegoodlist = res.data;
+								let onlygood=res.data.list;
+								let listone=[]
+								for(var i=0;i<onlygood.length;i++){
+									if(onlygood[i].pic.length>0){
+										listone.push(onlygood[i])
+									}
+								}
+								this.choicegoodlist.list=listone
 							}
 						}else{
 							this.choicegoodlist.list=[];

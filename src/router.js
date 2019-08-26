@@ -10,7 +10,10 @@ const modules = {
 			icon: 'left_nav5.png',
 			list: {
 				mainManage: {
-					title: '主页'
+					title: '统计图'
+				},
+				tableManage: {
+					title: '统计表'
 				},
 			}
 		},
@@ -36,6 +39,9 @@ const modules = {
 				giftSet:{
 					title:"礼物列表"
 				},
+				jfscale:{
+					title:"积分返利"
+				},
             }
         },
         userManage: {
@@ -59,6 +65,9 @@ const modules = {
 				},
 				xiaofei:{
 					title:'消费记录'
+				},
+				admin:{
+					title:'管理员帐号'
 				}
             }
         },

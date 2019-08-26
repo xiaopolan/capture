@@ -51,7 +51,7 @@
 	.down_image_prod{
 		width:120px;
 		height:120px;
-		background: url(../assets/img/prod.png) no-repeat;
+		background: url(../assets/img/download.png) no-repeat;
 		background-size: 100% 100%;
 		margin: 0 auto;
 		margin-top: 20px;
@@ -60,21 +60,17 @@
 		font-size: 10px;
 	}
 </style>
+
 <template>
     <div class="registerBox">
-		<div class="success" v-if="$route.query.status==true">
+		<div class="success">
 			<div class='logo_image'></div>
 			<p>注册成功!</p>
 			<!-- <a class='msgtext' v-bind:href="link">点击下载app</a> -->
-			<div class='down_image_dev'></div>
-			<!-- <div class='down_image_prod'></div> -->
+			<!-- <div class='down_image_dev'></div> -->
+			<div class='down_image_prod'></div>
 			<p class="saomiao">扫描二维码下载app</p>
 		</div>
-		 <div class="failed" v-else>
-			<div class='logo_image2'></div>
-			<p>注册失败!</p>
-			<p class='msgtext' style="color: #999999;">请重新注册</p>
-		</div> 
     </div>
 </template>
 <script>
@@ -83,14 +79,12 @@ export default {
     components: {},
     data() {
         return {
-			
         };
     },
 	beforeCreate(){
 		
 	},
     created() {
-		
     },
 	mounted() {
 	},

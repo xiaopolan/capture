@@ -144,7 +144,7 @@ export default {
                 },
                 {
                     title: "交易额度",
-                    key: "limit",
+                    key: "limitno",
                     width: 90,
                     align: "center"
                 },

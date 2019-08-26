@@ -294,7 +294,7 @@ background: rgba(238,238,238,1);
 				<div class="swiper-container">
 					 <div class="swiper-wrapper">
 							 <div class="swiper-slide" v-if="flag">
-								 <video  id="video" class="fivideo" width="100%" height="260" :poster="imglist[0]" controls>
+								 <video  id="video" class="fivideo" width="100%" height="260" :poster="videoPic" controls>
 								   <source :src="videourl" type="video/mp4">
 								</video>
 							 </div>
@@ -367,120 +367,121 @@ import axios from 'axios';
 import CryptoJS from 'crypto-js';
 import Swiper from 'swiper';
 import '@/libs/jquery.barrager.js';
-var pId,userId;
+var pId, userId;
 export default {
     name: 'result',
     components: {},
     data() {
         return {
-			gradeclass:'gradeclass',
+            gradeclass: 'gradeclass',
             link: '',
             info: {},
-			showtime:'',
-			showtime1:'',
-			detailbox:false,
-			commentbox:false,
-			commentlist:[],
-			imglist:[],
-			videourl:'',
-			flag:false,
-			pId:"",
-			userId:''
+            showtime: '',
+            showtime1: '',
+            detailbox: false,
+            commentbox: false,
+            commentlist: [],
+            videoPic: '',
+            videourl: '',
+            flag: false,
+            pId: '',
+            userId: ''
         };
     },
     created() {
-		pId=this.$route.query.pId
-		userId=this.$route.query.userId
-		this.initFormatter();
+        pId = this.$route.query.pId;
+        userId = this.$route.query.userId;
+        this.initFormatter();
     },
     mounted() {
         var mySwiper = new Swiper('.swiper-container', {
-            observer:true,//修改swiper自己或子元素时，自动初始化swiper
-// 			observeParents:true,//修改swiper的父元素时，自动初始化swiper
-// 			loop: true, // 循环模式选项
+            observer: true //修改swiper自己或子元素时，自动初始化swiper
+            // 			observeParents:true,//修改swiper的父元素时，自动初始化swiper
+            // 			loop: true, // 循环模式选项
         });
-		this.getdata();
+        this.getdata();
     },
     methods: {
-			getdata(){
-				axios.get('/api/auction/judge/sys/getProductDetailInfo', {
-						params: {
-							pId: pId,
-							userId: userId
-						}
-					})
-					.then(response => {
-						var res = response.data;
-						// this.yhlbmktablePageData = res.data;
-						if (res.code == 200) {
-							this.info = res.data;
-							this.showtime=new Date(this.info.pushTime).Format('MM-dd hh:mm:ss')
-							var str=res.data.pic;
-							str = str.substring(0, str.lastIndexOf(','));
-							if(res.data.videoUrl){
-								this.flag=true
-								this.videourl=res.data.videoUrl
-							}
-							this.imglist= str.split(',');
-							console.log(this.imglist);
-						}
-					})
-					.catch(error => {
-						console.log(error);
-					});
-					axios.get('/api/auction/judge/sys/getProHistoryComment', {
-							params: {
-								pId: pId,
-								userId: userId
-							}
-					})
-					.then(response => {
-							var res = response.data;
-							// this.yhlbmktablePageData = res.data;
-							if (res.code == 200) {
-									this.commentlist = res.data;
-									console.log(this.commentlist)
-									this.showtime1=new Date(this.commentlist.createTime).Format('MM-dd hh:mm:ss')
-									
-							}
-					})
-					.catch(error => {
-							console.log(error);
-					});
-				
-			},
-			initFormatter() {
-				Date.prototype.Format = function(fmt) {
-					//
-					let o = {
-						'M+': this.getMonth() + 1, //月份
-						'd+': this.getDate(), //日
-						'h+': this.getHours(), //小时
-						'm+': this.getMinutes(), //分
-						's+': this.getSeconds(), //秒
-						'q+': Math.floor((this.getMonth() + 3) / 3), //季度
-						S: this.getMilliseconds() //毫秒
-					};
-					if (/(y+)/.test(fmt))
-						fmt = fmt.replace(
-							RegExp.$1,
-							(this.getFullYear() + '').substr(4 - RegExp.$1.length)
-						);
-					for (var k in o)
-						if (new RegExp('(' + k + ')').test(fmt))
-							fmt = fmt.replace(
-								RegExp.$1,
-								RegExp.$1.length == 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length)
-							);
-					return fmt;
-				};
-			},
-			toregister(){
-				this.$router.push({
-					path:'/register',
-				})
-			}
-		}
+        getdata() {
+            axios
+                .get('/api/auction/judge/sys/getProductDetailInfo', {
+                    params: {
+                        pId: pId,
+                        userId: userId
+                    }
+                })
+                .then(response => {
+                    var res = response.data;
+                    // this.yhlbmktablePageData = res.data;
+                    if (res.code == 200) {
+                        this.info = res.data;
+                        this.showtime = new Date(this.info.pushTime).Format('MM-dd hh:mm:ss');
+                        var str = res.data.pic;
+                        str = str.substring(0, str.lastIndexOf(','));
+                        if (res.data.videoUrl) {
+                            this.flag = true;
+                            this.videourl = res.data.videoUrl;
+                        }
+                        this.imglist = str.split(',');
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+            axios
+                .get('/api/auction/judge/sys/getProHistoryComment', {
+                    params: {
+                        pId: pId,
+                        userId: userId
+                    }
+                })
+                .then(response => {
+                    var res = response.data;
+                    // this.yhlbmktablePageData = res.data;
+                    if (res.code == 200) {
+                        this.commentlist = res.data;
+                        console.log(this.commentlist);
+                        this.showtime1 = new Date(this.commentlist.createTime).Format(
+                            'MM-dd hh:mm:ss'
+                        );
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+        initFormatter() {
+            Date.prototype.Format = function(fmt) {
+                //
+                let o = {
+                    'M+': this.getMonth() + 1, //月份
+                    'd+': this.getDate(), //日
+                    'h+': this.getHours(), //小时
+                    'm+': this.getMinutes(), //分
+                    's+': this.getSeconds(), //秒
+                    'q+': Math.floor((this.getMonth() + 3) / 3), //季度
+                    S: this.getMilliseconds() //毫秒
+                };
+                if (/(y+)/.test(fmt))
+                    fmt = fmt.replace(
+                        RegExp.$1,
+                        (this.getFullYear() + '').substr(4 - RegExp.$1.length)
+                    );
+                for (var k in o)
+                    if (new RegExp('(' + k + ')').test(fmt))
+                        fmt = fmt.replace(
+                            RegExp.$1,
+                            RegExp.$1.length == 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length)
+                        );
+                return fmt;
+            };
+        },
+        toregister() {
+            this.$router.push({
+                path: '/register'
+            });
+        }
+    }
 };
 $(function() {
     // 			Util.post('/auction/product/init', params).then(function (res) {
@@ -490,7 +491,8 @@ $(function() {
     // 			return res.msg;
     // 		}
     // 	})
-    axios.get('/api/auction/judge/sys/getProductDetailInfo', {
+    axios
+        .get('/api/auction/judge/sys/getProductDetailInfo', {
             params: {
                 pId: pId,
                 userId: userId

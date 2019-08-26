@@ -187,7 +187,7 @@
 									</div>
 								</Modal>
 								<Modal v-model="imageModal" title="图片查看" class="mymodal">
-									<Carousel v-if="imageModal1">
+									<Carousel v-if="imageModal1" v-model="indexcu">
 										<Carousel-Item v-for="(item,index) in imagelist" :key="index">
 										  <div style="margin: 0 auto;text-align: center;display: flex;align-items: center;width: 488px;height: 300px;justify-content: center;">
 										   <img :src="item" style="max-height:240px;max-width:440px;" alt=""/>
@@ -196,15 +196,15 @@
 									</Carousel>
 								</Modal>
 								<Modal v-model="imageModal2" title="视频" class="mymodal"  @on-ok="stopvideo"
-									@on-cancel="stopvideo">
+									@on-cancel="stopvideo" width='840'>
 									<div>
-										<video style="display: block;margin: 0 auto;" :src="video" :key="video" id="video" controls="controls"></video>
+										<video style="display: block;margin: 0 auto;width: 800px;height: 600px;" :src="video" :key="video" id="video" controls="controls"></video>
 									</div>
 								</Modal>
 								<Modal title='审核' v-model="confirm">
 										<p style='height:50px;line-height: 50px;font-size: 17px;text-align: center;'>是否审核通过</p>
 										<div slot="footer">
-											<Button type="primary" size="default" @click="verify(0)">不通过</Button>
+											<Button type="primary" size="default" @click="verify(2)">不通过</Button>
 											<Button type="primary" size="default" @click="verify(1)">通过</Button>
 									  </div>
 								</Modal>
@@ -256,6 +256,7 @@ export default {
 
     data() {
         return {
+						indexcu: 0,
             imageModal2: false,
             model3: '', //审核
             model4: '', //竞拍
@@ -346,10 +347,12 @@ export default {
                     //width: 150,
                     align: 'center',
                     render: (h, params) => {
-                        var str = params.row.pic;
+                        let str = params.row.pic;
                         if (str) {
-                            str = str.substring(0, str.lastIndexOf(','));
-                            var arr = str.split(',');
+														if(str.lastIndexOf(',')>0){
+															str = str.substring(0, str.lastIndexOf(','));
+														}
+                            let arr = str.split(',');
                             return h('img', {
                                 attrs: {
                                     src: arr[0]
@@ -434,11 +437,14 @@ export default {
                     render: (h, params) => {
                         var str = params.row.verifyResult;
                         if (str == 0) {
-                            return h('div', '未通过');
+                            return h('div', '审核中');
                         }
                         if (str == 1) {
                             return h('div', '通过');
                         }
+												if (str == 2) {
+														return h('div', '不通过');
+												}
                     }
                 },
                 {
@@ -769,6 +775,7 @@ export default {
         showimage(imagearr) {
             this.imageModal = true;
             this.imageModal1 = true;
+						this.indexcu = 0; //初始化为第一张图片
             this.imagelist = imagearr;
         },
         showvideo(imagearr) {

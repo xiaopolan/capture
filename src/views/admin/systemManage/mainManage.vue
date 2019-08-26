@@ -18,7 +18,7 @@
     }
     
 }
-.itemBox_lsltj,.itemBox_czyhtj,.itemBox_hyyhtj,.itemBox_xzyhtj {
+.itemBox_lsltj,.itemBox_czyhtj,.itemBox_hyyhtj,.itemBox_xzyhtj,.itemBox_sbblt {
     .remark_box{
         font-size: 14px;
         color: #495060;
@@ -31,6 +31,7 @@
             font-size: 16px;
             font-weight: bold;
             color: #495060;
+			margin-left: 10px;
         }
         .p_title_small{
             display: inline-block;
@@ -171,14 +172,14 @@
                 <div class="itemBox itemBox_lsltj">
                     <div class="remark_box">
 						<Row>
-							<Col span="24" style="textAlign:center;">
-								<div class="title_itembox">平台总积分数：<span class="numjifen">2222</span></div>
-								<div class="title_itembox">返利比例：<span class="numjifen">2222</span></div>
-								<div class="title_itembox">返利金额：<span class="numjifen">2222</span></div>
-								<div class="title_itembox">提现金额：<span class="numjifen">2222</span></div>
+							<Col span="24" style="textAlign:center; border:2px solid #EEEEEE">
+								<div class="title_itembox">平台总积分数：<span class="numjifen">{{integralSum}}</span></div>
+								<div class="title_itembox">返利比例：<span class="numjifen">{{returnRatio}}</span></div>
+								<div class="title_itembox">返利金额：<span class="numjifen">{{returnAmount}}</span></div>
+								<div class="title_itembox">提现金额：<span class="numjifen">{{tixianAmount}}</span></div>
 							</Col>
 						</Row>
-                        <Row>
+                        <Row style="margin-top: 20px;">
                             <Col span="24" style="textAlign:center;">
                                 <div class="title_itembox">七天同比提现金额</div>
                             </Col>
@@ -193,18 +194,6 @@
                                 id="lsltjEChartsLine"
                                 :style="{width: '98%', height: '350px'}"
                             ></div>
-                            <!-- 自制图例 -->
-                            <!-- <div class="legendSelf">
-                                <div class="checkbox_div clearfix" style="width:auto;">
-                                    <div
-                                        v-for="(item,index) in lsltjLegendData"
-                                        style="float:left;margin:0px 15px;"
-                                    >
-                                        <span class="sp_bg" :style="{background:item.color}"></span>
-                                        <span class="sp_text">{{item.name}}</span>
-                                    </div>
-                                </div>
-                            </div> -->
                             <!-- 单位 -->
                             <div class="unitXaxis">日期</div>
                         </div>
@@ -228,18 +217,6 @@
                                 id="lsyhtjEChartsLine"
                                 :style="{width: '98%', height: '350px'}"
                             ></div>
-                            <!-- 自制图例 -->
-                            <!-- <div class="legendSelf">
-                                <div class="checkbox_div clearfix" style="width:auto;">
-                                    <div
-                                        v-for="(item,index) in lsyhtjLegendData"
-                                        style="float:left;margin:0px 15px;"
-                                    >
-                                        <span class="sp_bg" :style="{background:item.color}"></span>
-                                        <span class="sp_text">{{item.name}}</span>
-                                    </div>
-                                </div>
-                            </div> -->
                             <!-- 单位 -->
                             <div class="unitXaxis">日期</div>
                         </div>
@@ -251,13 +228,13 @@
 				<div class="itemBox itemBox_sbblt">
 					<div class="remark_box">
 						<Row>
-							<Col span="24" style="textAlign:center;">
-								<div class="title_itembox">订单数：<span class="numjifen">2222</span></div>
-								<div class="title_itembox">订单总金额：<span class="numjifen">2222</span></div>
+							<Col span="24" style="textAlign:center; border:2px solid #EEEEEE">
+								<div class="title_itembox">订单数：<span class="numjifen">{{orderNum}}</span></div>
+								<div class="title_itembox">订单总金额：<span class="numjifen">{{orderAmountSum}}</span></div>
 							</Col>
 						</Row>
 						<Row>
-							<Col span="24" style="textAlign:center;">
+							<Col span="24" style="textAlign:center;margin-top: 20px;">
 								<div class="title_itembox">按竞拍档次分类</div>
 							</Col>
 						</Row>
@@ -292,20 +269,6 @@
                             <Col span="8" style="textAlign:center;">
                                 <div class="title_itembox">七天同比订单数</div>
                             </Col>
-                            <Col span="8" style="textAlign:right;">
-                                <Select
-                                    v-model="czyhtjStatisticsType"
-                                    size="small"
-                                    placeholder="请选择统计方式"
-                                    @on-change="czyhtjSelectChange"
-                                    style="width:120px;textAlign:left;marginRight:40px;fontWeight:normal;"
-                                >
-                                    <Option value="" disabled>请选择统计方式</Option>
-                                    <Option value="day">按日期统计</Option>
-                                    <Option value="month">按月份统计</Option>
-                                    <Option value="quarter">按季度统计</Option>
-                                </Select>
-                            </Col>
                         </Row>
                     </div>
                     <div class="tablepage_box" style="paddingTop:25px;">
@@ -317,18 +280,6 @@
                                 id="czyhtjEChartsLine"
                                 :style="{width: '98%', height: '350px'}"
                             ></div>
-                            <!-- 自制图例 -->
-                            <!-- <div class="legendSelf">
-                                <div class="checkbox_div clearfix" style="width:auto;">
-                                    <div
-                                        v-for="(item,index) in czyhtjLegendData"
-                                        style="float:left;margin:0px 15px;"
-                                    >
-                                        <span class="sp_bg" :style="{background:item.color}"></span>
-                                        <span class="sp_text">{{item.name}}</span>
-                                    </div>
-                                </div>
-                            </div> -->
                             <!-- 单位 -->
                             <div class="unitXaxis">{{czyhtjUnit}}</div>
                         </div>
@@ -337,79 +288,81 @@
             </TabPane>
             <!-- 今日用户概览 -->
             <TabPane label="今日用户概览">
-                <div class="itemBox itemBox_hyyhtj">
+				<!-- 注意样式 itemBox_sbblt -->
+                <div class="itemBox itemBox_sbblt">
                     <div class="remark_box">
                         <Row>
-                            <Col span="8" style="textAlign:center;height:30px"></Col>
-                            <Col span="8" style="textAlign:center;">
-                                <div class="title_itembox">今日用户概览</div>
-                            </Col>
-                            <Col span="8" style="textAlign:right;">
-                                <Select
-                                    v-model="hyyhtjStatisticsType"
-                                    size="small"
-                                    placeholder="请选择统计方式"
-                                    @on-change="hyyhtjSelectChange"
-                                    style="width:120px;textAlign:left;marginRight:40px;fontWeight:normal;"
-                                >
-                                    <Option value="" disabled>请选择统计方式</Option>
-                                    <Option value="day">按日期统计</Option>
-                                    <Option value="month">按月份统计</Option>
-                                    <Option value="quarter">按季度统计</Option>
-                                </Select>
-                            </Col>
+                        	<Col span="24" style="textAlign:center; border:2px solid #EEEEEE">
+                        		<div class="title_itembox">用户总数：<span class="numjifen">{{userSumNum}}</span></div>
+                        		<div class="title_itembox">今日新增用户数：<span class="numjifen">{{addUserNum}}</span></div>
+                        	</Col>
+                        </Row>
+                        <Row>
+                        	<Col span="24" style="textAlign:center;margin-top: 20px;">
+                        		<div class="title_itembox">今日用户概览</div>
+                        	</Col>
                         </Row>
                     </div>
-                    <div class="tablepage_box" style="paddingTop:25px;">
-                        <!-- echarts容器 -->
-                        <div class="echartsBox">
-                            <!-- echarts图 -->
-                            <div 
-                                class="echarts" 
-                                id="hyyhtjEChartsLine"
-                                :style="{width: '98%', height: '350px'}"
-                            ></div>
-                            <!-- 自制图例 -->
-                            <!-- <div class="legendSelf">
-                                <div class="checkbox_div clearfix" style="width:auto;">
-                                    <div
-                                        v-for="(item,index) in hyyhtjLegendData"
-                                        style="float:left;margin:0px 15px;"
-                                    >
-                                        <span class="sp_bg" :style="{background:item.color}"></span>
-                                        <span class="sp_text">{{item.name}}</span>
-                                    </div>
-                                </div>
-                            </div> -->
-                            <!-- 单位 -->
-                            <div class="unitXaxis">{{hyyhtjUnit}}</div>
-                        </div>
-                    </div>
+					<div class="tablepage_box">
+						<div class="sbblt_main clearfix">
+							<div class="sbblt_left">
+								<div 
+									class="echartsBox"
+									id="userEChartsPie"
+									:style="{width: '100%', height: '300px'}"
+								></div>
+							</div>
+							<div class="sbblt_right">
+								<div class="item_sbbltBox clearfix">
+									<div class="sbblt_right_item" v-for="(item,index) in userApiData" :key="index">
+										<div class="equipment_name">{{item.name}}</div>
+										<div class="equipment_info">
+											<div class="equipment_color" :style="{width:item.percent+'%',background:item.bgcolor}"></div>
+											<div class="equipment_num" :style="{left:item.percent+'%'}">{{item.value}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="itemBox itemBox_czyhtj">
+						<div class="remark_box">
+							<Row>
+								<Col span="8" style="textAlign:center;height:30px"></Col>
+								<Col span="8" style="textAlign:center;">
+									<div class="title_itembox">七天同比新增用户数</div>
+								</Col>
+							</Row>
+						</div>
+						<div class="tablepage_box" style="paddingTop:25px;">
+							<!-- echarts容器 -->
+							<div class="echartsBox">
+								<!-- echarts图 -->
+								<div 
+									class="echarts" 
+									id="hyyhtjEChartsLine"
+									:style="{width: '98%', height: '350px'}"
+								></div>
+								<!-- 单位 -->
+								<div class="unitXaxis">{{hyyhtjUnit}}</div>
+							</div>
+						</div>
+					</div>
                 </div>
             </TabPane>
             <!-- 今日保证金概览 -->
             <TabPane label="今日保证金概览">
-                <div class="itemBox itemBox_xzyhtj">
+                <div class="itemBox itemBox_xzyhtj itemBox_sbblt">
                     <div class="remark_box">
                         <Row>
-                            <Col span="8" style="textAlign:center;height:30px"></Col>
-                            <Col span="8" style="textAlign:center;">
-                                <div class="title_itembox">今日保证金概览</div>
-                            </Col>
-                            <Col span="8" style="textAlign:right;">
-                                <Select
-                                    v-model="xzyhtjStatisticsType"
-                                    size="small"
-                                    placeholder="请选择统计方式"
-                                    @on-change="xzyhtjSelectChange"
-                                    style="width:120px;textAlign:left;marginRight:40px;fontWeight:normal;"
-                                >
-                                    <Option value="" disabled>请选择统计方式</Option>
-                                    <Option value="day">按日期统计</Option>
-                                    <Option value="month">按月份统计</Option>
-                                    <Option value="quarter">按季度统计</Option>
-                                </Select>
-                            </Col>
+                        	<Col span="24" style="textAlign:center; border:2px solid #EEEEEE">
+                        		<div class="title_itembox">保证金总额：<span class="numjifen">{{marginAmountSum}}</span></div>
+                        	</Col>
+                        </Row>
+                        <Row>
+                        	<Col span="24" style="textAlign:center;margin-top: 20px;">
+                        		<div class="title_itembox">今日保证金概览</div>
+                        	</Col>
                         </Row>
                     </div>
                     <div class="tablepage_box" style="paddingTop:25px;">
@@ -421,19 +374,6 @@
                                 id="xzyhtjEChartsLine"
                                 :style="{width: '98%', height: '350px'}"
                             ></div>
-                            <!-- 自制图例 -->
-                            <!-- <div class="legendSelf">
-                                <div class="checkbox_div clearfix" style="width:auto;">
-                                    <div
-                                        v-for="(item,index) in xzyhtjLegendData"
-                                        style="float:left;margin:0px 15px;"
-                                    >
-                                        <span class="sp_bg" :style="{background:item.color}"></span>
-                                        <span class="sp_text">{{item.name}}</span>
-                                    </div>
-                                </div>
-                            </div> -->
-                            <!-- 单位 -->
                             <div class="unitXaxis">{{xzyhtjUnit}}</div>
                         </div>
                     </div>
@@ -445,39 +385,28 @@
 <script>
 // 引入通用的库文件
 import Util from "@/libs/util";
-
+import axios from 'axios'
 export default {
     name: "mainManage",
     data() {
         return {
-            // 近15日用户流失率统计图相关
-            lsltjEchartsObj: {}, // echarts实例对象
-            lsltjLegendData: [], // 图例数据
-            // 近15日流失用户数统计图相关
-            lsyhtjEchartsObj: {}, // echarts实例对象
-            lsyhtjLegendData: [], // 图例数据
-            // 充值用户统计图相关
-            czyhtjEchartsObj: {}, // echarts实例对象
-            czyhtjLegendData: [], // 图例数据
-            czyhtjApiData: {}, // 接口数据
-            czyhtjStatisticsType: 'day', // 统计方式
-            czyhtjUnit: '日期', // 单位
-            // 活跃用户统计图相关
-            hyyhtjEchartsObj: {}, // echarts实例对象
-            hyyhtjLegendData: [], // 图例数据
-            hyyhtjApiData: {}, // 接口数据
-            hyyhtjStatisticsType: 'day', // 统计方式
-            hyyhtjUnit: '日期', // 单位
-            // 新增用户统计图相关
-            xzyhtjEchartsObj: {}, // echarts实例对象
-            xzyhtjLegendData: [], // 图例数据
-            xzyhtjApiData: {}, // 接口数据
-            xzyhtjStatisticsType: 'day', // 统计方式
-            xzyhtjUnit: '日期', // 单位
-            // 用户设备比例图相关
-            sbbltEChartsObj: {}, // 充值用户比例echarts实例对象
             sbbltApiData: [], // 接口数据
             sbbltPieColor: ['#FF9900', '#E80000', '#196CF5', '#00E03F', '#00DDE0', '#B800E0'],   // 饼图颜色
+			
+			tixianAmount:'',
+			returnRatio:'',
+			returnAmount:'',
+			integralSum:'',
+			
+			userApiData: [], // 接口数据
+			
+			orderNum:'',
+			orderAmountSum:'',
+			
+			userSumNum:'',
+			addUserNum:'',
+			
+			marginAmountSum:0
         };
     },
     created() {
@@ -486,396 +415,195 @@ export default {
     mounted () {
         // 获取近15日用户流失数据（调用接口的）---接口
         this.getStatisticsData();
-        // 获取充值用户统计数据（调用接口的）---接口
-        this.czyhtjGetStatisticsData();
-        // 获取活跃用户统计数据（调用接口的）---接口
-        this.hyyhtjGetStatisticsData();
-        // 获取新增用户统计数据（调用接口的）---接口
-        this.xzyhtjGetStatisticsData();
         // 获取用户设备统计数据
-        this.sbbltGetStatisticsData();
+        //this.sbbltGetStatisticsData();
     },
     methods: {
         // 获取近15日用户流失数据（调用接口的）---接口
         getStatisticsData() {
-            // 参数对象
-            var params = {
-                days: 15
-            };
-            console.log(params);
-            // 模拟请求接口返回的数据
-            var res = [
-                {
-                    // 日期
-                    date: '2018.12.28',
-                    // 总用户量
-                    userNum: 11000,
-                    // 总充值金额
-                    rechargeAmount: 21000,
-                    // 总视频量
-                    videoNum: 31000,
-                    // 总积分
-                    integralNum: 41000,
-                    // 返现总额
-                    cashbackAmount: 51000,
-                    // 充值总用户数
-                    rechargeUserNum: 61000,
-                    // 提现总额
-                    withdrawCashAmount: 71000,
-                    // 流失用户数
-                    lossUserNum: 15000,
-                    // 流失率
-                    lossRate: '25%',
-                },
-                {
-                    // 日期
-                    date: '2018.12.29',
-                    // 总用户量
-                    userNum: 12000,
-                    // 总充值金额
-                    rechargeAmount: 22000,
-                    // 总视频量
-                    videoNum: 32000,
-                    // 总积分
-                    integralNum: 42000,
-                    // 返现总额
-                    cashbackAmount: 52000,
-                    // 充值总用户数
-                    rechargeUserNum: 62000,
-                    // 提现总额
-                     withdrawCashAmount: 72000,
-                    // 流失用户数
-                    lossUserNum: 14000,
-                    // 流失率
-                    lossRate: '24%',
-                },
-                {
-                    // 日期
-                    date: '2018.12.30',
-                    // 总用户量
-                    userNum: 13000,
-                    // 总充值金额
-                    rechargeAmount: 23000,
-                    // 总视频量
-                    videoNum: 33000,
-                    // 总积分
-                    integralNum: 43000,
-                    // 返现总额
-                    cashbackAmount: 53000,
-                    // 充值总用户数
-                    rechargeUserNum: 63000,
-                    // 提现总额
-                     withdrawCashAmount: 73000,
-                    // 流失用户数
-                    lossUserNum: 13000,
-                    // 流失率
-                    lossRate: '23%',
-                },
-                {
-                    // 日期
-                    date: '2018.12.31',
-                    // 总用户量
-                    userNum: 14000,
-                    // 总充值金额
-                    rechargeAmount: 24000,
-                    // 总视频量
-                    videoNum: 34000,
-                    // 总积分
-                    integralNum: 44000,
-                    // 返现总额
-                    cashbackAmount: 54000,
-                    // 充值总用户数
-                    rechargeUserNum: 64000,
-                    // 提现总额
-                     withdrawCashAmount: 74000,
-                    // 流失用户数
-                    lossUserNum: 12000,
-                    // 流失率
-                    lossRate: '22%',
-                },
-                {
-                    // 日期
-                    date: '2019.1.1',
-                    // 总用户量
-                    userNum: 15000,
-                    // 总充值金额
-                    rechargeAmount: 25000,
-                    // 总视频量
-                    videoNum: 35000,
-                    // 总积分
-                    integralNum: 45000,
-                    // 返现总额
-                    cashbackAmount: 55000,
-                    // 充值总用户数
-                    rechargeUserNum: 65000,
-                    // 提现总额
-                     withdrawCashAmount: 75000,
-                    // 流失用户数
-                    lossUserNum: 11000,
-                    // 流失率
-                    lossRate: '21%',
-                },
-                {
-                    // 日期
-                    date: '2019.1.2',
-                    // 总用户量
-                    userNum: 16000,
-                    // 总充值金额
-                    rechargeAmount: 26000,
-                    // 总视频量
-                    videoNum: 36000,
-                    // 总积分
-                    integralNum: 46000,
-                    // 返现总额
-                    cashbackAmount: 56000,
-                    // 充值总用户数
-                    rechargeUserNum: 66000,
-                    // 提现总额
-                     withdrawCashAmount: 76000,
-                    // 流失用户数
-                    lossUserNum: 10000,
-                    // 流失率
-                    lossRate: '20%',
-                },
-                {
-                    // 日期
-                    date: '2019.1.3',
-                    // 总用户量
-                    userNum: 11000,
-                    // 总充值金额
-                    rechargeAmount: 21000,
-                    // 总视频量
-                    videoNum: 31000,
-                    // 总积分
-                    integralNum: 41000,
-                    // 返现总额
-                    cashbackAmount: 51000,
-                    // 充值总用户数
-                    rechargeUserNum: 61000,
-                    // 提现总额
-                     withdrawCashAmount: 71000,
-                    // 流失用户数
-                    lossUserNum: 9000,
-                    // 流失率
-                    lossRate: '19%',
-                },
-                {
-                    // 日期
-                    date: '2019.1.4',
-                    // 总用户量
-                    userNum: 11000,
-                    // 总充值金额
-                    rechargeAmount: 21000,
-                    // 总视频量
-                    videoNum: 31000,
-                    // 总积分
-                    integralNum: 41000,
-                    // 返现总额
-                    cashbackAmount: 51000,
-                    // 充值总用户数
-                    rechargeUserNum: 61000,
-                    // 提现总额
-                     withdrawCashAmount: 71000,
-                    // 流失用户数
-                    lossUserNum: 8000,
-                    // 流失率
-                    lossRate: '18%',
-                },
-                {
-                    // 日期
-                    date: '2018.1.5',
-                    // 总用户量
-                    userNum: 11000,
-                    // 总充值金额
-                    rechargeAmount: 21000,
-                    // 总视频量
-                    videoNum: 31000,
-                    // 总积分
-                    integralNum: 41000,
-                    // 返现总额
-                    cashbackAmount: 51000,
-                    // 充值总用户数
-                    rechargeUserNum: 61000,
-                    // 提现总额
-                     withdrawCashAmount: 71000,
-                    // 流失用户数
-                    lossUserNum: 7000,
-                    // 流失率
-                    lossRate: '17%',
-                },
-                {
-                    // 日期
-                    date: '2018.1.6',
-                    // 总用户量
-                    userNum: 11000,
-                    // 总充值金额
-                    rechargeAmount: 21000,
-                    // 总视频量
-                    videoNum: 31000,
-                    // 总积分
-                    integralNum: 41000,
-                    // 返现总额
-                    cashbackAmount: 51000,
-                    // 充值总用户数
-                    rechargeUserNum: 61000,
-                    // 提现总额
-                     withdrawCashAmount: 71000,
-                    // 流失用户数
-                    lossUserNum: 6000,
-                    // 流失率
-                    lossRate: '16%',
-                },
-                {
-                    // 日期
-                    date: '2018.1.7',
-                    // 总用户量
-                    userNum: 11000,
-                    // 总充值金额
-                    rechargeAmount: 21000,
-                    // 总视频量
-                    videoNum: 31000,
-                    // 总积分
-                    integralNum: 41000,
-                    // 返现总额
-                    cashbackAmount: 51000,
-                    // 充值总用户数
-                    rechargeUserNum: 61000,
-                    // 提现总额
-                     withdrawCashAmount: 71000,
-                    // 流失用户数
-                    lossUserNum: 5000,
-                    // 流失率
-                    lossRate: '15%',
-                },
-                {
-                    // 日期
-                    date: '2018.1.8',
-                    // 总用户量
-                    userNum: 11000,
-                    // 总充值金额
-                    rechargeAmount: 21000,
-                    // 总视频量
-                    videoNum: 31000,
-                    // 总积分
-                    integralNum: 41000,
-                    // 返现总额
-                    cashbackAmount: 51000,
-                    // 充值总用户数
-                    rechargeUserNum: 61000,
-                    // 提现总额
-                     withdrawCashAmount: 71000,
-                    // 流失用户数
-                    lossUserNum: 4000,
-                    // 流失率
-                    lossRate: '14%',
-                },
-                {
-                    // 日期
-                    date: '2018.1.9',
-                    // 总用户量
-                    userNum: 11000,
-                    // 总充值金额
-                    rechargeAmount: 21000,
-                    // 总视频量
-                    videoNum: 31000,
-                    // 总积分
-                    integralNum: 41000,
-                    // 返现总额
-                    cashbackAmount: 51000,
-                    // 充值总用户数
-                    rechargeUserNum: 61000,
-                    // 提现总额
-                     withdrawCashAmount: 71000,
-                    // 流失用户数
-                    lossUserNum: 3000,
-                    // 流失率
-                    lossRate: '13%',
-                },
-                {
-                    // 日期
-                    date: '2018.1.10',
-                    // 总用户量
-                    userNum: 11000,
-                    // 总充值金额
-                    rechargeAmount: 21000,
-                    // 总视频量
-                    videoNum: 31000,
-                    // 总积分
-                    integralNum: 41000,
-                    // 返现总额
-                    cashbackAmount: 51000,
-                    // 充值总用户数
-                    rechargeUserNum: 61000,
-                    // 提现总额
-                     withdrawCashAmount: 71000,
-                    // 流失用户数
-                    lossUserNum: 2000,
-                    // 流失率
-                    lossRate: '12%',
-                },
-                {
-                    // 日期
-                    date: '2018.1.11',
-                    // 总用户量
-                    userNum: 11000,
-                    // 总充值金额
-                    rechargeAmount: 21000,
-                    // 总视频量
-                    videoNum: 31000,
-                    // 总积分
-                    integralNum: 41000,
-                    // 返现总额
-                    cashbackAmount: 51000,
-                    // 充值总用户数
-                    rechargeUserNum: 61000,
-                    // 提现总额
-                     withdrawCashAmount: 71000,
-                    // 流失用户数
-                    lossUserNum: 1000,
-                    // 流失率
-                    lossRate: '11%',
-                },
-            ];    
-
-            // 近15日用户流失率统计图
-            var lsltjXAxisData = []; // x轴数据
-            var lsltjLossRate = []; // 流失率
-
-            // 近15日流失用户数统计图
-            var lsyhtjXAxisData = []; // x轴数据
-            var lsyhtjLossRate = []; // 流失率
-
-            for(var i = 0; i<res.length;i++){
-                // 近15日用户流失率统计图 
-                lsltjXAxisData[i] = res[i].date.slice(5); // 日期去掉年份
-                lsltjLossRate[i] = Number(res[i].lossRate.substr(0, res[i].lossRate.length-1)); // 流失率
-
-                // 近15日流失用户数统计图 
-                lsyhtjXAxisData[i] = res[i].date.slice(5); // 日期去掉年份
-                lsyhtjLossRate[i] = res[i].lossUserNum; // 流失用户数
-            }
-            
-            // 近15日用户流失率统计图
-            // 折线数据
-            var lsltjSeriesData = [
-                {
-                    name:'流失率',
-                    data:lsltjLossRate
-                }
-            ];
-            // 绘制折线图
-            this.drawLine('lsltj',lsltjSeriesData,lsltjXAxisData);
-
-            // 近15日流失用户数统计图
-            // 折线数据
-            var lsyhtjSeriesData = [
-                {
-                    name:'流失用户数',
-                    data:lsyhtjLossRate
-                }
-            ];
-            // 绘制折线图
-            this.drawLine('lsyhtj',lsyhtjSeriesData,lsyhtjXAxisData);
+			axios.get('/api/auction/mainPage/sys/integralOverview')
+			.then( (response)=> {
+				let json = response.data;
+				let res=[]
+				let res2=[]
+				if (json.code == 200) {
+					if (json.data == null) {
+						res=[]
+					} else {
+						this.integralSum=json.data.integralSum
+						this.returnAmount=json.data.returnAmount
+						this.returnRatio=json.data.returnRatio
+						this.tixianAmount=json.data.tixianAmount
+						res=json.data.tixian7Day;
+						res2=json.data.return7Day;
+						// 七天同比提现
+						let lsltjXAxisData = []; // x轴数据
+						let lsltjLossRate = []; // 金额
+			
+						//  七天同比返利
+						let fanlix = []; // x轴数据
+						let fanliy = []; // 金额
+						for(let i = 0; i<res.length;i++){
+							// 七天同比提现
+							lsltjXAxisData[i] = res[i].date.slice(4); // 日期去掉年份
+							lsltjLossRate[i] = res[i].amount; // 金额
+						}
+						// 七天同比提现
+						// 折线数据
+						let lsltjSeriesData = [
+							{
+								name:'提现金额',
+								data:lsltjLossRate
+							}
+						];
+						// 绘制折线图
+						this.drawLine('lsltj',lsltjSeriesData,lsltjXAxisData);
+			
+						// 七天同比返利
+						for(let i = 0; i<res2.length;i++){
+							// 七天同比提现
+							fanlix[i] = res2[i].date.slice(4); // 日期去掉年份
+							fanliy[i] = res2[i].amount; // 金额
+						}
+						// 折线数据
+						let faliamount = [
+							{
+								name:'返利金额',
+								data:fanliy
+							}
+						];
+						
+						// 绘制折线图
+						this.drawLine('lsyhtj',faliamount,fanlix);
+					}
+				} else {
+					res=[]
+				}
+			})
+			.catch( (error)=> {
+			console.log(error);
+			});
+            //订单
+			axios.get('/api/auction/mainPage/sys/OrderOverview')
+			.then( (response)=> {
+				let json = response.data;
+				let res=[]
+				let res2=[]
+				if (json.code == 200) {
+					if (json.data == null) {
+						res=[]
+					} else {
+						let fanlix = []; // x轴数据
+						let fanliy = []; // 金额
+						this.orderAmountSum=json.data.orderAmountSum
+						this.orderNum=json.data.orderNum
+						res=json.data.gradeOverviews;
+						res2=json.data.orderNum7;
+						// 七天同比订单
+						for(let i = 0; i<res2.length;i++){
+							// 七天同比提现
+							fanlix[i] = res2[i].date.slice(4); // 日期去掉年份
+							
+							fanliy[i] = res2[i].orderNum; // 金额
+						}
+						// 折线数据
+						let faliamount = [
+							{
+								name:'订单数',
+								data:fanliy
+							}
+						];
+						// 绘制折线图
+						this.drawLine('czyhtj',faliamount,fanlix);
+						this.sbbltGetStatisticsData(1,res)
+					}
+				} else {
+					res=[]
+				}
+			})
+			.catch( (error)=> {
+			console.log(error);
+			});
+			//用户
+			axios.get('/api/auction/mainPage/sys/userOverview')
+			.then( (response)=> {
+				let json = response.data;
+				var res=[]
+				var res2=[]
+				if (json.code == 200) {
+					if (json.data == null) {
+						res=[]
+					} else {
+						this.userSumNum=json.data.userSumNum;
+						this.addUserNum=json.data.addUserNum;
+						
+						let fanlix = []; // x轴数据
+						let fanliy = []; // 金额
+						res=json.data.userSysClass;
+						res2=json.data.userNum7;
+						// 七天同比订单
+						for(let i = 0; i<res2.length;i++){
+							// 七天同比提现
+							fanlix[i] = res2[i].date.slice(4); // 日期去掉年份
+							fanliy[i] = res2[i].addUserNum; // 金额
+						}
+						// 折线数据
+						let faliamount = [
+							{
+								name:'用户数',
+								data:fanliy
+							}
+						];
+						// 绘制折线图
+						this.drawLine('hyyhtj',faliamount,fanlix);
+						this.sbbltGetStatisticsData(2,res)
+					}
+				} else {
+					res=[]
+				}
+			})
+			.catch( (error)=> {
+			console.log(error);
+			});
+			//保证金
+			axios.get('/api/auction/mainPage/sys/marginOverview')
+			.then( (response)=> {
+				let json = response.data;
+				var res=[]
+				var res2=[]
+				if (json.code == 200) {
+					if (json.data == null) {
+						res=[]
+					} else {
+						this.marginAmountSum=json.data.marginAmountSum || 0;
+						
+						let fanlix = []; // x轴数据
+						let fanliy = []; // 金额
+						res=json.data.userSysClass;
+						res2=json.data.margin7DayList;
+						// 七天同比订单
+						for(let i = 0; i<res2.length;i++){
+							// 七天同比提现
+							fanlix[i] = res2[i].date.slice(5); // 日期去掉年份
+							fanliy[i] = res2[i].marginAmount; // 金额
+						}
+						// 折线数据
+						let faliamount = [
+							{
+								name:'保证金',
+								data:fanliy
+							}
+						];
+						// 绘制折线图
+						this.drawLine('xzyhtj',faliamount,fanlix);
+					}
+				} else {
+					res=[]
+				}
+			})
+			.catch( (error)=> {
+			console.log(error);
+			});
         },
         // 绘制折线图
         drawLine(divName, seriesData, xAxisData){
@@ -932,9 +660,9 @@ export default {
                 color: color
             };
             // 特殊处理
-            if(divName == 'lsltj'){
-                option.tooltip.formatter = '{a0}：{c0}%';
-            }
+//             if(divName == 'lsltj'){
+//                 option.tooltip.formatter = '{a0}：{c0}%';
+//             }
             // 使用刚指定的配置项和数据显示图表。
             this[divName+"EchartsObj"].setOption(option);
         },
@@ -967,738 +695,38 @@ export default {
             // 绘制折线图
             this.drawLine(divName, seriesData, xAxisData);
         },
-        // 获取充值用户统计数据（调用接口的）---接口
-        czyhtjGetStatisticsData() {
-            // 参数对象
-            var params = {
-                days: 15
-            };
-            console.log(params);
-            // 模拟请求接口返回的数据
-            var res = {
-                // 日期统计数据
-                day: [
-                    {
-                        // 日期
-                        key: '2018.12.1',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.2',
-                        // 充值用户量
-                        value: 1220,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.3',
-                        // 充值用户量
-                        value: 1320,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.4',
-                        // 充值用户量
-                        value: 1420,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.5',
-                        // 充值用户量
-                        value: 2222,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.6',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    }
-                ],
-                // 月份统计数据
-                month: [
-                    {
-                        // 月份
-                        key: '1',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 月份
-                        key: '2',
-                        // 充值用户量
-                        value: 1220,
-                    },
-                    {
-                        // 月份
-                        key: '3',
-                        // 充值用户量
-                        value: 1320,
-                    },
-                    {
-                        // 月份
-                        key: '4',
-                        // 充值用户量
-                        value: 1420,
-                    },
-                    {
-                        // 月份
-                        key: '5',
-                        // 充值用户量
-                        value: 1520,
-                    },
-                    {
-                        // 月份
-                        key: '6',
-                        // 充值用户量
-                        value: 1620,
-                    },
-                    {
-                        // 月份
-                        key: '7',
-                        // 充值用户量
-                        value: 1720,
-                    },
-                    {
-                        // 月份
-                        key: '8',
-                        // 充值用户量
-                        value: 1820,
-                    },
-                    {
-                        // 月份
-                        key: '9',
-                        // 充值用户量
-                        value: 1920,
-                    },
-                    {
-                        // 月份
-                        key: '10',
-                        // 充值用户量
-                        value: 2020,
-                    },
-                    {
-                        // 月份
-                        key: '11',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 月份
-                        key: '12',
-                        // 充值用户量
-                        value: 1120,
-                    }
-                ],
-                // 季度统计数据
-                quarter: [
-                    {
-                        // 季度
-                        key: 'Q1',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 季度
-                        key: 'Q2',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 季度
-                        key: 'Q3',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 季度
-                        key: 'Q4',
-                        // 充值用户量
-                        value: 1120,
-                    }
-                ]
-            };
-            for(var i=0;i<res.day.length;i++){
-                res.day[i].key = res.day[i].key.slice(5); // 日期去掉年份
-            }
-            // 存一下接口数据
-            this.czyhtjApiData = res;
-            // 折线图数据设置---默认显示日期统计
-            this.lineDataSet("czyhtj", "充值用户", this.czyhtjApiData['day']);
-        },
-        // 充值用户统计的统计方式发生改变
-        czyhtjSelectChange(type){
-            // console.log(type);
-            if(type=="day"){
-                this.czyhtjUnit = '日期';
-            }else if(type=="month"){
-                this.czyhtjUnit = '月份';
-            }else if(type=="quarter"){
-                this.czyhtjUnit = '季度';
-            }
-            // 折线图数据设置---默认显示日期统计
-            this.lineDataSet("czyhtj", "充值用户", this.czyhtjApiData[type]);
-        },
-        // 获取活跃用户统计数据（调用接口的）---接口
-        hyyhtjGetStatisticsData() {
-            // 参数对象
-            var params = {
-                days: 15
-            };
-            console.log(params);
-            // 模拟请求接口返回的数据
-            var res = {
-                // 日期统计数据
-                day: [
-                    {
-                        // 日期
-                        key: '2018.12.1',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.2',
-                        // 充值用户量
-                        value: 1220,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.3',
-                        // 充值用户量
-                        value: 1320,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.4',
-                        // 充值用户量
-                        value: 1420,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.5',
-                        // 充值用户量
-                        value: 2222,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.6',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    }
-                ],
-                // 月份统计数据
-                month: [
-                    {
-                        // 月份
-                        key: '1',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 月份
-                        key: '2',
-                        // 充值用户量
-                        value: 1220,
-                    },
-                    {
-                        // 月份
-                        key: '3',
-                        // 充值用户量
-                        value: 1320,
-                    },
-                    {
-                        // 月份
-                        key: '4',
-                        // 充值用户量
-                        value: 1420,
-                    },
-                    {
-                        // 月份
-                        key: '5',
-                        // 充值用户量
-                        value: 1520,
-                    },
-                    {
-                        // 月份
-                        key: '6',
-                        // 充值用户量
-                        value: 1620,
-                    },
-                    {
-                        // 月份
-                        key: '7',
-                        // 充值用户量
-                        value: 1720,
-                    },
-                    {
-                        // 月份
-                        key: '8',
-                        // 充值用户量
-                        value: 1820,
-                    },
-                    {
-                        // 月份
-                        key: '9',
-                        // 充值用户量
-                        value: 1920,
-                    },
-                    {
-                        // 月份
-                        key: '10',
-                        // 充值用户量
-                        value: 2020,
-                    },
-                    {
-                        // 月份
-                        key: '11',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 月份
-                        key: '12',
-                        // 充值用户量
-                        value: 1120,
-                    }
-                ],
-                // 季度统计数据
-                quarter: [
-                    {
-                        // 季度
-                        key: 'Q1',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 季度
-                        key: 'Q2',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 季度
-                        key: 'Q3',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 季度
-                        key: 'Q4',
-                        // 充值用户量
-                        value: 1120,
-                    }
-                ]
-            };
-            for(var i=0;i<res.day.length;i++){
-                res.day[i].key = res.day[i].key.slice(5); // 日期去掉年份
-            }
-            // 存一下接口数据
-            this.hyyhtjApiData = res;
-            // 折线图数据设置---默认显示日期统计
-            this.lineDataSet("hyyhtj", "活跃用户", this.hyyhtjApiData['day']);
-        },
-        // 活跃用户统计的统计方式发生改变
-        hyyhtjSelectChange(type){
-            // console.log(type);
-            if(type=="day"){
-                this.hyyhtjUnit = '日期';
-            }else if(type=="month"){
-                this.hyyhtjUnit = '月份';
-            }else if(type=="quarter"){
-                this.hyyhtjUnit = '季度';
-            }
-            // 折线图数据设置---默认显示日期统计
-            this.lineDataSet("hyyhtj", "活跃用户", this.hyyhtjApiData[type]);
-        },
-        // 获取新增用户统计数据（调用接口的）---接口
-        xzyhtjGetStatisticsData() {
-            // 参数对象
-            var params = {
-                days: 15
-            };
-            console.log(params);
-            // 模拟请求接口返回的数据
-            var res = {
-                // 日期统计数据
-                day: [
-                    {
-                        // 日期
-                        key: '2018.12.1',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.2',
-                        // 充值用户量
-                        value: 1220,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.3',
-                        // 充值用户量
-                        value: 1320,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.4',
-                        // 充值用户量
-                        value: 1420,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.5',
-                        // 充值用户量
-                        value: 2222,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.6',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 日期
-                        key: '2018.12.28',
-                        // 充值用户量
-                        value: 1120,
-                    }
-                ],
-                // 月份统计数据
-                month: [
-                    {
-                        // 月份
-                        key: '1',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 月份
-                        key: '2',
-                        // 充值用户量
-                        value: 1220,
-                    },
-                    {
-                        // 月份
-                        key: '3',
-                        // 充值用户量
-                        value: 1320,
-                    },
-                    {
-                        // 月份
-                        key: '4',
-                        // 充值用户量
-                        value: 1420,
-                    },
-                    {
-                        // 月份
-                        key: '5',
-                        // 充值用户量
-                        value: 1520,
-                    },
-                    {
-                        // 月份
-                        key: '6',
-                        // 充值用户量
-                        value: 1620,
-                    },
-                    {
-                        // 月份
-                        key: '7',
-                        // 充值用户量
-                        value: 1720,
-                    },
-                    {
-                        // 月份
-                        key: '8',
-                        // 充值用户量
-                        value: 1820,
-                    },
-                    {
-                        // 月份
-                        key: '9',
-                        // 充值用户量
-                        value: 1920,
-                    },
-                    {
-                        // 月份
-                        key: '10',
-                        // 充值用户量
-                        value: 2020,
-                    },
-                    {
-                        // 月份
-                        key: '11',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 月份
-                        key: '12',
-                        // 充值用户量
-                        value: 1120,
-                    }
-                ],
-                // 季度统计数据
-                quarter: [
-                    {
-                        // 季度
-                        key: 'Q1',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 季度
-                        key: 'Q2',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 季度
-                        key: 'Q3',
-                        // 充值用户量
-                        value: 1120,
-                    },
-                    {
-                        // 季度
-                        key: 'Q4',
-                        // 充值用户量
-                        value: 1120,
-                    }
-                ]
-            };
-            for(var i=0;i<res.day.length;i++){
-                res.day[i].key = res.day[i].key.slice(5); // 日期去掉年份
-            }
-            // 存一下接口数据
-            this.xzyhtjApiData = res;
-            // 折线图数据设置---默认显示日期统计
-            this.lineDataSet("xzyhtj", "充值用户", this.xzyhtjApiData['day']);
-        },
-        // 新增用户统计的统计方式发生改变
-        xzyhtjSelectChange(type){
-            // console.log(type);
-            if(type=="day"){
-                this.xzyhtjUnit = '日期';
-            }else if(type=="month"){
-                this.xzyhtjUnit = '月份';
-            }else if(type=="quarter"){
-                this.xzyhtjUnit = '季度';
-            }
-            // 折线图数据设置---默认显示日期统计
-            this.lineDataSet("xzyhtj", "充值用户", this.xzyhtjApiData[type]);
-        },
-        // 获取用户设备统计数据（调用接口的）---接口
-        sbbltGetStatisticsData(){
-            // 参数对象
-            var params = {};
-            console.log(params);
-            // 模拟请求接口返回的数据
-            var res = [
-                {
-                    name:'iPhone 8',
-                    value: 157847,
-                },
-                {
-                    name:'iPhoneX',
-                    value: 107847,
-                },
-                {
-                    name:'华为 MATE20',
-                    value: 97847,
-                },
-                {
-                    name:'iPhone XR',
-                    value: 87847,
-                },
-                {
-                    name:'三星Galaxy S9+',
-                    value: 17847,
-                },
-                {
-                    name:'其他',
-                    value: 137847,
-                }
-            ];
-
+        // 饼状图
+        sbbltGetStatisticsData(flag,res){
             // api数据---比例图右侧需要用
-            var apiData = res;
-            var mixNum = res[0].value; // 最大的设备量
-            if(mixNum < res[res.length-1].value){
-                // 设备最多的一项 < 其他设备量（除了前5的和）
-                mixNum = res[res.length-1].value;
-            }
-            for(var i=0;i<apiData.length;i++){
+            let apiData = res;
+            let mixNum = res[0].value; // 最大的设备量
+						for(let i=1; i<res.length; i++){
+							if(res[i].value > mixNum){
+								mixNum = res[i].value;
+							}
+						}
+            for(let i=0;i<apiData.length;i++){
                 apiData[i].bgcolor = this.sbbltPieColor[i];
                 apiData[i].percent = Math.floor((apiData[i].value/mixNum)*100);
             }
-            this.sbbltApiData = apiData;
             
             // 饼图数据
-            var pieEChartsData = res;
+			
+            let pieEChartsData = res;
             // 绘制饼图
-            this.drawPie('sbblt', pieEChartsData, this.sbbltPieColor);
+           
+						if(flag==1){
+							this.sbbltApiData = apiData;
+							this.drawPie('sbblt', pieEChartsData, this.sbbltPieColor);
+						}
+						if(flag==2){
+							this.userApiData = apiData;
+							this.drawPie('user', pieEChartsData, this.sbbltPieColor);
+						}
         },
         // 绘制饼图
         drawPie(divName, pieDate, color){
-            this[divName+'EChartsObj'] = this.$echarts.init(document.getElementById(divName+'EChartsPie'));
+            this[divName+'EChartsObj'] = this.$echarts.init(document.getElementById(divName+'EChartsPie'));//根据id找到对应的饼图
             // 饼图数据
             var series = [];
             for(var i=0;i<pieDate.length;i++){

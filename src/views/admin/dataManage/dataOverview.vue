@@ -200,9 +200,9 @@
 									</Carousel>
 								</Modal>
 								<Modal v-model="imageModal2" title="视频" class="mymodal"  @on-ok="stopvideo"
-									@on-cancel="stopvideo">
+									@on-cancel="stopvideo" width='840'>
 									<div>
-										<video style="display: block;margin: 0 auto;" :src="video" :key="video" id="video" controls="controls"></video>
+										<video style="display: block;margin: 0 auto;width: 800px;height: 600px;" :src="video" :key="video" id="video" controls="controls"></video>
 									</div>
 								</Modal>
                             </Col>
@@ -312,7 +312,9 @@ export default {
                     render: (h, params) => {
                         var str = params.row.pic;
                         if (str) {
-                            str = str.substring(0, str.lastIndexOf(','));
+                            if(str.lastIndexOf(',')>0){
+                            	str = str.substring(0, str.lastIndexOf(','));
+                            }
                             var arr = str.split(',');
                             return h('img', {
                                 attrs: {
@@ -616,7 +618,10 @@ export default {
                     .then(response => {
                         if (response.data.code == 200) {
                             Util.success('删除成功');
-                            this.yhlbmkGetList(1, this.yhlbmkIsSearch);
+														this.yhlbmkGetList(this.yhlbmktablePageData.pageNum, this.yhlbmkIsSearch);
+														this.$nextTick(function() {
+																this.$refs['pages'].currentPage = this.yhlbmktablePageData.pageNum;
+														});
                         } else {
                             Util.error('删除失败,' + response.data.msg);
                         }
@@ -732,6 +737,7 @@ export default {
             this.yhlbmkAddObj.productPrice = params.productPrice || '';
             this.yhlbmkAddObj.introduction = params.introduction;
             this.yhlbmkAddObj.id = params.id;
+						this.yhlbmkAddObj.source=params.source
             let json = {};
             json.id = params.productTypeId;
             let postData = this.$qs.stringify(json);
@@ -759,6 +765,7 @@ export default {
             formData.append('productType', this.model2[1]);
             formData.append('productPrice', this.yhlbmkAddObj.productPrice);
             formData.append('introduction', this.yhlbmkAddObj.introduction);
+						formData.append('source', this.yhlbmkAddObj.source);
             console.log(formData);
             let config = {
                 headers: { 'Content-Type': 'multipart/form-data' }

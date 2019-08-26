@@ -97,7 +97,7 @@
 				<p class="viptext">会员等级说明</p>
 			</div>
 			<ol>
-				<li class="viptextd">1. 小牛趣拍的会员等级共5个等级，分别为：V0、V1、V2、V3、V4、V5几个等级</li>
+				<li class="viptextd">1. 小牛趣拍的会员等级共6个等级，分别为：V0、V1、V2、V3、V4、V5几个等级</li>
 				<li class="viptextd">2. 会员级别的升降均由系统自动处理，无需申请。</li>
 				<li class="viptextd">3. 会员的等级由ARTC决定，积分数量越多会员等级越高，享受到的会员权益越大。</li>
 			</ol>

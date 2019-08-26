@@ -82,7 +82,7 @@
                                 show-elevator
                                 @on-change="yhlbmkPageChange"
                             ></Page>
-                            <span>共&nbsp;{{yhlbmktablePageData.pagesf}}&nbsp;页</span>
+                            <span>共&nbsp;{{yhlbmktablePageData.pages}}&nbsp;页</span>
                         </div>
                     </div>
                 </div>
