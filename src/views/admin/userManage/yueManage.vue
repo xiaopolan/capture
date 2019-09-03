@@ -1,4 +1,4 @@
-<!-- 返利管理列表页 -->
+<!-- 余额管理列表页 -->
 <style lang="less" scoped>
 .yhtjBox {
     .remark_box {
@@ -35,12 +35,12 @@
 
 <template>
     <div class="tabsBox_style">
-            <!-- 返利管理列表页 -->
+            <!-- 余额管理列表页 -->
                 <div class="itemBox yhlb_table">
                     <div class="remark_box">
                         <Row>
                             <Col span="4">
-                                <h3>返利管理列表</h3>
+                                <h3>余额管理列表</h3>
                             </Col>
                             <Col span="10" style="textAlign:center;">
                                 <div class="searchBox clearfix">

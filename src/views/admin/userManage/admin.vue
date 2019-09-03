@@ -247,6 +247,11 @@ export default {
             yhlbmkIsSearch: false, // 是否加入搜索词
             // 用户列表表格的标题行数据（列属性名称）
             yhlbmkCols: [
+				{
+					title: 'id',
+					key: 'id',
+					align: 'center'
+				},
                 {
                     title: '账户',
                     key: 'account',
@@ -390,9 +395,10 @@ export default {
         },
         deleteGood(id) {
             let params = {};
-            params.id = id;
+            params.sysUserID = id;
+			let postData = this.$qs.stringify(params)
             axios
-                .get('/api/auction/ArtcReward/sys/del', {params})
+                .post('/api/auction/sysUser/sys/deleteSysUser', postData)
                 .then(response => {
                     if (response.data.code == 200) {
                         Util.success('删除成功');
@@ -409,14 +415,17 @@ export default {
         yhlbmkOk() {
                 // 参数对象
 				let params = {
-					num: this.yhlbmkAddObj.num,
-					scale: this.yhlbmkAddObj.scale,
+					account: this.yhlbmkAddObj.account,
+					permissionSign: this.model2,
+					pwd: this.yhlbmkAddObj.pwd,
+					userName: this.yhlbmkAddObj.userName,
 				};
-				if(this.yhlbmkAddObj.scale=='' || this.yhlbmkAddObj.num==''){
+				let postData = this.$qs.stringify(params)
+				if(this.yhlbmkAddObj.account=='' || this.model2==='' || this.yhlbmkAddObj.pwd=='' || this.yhlbmkAddObj.userName==''){
 					Util.error('正确填写表单');
 				}else{
 						axios
-							.get('/api/auction/ArtcReward/sys/add', {params})
+							.post('/api/auction/sysUser/sys/addSysUser', postData)
 							.then(response => {
 								console.log(response);
 								if (response.data.code == 200) {
@@ -449,8 +458,10 @@ export default {
         //增加商品
         addgood() {
 			// 清除表单
-			this.yhlbmkAddObj.num = '';
-			this.yhlbmkAddObj.scale = '';
+			this.yhlbmkAddObj.account = '';
+			this.model2 = '';
+			this.yhlbmkAddObj.pwd = '';
+			this.yhlbmkAddObj.userName = '';
             this.yhlbmkModal = true;
         },
 		//点击修改
@@ -468,11 +479,14 @@ export default {
 
 			let params = {
 				id:this.yhlbmkAddObj.id,
-				num: this.yhlbmkAddObj.num,
-				scale: this.yhlbmkAddObj.scale ,
+				pwd: this.yhlbmkAddObj.pwd,
+				userName: this.yhlbmkAddObj.userName,
+				account: this.yhlbmkAddObj.account,
+				permissionSign: this.model2,
 			};
+			let postData = this.$qs.stringify(params)
             axios
-                .get('/api/auction/ArtcReward/sys/update', {params})
+                .post('/api/auction/sysUser/sys/updateSysUser', postData)
                 .then(response => {
                     console.log(response);
                     if (response.data.code == 200) {

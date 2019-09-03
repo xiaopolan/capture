@@ -624,6 +624,7 @@ export default {
                 legendDataArr[i].color = color[i];
                 legendData[i]= seriesData[i].name;
                 obj.type = 'line';
+								// obj.smooth = true;//折线图改成曲线图
                 series[i] = obj;
             }
             this[divName+"LegendData"] = legendDataArr;

@@ -113,6 +113,14 @@
 									<div style="marginBottom:10px;textAlign:center">
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
+										>档次名称：</div>
+											<select name="public-choice" v-model="model2" @change="m2Select" class="typeselect" style="width: 200px;height: 32px;">                                        
+												<option :value="item.id" :key='item.auctionGradeName'  v-for="item in ccidlist" >{{item.auctionGradeName}}</option>                                    
+											</select>
+									</div>
+									<div style="marginBottom:10px;textAlign:center">
+										<div
+											style="display:inline-block;width:86px;textAlign:left"
 										>起拍价：</div>
 										<Input
 											v-model="yhlbmkAddObj.productPrice"
@@ -143,14 +151,6 @@
 											style="display:inline-block;width:86px;textAlign:left"
 										>结束时间：</div>
 											<Date-picker  :value="endValue" :options="endTimeOptions" v-modal="endValue"  @on-change="handleChange1" type="datetime" placeholder="选择日期和时间" style="width: 200px"></Date-picker>
-									</div>
-									<div style="marginBottom:10px;textAlign:center">
-										<div
-											style="display:inline-block;width:86px;textAlign:left"
-										>档次名称：</div>
-											<select name="public-choice" v-model="model2" class="typeselect" style="width: 200px;height: 32px;">                                        
-												<option :value="item.id" :key='item.auctionGradeName'  v-for="item in ccidlist" >{{item.auctionGradeName}}</option>                                    
-											</select>
 									</div>
 									<div style="marginBottom:10px;textAlign:center">
 										<div
@@ -888,7 +888,25 @@ export default {
         stopvideo() {
             var myVideo = document.getElementById('video');
             myVideo.pause();
-        }
+        },
+				//竞拍场底价
+				m2Select(){
+					if(this.model2==1){
+						this.yhlbmkAddObj.productPrice=1
+					}
+					if(this.model2==2){
+						this.yhlbmkAddObj.productPrice=100
+					}
+					if(this.model2==3){
+						this.yhlbmkAddObj.productPrice=500
+					}
+					if(this.model2==4){
+						this.yhlbmkAddObj.productPrice=1000
+					}
+					if(this.model2==5){
+						this.yhlbmkAddObj.productPrice=2000
+					}
+				}
     }
 };
 </script>

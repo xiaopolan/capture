@@ -4,11 +4,12 @@
     padding: 10px;
 }
 .fanli {
+	width: 90%;
     text-align: center;
     margin-top: 10px;
 }
 .fanli span{
-	width: 150px;
+	width: 220px;
 	display: inline-block;
     text-align: right;
 }
@@ -42,21 +43,25 @@
 					<div class="fanli"><span>抢拍默认人数</span><i-input v-model="setcc.ccmrvalue" placeholder="请输入抢拍默认人数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>个</div>
 					<div class="fanli"><i-button type="success" small  @click="saveyy(3)">保存</i-button></div>
 				</TabPane>
-				<TabPane label="任务积分奖励设置" key="key3">
-					<div class="fanli"><span>关注微信公众号</span><i-input v-model="setjf.wxnumber" placeholder="请输入关注微信公众号" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>个</div>
+				<TabPane label="任务积分奖励设置" key="key3" id="task">
+					<!-- <div class="fanli"><span>关注微信公众号</span><i-input v-model="setjf.wxnumber" placeholder="请输入关注微信公众号" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>个</div>
 					<div class="fanli"><span>分享给好友</span><i-input v-model="setjf.friendnumber" placeholder="请输入分享给好友" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>个</div>
 					<div class="fanli"><span>加入QQ群</span><i-input v-model="setjf.qqnumber " placeholder="请输入加入QQ群" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>个</div>
 					<div class="fanli"><span>加入微信群</span><i-input v-model="setjf.wxqnumber " placeholder="请输入加入微信群" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>个</div>
-					<div class="fanli"><span>邀请注册</span><i-input v-model="setjf.invitenumber" placeholder="请输入邀请注册" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>个</div>
+					<div class="fanli"><span>邀请注册</span><i-input v-model="setjf.invitenumber" placeholder="请输入邀请注册" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>个</div> -->
+					<div v-for="(item,index) in dailyTask" :key="index" class="fanli">
+						<span>{{item.cdItemDesc}}</span>
+						<input ref="inputgroup" v-model="item.cdVal" :id="item.cdItem" :placeholder="'请输入'+item.cdItemDesc" class="ivu-input ivu-input-default" style="width: 300px;margin-left: 10px;margin-right: 10px;" />
+					</div>
 					<div class="fanli"><i-button type="success" small  @click="saveyy(4)">保存</i-button></div>
 				</TabPane>
-				<TabPane label="保证金额设置" key="key3">
+				<!-- <TabPane label="保证金额设置" key="key3">
 					<div class="fanli"><span>普通场</span><i-input v-model="setje.ptfarm" placeholder="请输入保证金额" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>元</div>
 					<div class="fanli"><span>高级场</span><i-input v-model="setje.gjfarm " placeholder="请输入保证金额" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>元</div>
 					<div class="fanli"><span>专家场</span><i-input v-model="setje.zjfarm " placeholder="请输入保证金额" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>元</div>
 					<div class="fanli"><span>大师场</span><i-input v-model="setje.dsfarm" placeholder="请输入保证金额" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>元</div>
 					<div class="fanli"><i-button type="success" small  @click="saveyy(5)">保存</i-button></div>
-				</TabPane>
+				</TabPane> -->
 				<TabPane label="积分价格设置" key="key4">
 					<div class="fanli"><span>积分价格</span><i-input v-model="integral.price" placeholder="请输入积分单价" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>元</div>
 					<div class="fanli"><i-button type="success" small  @click="saveyy(6)">保存</i-button></div>
@@ -67,10 +72,14 @@
 					<div class="fanli"><i-button type="success" small  @click="saveyy(7)">保存</i-button></div>
 				</TabPane>
 				<TabPane label="品鉴设置" key="key4">
-					<div class="fanli"><span>点赞数设置</span><i-input v-model="numzan" placeholder="请输入点赞数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>个</div>
-					<div class="fanli"><span>点赞换积分</span><i-input v-model="dianzan" placeholder="请输入换取积分数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分</div>
-					<div class="fanli"><span>评论换积分</span><i-input v-model="pinglun" placeholder="请输入换取积分数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分</div>
+					<div class="fanli"><span>商品点赞数设置</span><i-input v-model="numzan" placeholder="请输入点赞数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>个</div>
+					<div class="fanli"><span>点赞奖励积分</span><i-input v-model="dianzan" placeholder="请输入换取积分数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分</div>
+					<div class="fanli"><span>评论奖励积分</span><i-input v-model="pinglun" placeholder="请输入换取积分数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分</div>
 					<div class="fanli"><span>打赏奖励积分</span><i-input v-model="gift" placeholder="请输入积分数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分</div>
+					<div class="fanli"><span>点赞数阀值</span><i-input v-model="pinjian1" placeholder="请输入点赞数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>个</div>
+					<div class="fanli"><span>成功上架竞拍获得积分</span><i-input v-model="pinjian2" placeholder="请输入积分数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分</div>
+					<div class="fanli"><span>审核通过获得积分</span><i-input v-model="pinjian3" placeholder="请输入积分数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分</div>
+					<div class="fanli"><span>点赞数达到阀值获得积分</span><i-input v-model="pinjian4" placeholder="请输入积分数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分</div>
 					<div class="fanli"><i-button type="success" small  @click="saveyy(8)">保存</i-button></div>
 				</TabPane>
 				<TabPane label="系统设置" key="key4">
@@ -93,6 +102,7 @@
 				</TabPane>
 				<TabPane label="h5配置" key="key4">
 					<div class="fanli"><span>品鉴分享</span><i-input v-model="judge" placeholder="请输入地址" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input></div>
+					<div class="fanli"><span>市场统计</span><i-input v-model="market" placeholder="请输入地址" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input></div>
 					<div class="fanli"><span>会员权益</span><i-input v-model="vipdetail" placeholder="请输入地址" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input></div>
 					<div class="fanli"><i-button type="success" small  @click="saveyy(13)">保存</i-button></div>
 				</TabPane>
@@ -116,6 +126,19 @@
 					<div class="fanli"><span>ios版本号</span><i-input v-model="iosv" placeholder="请输入版本号" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input></div>
 					<div class="fanli"><i-button type="success" small  @click="saveyy(16)">保存</i-button></div>
 				</TabPane>
+				<!-- <TabPane label="日常任务" key="key4">
+					<div class="fanli"><span>评论任务有效上限(次数)</span><i-input v-model="comment" placeholder="请输入次数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input></div>
+					<div class="fanli"><span>每次评论任务奖励artc数量</span><i-input v-model="comment_artc" placeholder="请输入数量" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input></div>
+					<div class="fanli"><span>点赞任务有效上限(次数)</span><i-input v-model="dianZans" placeholder="请输入次数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input></div>
+					<div class="fanli"><span>每次点赞任务奖励artc数量</span><i-input v-model="dianZan_artc" placeholder="请输入数量" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input></div>
+					<div class="fanli"><span>分享任务有效上限(次数)</span><i-input v-model="share" placeholder="请输入次数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input></div>
+					<div class="fanli"><span>每次分享任务奖励artc数量</span><i-input v-model="share_artc" placeholder="请输入数量" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input></div>
+					<div v-for="(item,index) in dailyTask" :key="index" class="fanli">
+						<span>{{item.cdItemDesc}}</span>
+						<i-input v-model="item.cdVal" :placeholder="'请输入'+item.cdItemDesc" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>
+					</div>
+					<div class="fanli"><i-button type="success" small  @click="saveyy(17)">保存</i-button></div>
+				</TabPane> -->
 			</Tabs>
 		</div>
 </template>
@@ -128,6 +151,18 @@ export default {
     name: 'yunyinSet',
     data() {
         return {
+			comment:'',
+			comment_artc:'',
+			dianZans:'',
+			dianZan_artc:'',
+			share:'',
+			share_artc:'',
+			
+			pinjian1:'',
+			pinjian2:'',
+			pinjian3:'',
+			pinjian4:'',
+			
 			androidv:"",
 			iosv:'',
 			niupiao:'',
@@ -171,15 +206,16 @@ export default {
                 wxqnumber: '',
                 invitenumber: ''
             },
-            setje: {
-                ptfarm: '',
-                gjfarm: '',
-                zjfarm: '',
-                dsfarm: ''
-            },
+//             setje: {
+//                 ptfarm: '',
+//                 gjfarm: '',
+//                 zjfarm: '',
+//                 dsfarm: ''
+//             },
             integral: {
                 price: ''
-            }
+            },
+			// dailyTask:[],//每日任务
         };
     },
     created() {
@@ -199,8 +235,8 @@ export default {
                     var list1 = res.data.setyy;
                     var list2 = res.data.setlc;
                     var list3 = res.data.setcc;
-                    var list4 = res.data.setjf;
-                    var list5 = res.data.setje;
+                    // var list4 = res.data.setjf;
+                    // var list5 = res.data.setje;
                     var list6 = res.data.integral;
                     var list7 = res.data.artcTradeSheet;
                     var list8 = res.data.Judge;
@@ -214,6 +250,9 @@ export default {
 					var list16 = res.data.gift;
 					var list17 = res.data.android;
 					var list18 = res.data.ios;
+					var list19 = res.data.getARTC;
+					// var list20 = res.data.dailyTask;
+					this.dailyTask=res.data.task;
                     //运营
                     this.setyy.scale = list1[3].cdVal || '';
                     this.startValue =
@@ -228,16 +267,16 @@ export default {
                     this.setcc.ccmrtime = list3[0].cdVal || '';
                     this.setcc.ccmrvalue = list3[1].cdVal || '';
                     //积分
-                    this.setjf.wxnumber = list4[3].cdVal || '';
-                    this.setjf.friendnumber = list4[0].cdVal || '';
-                    this.setjf.qqnumber = list4[2].cdVal || '';
-                    this.setjf.wxqnumber = list4[4].cdVal || '';
-                    this.setjf.invitenumber = list4[1].cdVal || '';
+//                     this.setjf.wxnumber = list4[3].cdVal || '';
+//                     this.setjf.friendnumber = list4[0].cdVal || '';
+//                     this.setjf.qqnumber = list4[2].cdVal || '';
+//                     this.setjf.wxqnumber = list4[4].cdVal || '';
+//                     this.setjf.invitenumber = list4[1].cdVal || '';
                     //金额
-                    this.setje.ptfarm = list5[2].cdVal || '';
-                    this.setje.gjfarm = list5[1].cdVal || '';
-                    this.setje.zjfarm = list5[3].cdVal || '';
-                    this.setje.dsfarm = list5[0].cdVal || '';
+//                     this.setje.ptfarm = list5[2].cdVal || '';
+//                     this.setje.gjfarm = list5[1].cdVal || '';
+//                     this.setje.zjfarm = list5[3].cdVal || '';
+//                     this.setje.dsfarm = list5[0].cdVal || '';
                     //积分价格
                     this.integral.price = list6[0].cdVal || '';
 
@@ -261,7 +300,8 @@ export default {
                     this.iosurl = list12[1].cdVal || '';
                     //h5
                     this.judge = list13[0].cdVal || '';
-                    this.vipdetail = list13[1].cdVal || '';
+					this.market = list13[1].cdVal || '';
+                    this.vipdetail = list13[2].cdVal || '';
 					//logo
 					this.fximg = list14[0].cdVal || '';
 					//注册
@@ -271,6 +311,18 @@ export default {
 					//版本
 					this.androidv = list17[0].cdVal || '';
 					this.iosv = list18[0].cdVal || '';
+					//品鉴点赞积分
+					this.pinjian1=list19[1].cdVal || '';
+					this.pinjian2=list19[2].cdVal || '';
+					this.pinjian3=list19[3].cdVal || '';
+					this.pinjian4=list19[0].cdVal || '';
+					//每日任务
+// 					this.comment=list20[0].cdVal || '';
+// 					this.comment_artc=list20[1].cdVal || '';
+// 					this.dianZans=list20[2].cdVal || '';
+// 					this.dianZan_artc=list20[3].cdVal || '';
+// 					this.share=list20[4].cdVal || '';
+// 					this.share_artc=list20[5].cdVal || '';
                 })
                 .catch(error => {
                     console.log(error);
@@ -339,57 +391,40 @@ export default {
                     break;
                 case 4:
                     var param = [
-                        {
-                            cdItem: 'wxnumber',
-                            cdType: 'setjf',
-                            cdVal: this.setjf.wxnumber
-                        },
-                        {
-                            cdItem: 'friendnumber',
-                            cdType: 'setjf',
-                            cdVal: this.setjf.friendnumber
-                        },
-                        {
-                            cdItem: 'qqnumber',
-                            cdType: 'setjf',
-                            cdVal: this.setjf.qqnumber
-                        },
-                        {
-                            cdItem: 'wxqnumber',
-                            cdType: 'setjf',
-                            cdVal: this.setjf.wxqnumber
-                        },
-                        {
-                            cdItem: 'invitenumber',
-                            cdType: 'setjf',
-                            cdVal: this.setjf.invitenumber
-                        }
                     ];
+					var group = document.getElementById('task').getElementsByTagName('input');
+					var valuegr=this.$refs.inputgroup
+					for (let i = 0; i < group.length; i++) {
+						param[i]={}
+						param[i].cdItem=group[i].id;
+						param[i].cdType='task';
+						param[i].cdVal=valuegr[i].value;
+					}
                     break;
-                case 5:
-                    var param = [
-                        {
-                            cdItem: 'ptfarm',
-                            cdType: 'setje',
-                            cdVal: this.setje.ptfarm
-                        },
-                        {
-                            cdItem: 'gjfarm',
-                            cdType: 'setje',
-                            cdVal: this.setje.gjfarm
-                        },
-                        {
-                            cdItem: 'zjfarm',
-                            cdType: 'setje',
-                            cdVal: this.setje.zjfarm
-                        },
-                        {
-                            cdItem: 'dsfarm',
-                            cdType: 'setje',
-                            cdVal: this.setje.dsfarm
-                        }
-                    ];
-                    break;
+//                 case 5:
+//                     var param = [
+//                         {
+//                             cdItem: 'ptfarm',
+//                             cdType: 'setje',
+//                             cdVal: this.setje.ptfarm
+//                         },
+//                         {
+//                             cdItem: 'gjfarm',
+//                             cdType: 'setje',
+//                             cdVal: this.setje.gjfarm
+//                         },
+//                         {
+//                             cdItem: 'zjfarm',
+//                             cdType: 'setje',
+//                             cdVal: this.setje.zjfarm
+//                         },
+//                         {
+//                             cdItem: 'dsfarm',
+//                             cdType: 'setje',
+//                             cdVal: this.setje.dsfarm
+//                         }
+//                     ];
+//                     break;
                 case 6:
                     var param = [
                         {
@@ -434,7 +469,27 @@ export default {
                             cdItem: 'gift',
                             cdType: 'Judge',
                             cdVal: this.gift
-                        }
+                        },
+						{
+							cdItem: 'dianzan',
+							cdType: 'getARTC',
+							cdVal: this.pinjian4
+						},
+						{
+							cdItem: 'dianzannum',
+							cdType: 'getARTC',
+							cdVal: this.pinjian1
+						},
+						{
+							cdItem: 'push',
+							cdType: 'getARTC',
+							cdVal: this.pinjian2
+						},
+						{
+							cdItem: 'verify',
+							cdType: 'getARTC',
+							cdVal: this.pinjian3
+						}
                     ];
                     break;
                 case 9:
@@ -490,6 +545,11 @@ export default {
                             cdType: 'h5',
                             cdVal: this.judge
                         },
+						{
+							cdItem: 'mark_count',
+							cdType: 'h5',
+							cdVal: this.market
+						},
                         {
                             cdItem: 'vipdetail',
                             cdType: 'h5',
@@ -529,16 +589,54 @@ export default {
 						},
 					];
 					break;
+				case 17:
+					var param = [
+						{
+							cdItem: 'comment',
+							cdType: 'dailyTask',
+							cdVal: this.comment
+						},
+						{
+							cdItem: 'comment_artc',
+							cdType: 'dailyTask',
+							cdVal: this.comment_artc
+						},
+						{
+							cdItem: 'dianZan',
+							cdType: 'dailyTask',
+							cdVal: this.dianZans
+						},
+						{
+							cdItem: 'dianZan_artc',
+							cdType: 'dailyTask',
+							cdVal: this.dianZan_artc
+						},
+						{
+							cdItem: 'share',
+							cdType: 'dailyTask',
+							cdVal: this.share
+						},
+						{
+							cdItem: 'share_artc',
+							cdType: 'dailyTask',
+							cdVal: this.share_artc
+						},
+					];
+					break;
             }
 
-            //  				console.log(typeof(param));
-            //  				var jsondata=JSON.stringify(param)
+//              				console.log(typeof(param));
+             				var jsondata=JSON.stringify(param)
             //console.log(typeof(jsondata))
-            // 				debugger
-            // 				let postData = this.$qs.stringify(param);
-            // 				console.log(postData)
+//             				 let postData = this.$qs.stringify(param);
+            				// console.log(postData)
+			let formData = new FormData();
+			formData.append("param",jsondata)
+			let config = {
+				headers:{'Content-Type':'multipart/form-data'}
+				};
             axios
-                .post('/api/auction/operate/sys/updateOperate', param)
+                .post('/api/auction/type/sys/addOrUpdate', formData,config)
                 .then(response => {
                     if (response.data.code == 200) {
                         Util.success('保存成功');
@@ -564,7 +662,7 @@ export default {
 			let formData = new FormData();
 			formData.append('file', this.files[0]);
 			axios
-				.post('/api/auction/type/sys/fileParam',formData)
+				.post('/api/auction/type/sys/addOrUpdate',formData)
 				.then(response => {
 					console.log(response);
 					if (response.data.code == 200) {

@@ -281,6 +281,9 @@ export default {
 			},{
 				groupType:3,
 				groupName:"交易消息"
+			},{
+				groupType:4,
+				groupName:"通知消息"
 			}],
 			upModal:false,
             yhtjtableData: [], // 用户统计表格数据
@@ -354,6 +357,9 @@ export default {
 						}
 						if(text==3){
 							return h('div','交易消息')
+						}
+						if(text==4){
+							return h('div','通知消息')
 						}
 					}
                 },

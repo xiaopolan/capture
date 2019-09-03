@@ -99,7 +99,7 @@
 			<ol>
 				<li class="viptextd">1. 小牛趣拍的会员等级共6个等级，分别为：V0、V1、V2、V3、V4、V5几个等级</li>
 				<li class="viptextd">2. 会员级别的升降均由系统自动处理，无需申请。</li>
-				<li class="viptextd">3. 会员的等级由ARTC决定，积分数量越多会员等级越高，享受到的会员权益越大。</li>
+				<li class="viptextd">3. 会员的等级由ARTC决定，ARTC数量越多会员等级越高，享受到的会员权益越大。</li>
 			</ol>
 		</div>
 		<div class="vipfenge"></div>
@@ -110,7 +110,7 @@
 			 <table class="viptable" >           
 				<tr v-for="(item,index) in headerList" :key="index">
 					<td v-if="index==0" class="firsttd" style="width: 22%">{{item.value}}</td>
-					<td v-else-if="index==1" style="width: 22%">积分数量(<span style="color: red;">L</span>)</td>
+					<td v-else-if="index==1" style="width: 22%">ARTC数量(<span style="color: red;">L</span>)</td>
 					<td v-else style="width: 22%">{{item.value}}</td>
 					<th class="tabletd" v-if='index==0' v-for="(items,indexs) in bodyList" :key="indexs">V{{items.grade}}</th>
 					<td class="tabletd" v-if='index==1' v-for="(items,indexs) in bodyList" :key="indexs">
@@ -142,10 +142,10 @@ export default {
 				value:"权益对比"
 			},
 			{
-				value:"积分数量(L)"
+				value:"ARTC数量(L)"
 			},
 			{
-				value:"获取积分比例"
+				value:"获取ARTC比例"
 			},
 			{
 				value:"交易手续费"

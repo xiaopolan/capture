@@ -198,7 +198,7 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '数量',
+                    title: '积分数量',
                     key: 'num',
                     //width: 280,
                     align: 'center'

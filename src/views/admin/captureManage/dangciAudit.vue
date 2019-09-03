@@ -48,18 +48,43 @@
                                 	@on-cancel="yhlbmkCancel"
                                 >
                                 	<div style="marginBottom:10px;textAlign:center">
-                                		<div
-                                			style="display:inline-block;width:100px;textAlign:left"
-                                		>
-                                			<span style="color:red;">*</span>竞拍档次名称：
+                                		<div style="display:inline-block;width:100px;textAlign:left">
+                                			竞拍档次名称：
                                 		</div>
                                 		<Input
-                                			v-model="yhlbmkAddObj.auctionGradeName"
+                                			v-model="yhlbmkAddObj.gradeName"
                                 			placeholder="请输入竞拍档次名称"
                                 			style="width:150px"
                                 		></Input>
                                 	</div>
+									<div style="marginBottom:10px;textAlign:center">
+										<div style="display:inline-block;width:100px;textAlign:left">
+											简介：
+										</div>
+										<Input
+											v-model="yhlbmkAddObj.introduction"
+											placeholder="请输入竞拍档次简介"
+											style="width:150px"
+										></Input>
+									</div>
+									<div style="marginBottom:10px;textAlign:center">
+										<div
+											style="display:inline-block;width:100px;textAlign:left"
+										>
+											<span style="color:red;"></span>图片：
+										</div>
+										<input style="width:150px;" type="file"  @change="addupImg1" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
+									</div>
                                 </Modal>
+								<Modal v-model="imageModal" title="图片查看" class="mymodal">
+									<Carousel v-if="imageModal">
+										<Carousel-Item v-for="(item,index) in imagelist" :key="index">
+											<div style="margin: 0 auto;text-align: center;display: flex;align-items: center;width: 488px;height: 300px;justify-content: center;">
+											<img :src="item" style="max-height:240px;max-width:440px;" alt=""/>
+											</div>
+										</Carousel-Item>
+									</Carousel>
+								</Modal>
                             </Col>
                         </Row>
                     </div>
@@ -97,6 +122,8 @@ export default {
     name: "dangciAudit",
     data() {
         return {
+			imagelist: [], //图片集合image
+			imageModal: false,
             yhlbmkIpVal: "", // 用户列表的搜索条件
             yhlbmkIsSearch: false, // 是否加入搜索词
             // 用户列表表格的标题行数据（列属性名称）
@@ -108,14 +135,42 @@ export default {
                 },
                 {
                 	title: "竞拍档次名称",
-                	key: "auctionGradeName",
+                	key: "gradeName",
                 	align: "center"
                 },
                 {
-                	title: "竞拍档次保证金额度",
-                	key: "amount",
+                	title: "竞拍档次简介",
+                	key: "introduction",
                 	align: "center"
                 },
+				{
+						title: '图片',
+						key: 'pic',
+						//width: 150,
+						align: 'center',
+						render: (h, params) => {
+								var str = params.row.gradeLogo;
+								if (str) {
+										return h('img', {
+												attrs: {
+														src: str
+												},
+												style: {
+														width: '50px',
+														height: '50px',
+														margin: '10px 0'
+												},
+												on: {
+														click: () => {
+																this.showimage(str);
+														}
+												}
+										});
+								} else {
+										return h('div', {}, '暂无图片');
+								}
+						}
+				},
 				{
 					title: "操作",
 					key: "action",
@@ -160,10 +215,8 @@ export default {
             yhlbmkLoading: true, // 添加新增用户的对话框加载状态
             // 新增用户的对话框表单
             yhlbmkAddObj: {
-                phone: "", // 用户手机号
-                pwd: "", // 用户密码
-                nickName: "", // 用户昵称
-                hotbirdNum: "" // 用户BinGo号
+                auctionGradeName: "", // 用户手机号
+                introduction: "", // 用户密码
             }
         };
     },
@@ -225,28 +278,42 @@ export default {
 		//修改档次
 		updateDc(params){
 			this.yhlbmkModal=true;
-			this.yhlbmkAddObj.auctionGradeName=params.auctionGradeName;
+			this.yhlbmkAddObj.gradeName=params.gradeName;
+			this.yhlbmkAddObj.introduction=params.introduction;
 			//this.yhlbmkAddObj.amount=params.amount;
 			this.yhlbmkAddObj.id=params.id;
 		},
 		// 点击新增用户的对话框的ok
 		yhlbmkOk() {
-			if (this.yhlbmkAddObj.auctionGradeName) {
-				let params = {
-					id:this.yhlbmkAddObj.id,
-					auctionGradeName: this.yhlbmkAddObj.auctionGradeName, 
+			if (this.yhlbmkAddObj.gradeName) {
+// 				let params = {
+// 					id:this.yhlbmkAddObj.id,
+// 					auctionGradeName: this.yhlbmkAddObj.auctionGradeName,
+// 					introduction: this.yhlbmkAddObj.introduction, 
+// 				};
+// 				let postData = this.$qs.stringify(params);
+				
+				let formData = new FormData();
+							
+				formData.append("id",this.yhlbmkAddObj.id)
+				formData.append("gradeName",this.yhlbmkAddObj.gradeName)
+				formData.append("introduction",this.yhlbmkAddObj.introduction)
+				for (var i = 0; i < this.yhlbmkAddObj.uppic1.length; i++) {
+						formData.append('gradeLogo', this.yhlbmkAddObj.uppic1[i]);
+				}
+				let config = {
+						headers: { 'Content-Type': 'multipart/form-data' }
 				};
-				let postData = this.$qs.stringify(params);
-				console.log(postData)
-				axios.post('/api/auction/auctionGrade/sys/updateAuctionGrade',postData)
+				const instance = axios.create({
+						withCredentials: true
+				});
+				
+				axios.post('/api/auction/auctionGrade/sys/updateAuctionGrade',formData,config)
 					.then( (response)=> {
 						console.log(response)
 						if(response.data.code==200){
 							Util.success("修改成功");
 							this.yhlbmkGetList(this.yhlbmktablePageData.pageNum, this.yhlbmkIsSearch);
-							this.$nextTick(function(){
-								this.$refs['pages'].currentPage = this.yhlbmktablePageData.pageNum;
-							})
 						}else{
 							Util.error("修改失败"+response.data.msg);
 						}
@@ -270,7 +337,19 @@ export default {
 		yhlbmkCancel() {
 			console.log("点击取消");
 			// 清除表单
-		}
+		},
+		addupImg1(e){
+			//let inputDOM = this.$refs.inputer;
+			let inputDOM = e.target.files;
+			// 通过DOM取文件数据
+			this.yhlbmkAddObj.uppic1 = inputDOM;
+		},
+		//图片查看
+		showimage(imagearr) {
+			this.imagelist=[];
+			this.imageModal = true;
+			this.imagelist.push(imagearr);
+		},
     }
 };
 </script>

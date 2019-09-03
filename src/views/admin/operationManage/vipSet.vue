@@ -273,12 +273,12 @@ export default {
 					}
                 },
                 {
-                	title: "积分数量",
+                	title: "ARTC数量",
                 	key: "countNum",
                 	align: "center"
                 },
 				{
-					title: "获取积分比例(%)",
+					title: "获取ARTC比例",
 					key: "integralScale",
 					align: "center"
 				},
@@ -287,11 +287,11 @@ export default {
 					key: "serverCharge",
 					align: "center",
 					render: (h,params)=> {
-						return h('div',params.row.serverCharge*100)
+						return h('div',params.row.serverCharge*100+"%")
 					}
 				},
 				{
-					title: "交易市场限制",
+					title: "交易市场限制(数量)",
 					align: "center",
 					render: (h,params)=> {
 						if(params.row.grade==0 || params.row.grade==1){
@@ -477,7 +477,7 @@ export default {
 			this.yhlbmkAddObj.grade = params.grade;
 			this.yhlbmkAddObj.countNum = params.countNum;
 			this.yhlbmkAddObj.integralScale = params.integralScale;
-			this.yhlbmkAddObj.serverCharge = params.serverCharge;
+			this.yhlbmkAddObj.serverCharge = params.serverCharge*100;
 			this.yhlbmkAddObj.lowerLimit = params.lowerLimit;
 		},
 		//修改

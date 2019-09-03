@@ -80,6 +80,7 @@
                                 :page-size="yhlbmktablePageData.pageSize"
                                 :current="yhlbmktablePageData.currentPage"
                                 show-elevator
+								ref="pages"
                                 @on-change="yhlbmkPageChange"
                             ></Page>
                             <span>共&nbsp;{{yhlbmktablePageData.pages}}&nbsp;页</span>
@@ -118,7 +119,7 @@ export default {
 					align: "center"
 				},
 				{
-					title: "用户类型",
+					title: "用户等级",
 					key: "grade",
 					align: "center",
 					render: (h,params)=> {
@@ -140,6 +141,20 @@ export default {
                     key: "address",
                     align: "center"
                 },
+				{
+					title: "用户类型",
+					key: "level",
+					align: "center",
+					render: (h,params)=> {
+						let text = params.row.level
+						if(text==0){
+							return h('div','普通用户')
+						}
+						if(text==1){
+							return h('div','市场用户')
+						}
+					}
+				},
 				{
 					title: "用户状态",
 					key: "status",
@@ -165,7 +180,7 @@ export default {
 											}
 										}
 									},
-									"启用"
+									"启用中"
 								)
 						}else{
 							return	h(
@@ -185,9 +200,36 @@ export default {
 											}
 										}
 									},
-									"禁用"
+									"禁用中"
 								)
 						}
+					}
+				},
+				{
+					title: "变更类型",
+					key: "status",
+					width: 90,
+					align: "center",
+					render: (h,params)=> {
+						return h(
+								"Button",
+								{
+									props: {
+										type: "info",
+										size: "small"
+									},
+									style: {
+										// width: "70px",
+										marginLeft: "10px"
+									},
+									on: {
+										click: () => {
+											this.changeUser(params.row.id)
+										}
+									}
+								},
+								"变更"
+							)
 					}
 				},
 				{
@@ -393,7 +435,36 @@ export default {
 				.catch( (error)=> {
 				console.log(error);
 				});
-		}
+		},
+		//变更用户类型
+		changeUser(id) {
+			if (confirm('是否确认变更类型？') == true) {
+					let params = {};
+					params.id = id;
+					// let postData = this.$qs.stringify(params);
+					axios
+							.post('/api/auction/user/sys/updateLevel', params)
+							.then(response => {
+									if (response.data.code == 200) {
+											Util.success('变更成功');
+											this.yhlbmkGetList(this.yhlbmktablePageData.pageNum, this.yhlbmkIsSearch);
+											this.$nextTick(function() {
+													this.$refs['pages'].currentPage = this.yhlbmktablePageData.pageNum;
+											});
+									} else {
+											Util.error('变更失败,' + response.data.msg);
+									}
+									//var res = response.data;
+									//this.yhlbmktablePageData.list=res.data;
+							})
+							.catch(error => {
+									console.log(error);
+							});
+			}
+			//this.sqlbmkApplyHandle(id, -1); // 申请处理
+			// 重新获取申请列表数据
+			//this.sqlbmkGetList(1, this.sqlbmkIsSearch);
+		},
     }
 };
 </script>
