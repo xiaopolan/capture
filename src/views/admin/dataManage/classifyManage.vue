@@ -152,7 +152,7 @@
 										>
 											<span style="color:red;"></span>介绍图片：
 										</div>
-										<input style="width:150px;" type="file" id='file5'  @change="addupImg" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
+										<input style="width:150px;" type="file" id='file5'  @change="addupImg" ref="inputer"  accept="image/png,image/jpeg,image/gif,image/jpg"/>
 									</div>
 									<div style="marginBottom:10px;textAlign:center">
 										<div
@@ -160,7 +160,7 @@
 										>
 											<span style="color:red;"></span>类型图片：
 										</div>
-										<input style="width:150px;" type="file" id='file6'  @change="addupImg1" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
+										<input style="width:150px;" type="file" id='file6'  @change="addupImg1" ref="inputer"  accept="image/png,image/jpeg,image/gif,image/jpg"/>
 									</div>
 								</Modal>
 								<Modal
@@ -209,7 +209,7 @@
 										>
 											<span style="color:red;"></span>介绍图片：
 										</div>
-										<input style="width:150px;" type="file" id='file1'  @change="addchImg" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
+										<input style="width:150px;" type="file" id='file1'  @change="addchImg" ref="inputer"  accept="image/png,image/jpeg,image/gif,image/jpg"/>
 									</div>
 									<div style="marginBottom:10px;textAlign:center">
 										<div
@@ -217,7 +217,7 @@
 										>
 											<span style="color:red;"></span>类型图片：
 										</div>
-										<input style="width:150px;" type="file" id='file2'  @change="addchImg1" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
+										<input style="width:150px;" type="file" id='file2'  @change="addchImg1" ref="inputer"  accept="image/png,image/jpeg,image/gif,image/jpg"/>
 									</div>
 									
 									<!-- <div style="marginBottom:10px;textAlign:center" v-if="myinput">
@@ -270,7 +270,7 @@
 										>
 											<span style="color:red;"></span>介绍图片：
 										</div>
-										<input style="width:150px;" type="file" id='file3'  @change="addpaImg" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
+										<input style="width:150px;" type="file" id='file3'  @change="addpaImg" ref="inputer" accept="image/png,image/jpeg,image/gif,image/jpg"/>
 									</div>
 									<div style="marginBottom:10px;textAlign:center">
 										<div
@@ -278,7 +278,7 @@
 										>
 											<span style="color:red;"></span>类型图片：
 										</div>
-										<input style="width:150px;" type="file" id='file4'  @change="addpaImg1" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
+										<input style="width:150px;" type="file" id='file4'  @change="addpaImg1" ref="inputer" accept="image/png,image/jpeg,image/gif,image/jpg"/>
 									</div>
 								</Modal>
 								<Modal v-model="imageModal" title="图片查看" class="mymodal">

@@ -42,6 +42,11 @@
     float: left;
     color: rgba(255, 255, 255, 1);
     margin-left: 5px;
+		height: 35px;
+		width: 62px;
+}
+.pname{
+	line-height: 35px;
 }
 .p1 {
     font-size: 12px;
@@ -276,16 +281,32 @@ background: rgba(238,238,238,1);
 	background: url(../assets/img/v5.png) no-repeat;
 	background-size: 100% 100%;
 }
+.guanzhu{
+	float: right;
+	width:45px;
+	height:20px;
+	background:linear-gradient(45deg,rgba(231,109,100,1) 0%,rgba(225,57,59,1) 100%);
+	border-radius:10px;
+	margin-top: 7px;
+	margin-right: 8px;
+	font-size:12px;
+	font-family:Microsoft YaHei;
+	font-weight:400;
+	color:rgba(255,255,255,1);
+	text-align: center;
+	line-height: 20px;
+}
 </style>
 <template>
     <div class="dmBox">
 			<div class="padtop">
 				<div class="user">
 					<img v-bind:src="info.icon" />
-					<div class="username">
+					<div :class="[username,{'pname':classa}]">
 						<p class='p1'>{{info.userName}}</p>
 						<p class="p2">{{info.area}}</p>
 					</div>
+					<div class="guanzhu"  @click="toregister"><span>+</span>关注</div>
 				</div>
 			</div>
 			<div class="danmu"></div>
@@ -310,7 +331,7 @@ background: rgba(238,238,238,1);
 					<div style="clear: both;"></div>
 				</div>
 				<div class="intro">
-					商品简介：{{info.productDetail}}<span class='showmore' @click="detailbox=true">查看更多></span>
+					商品简介：{{info.productDetailslice}}<span class='showmore' @click="detailbox=true">查看更多></span>
 				</div>
 				<div class="bottom">
 					<input class="comtext" type="text" placeholder="    说点什么 ~ "/>
@@ -373,9 +394,15 @@ export default {
     components: {},
     data() {
         return {
+						username:'username',
+						classa:true,
             gradeclass: 'gradeclass',
             link: '',
-            info: {},
+            info: {
+							productDetail:'',
+							productDetailslice:'',
+							area:''
+						},
             showtime: '',
             showtime1: '',
             detailbox: false,
@@ -415,6 +442,14 @@ export default {
                     // this.yhlbmktablePageData = res.data;
                     if (res.code == 200) {
                         this.info = res.data;
+												if(this.info.area){
+													this.classa=false
+												}
+												if(this.info.productDetail.length>=29){
+													this.info.productDetailslice=this.info.productDetail.slice(0,28)
+												}else{
+													this.info.productDetailslice=this.info.productDetail
+												}
                         this.showtime = new Date(this.info.pushTime).Format('MM-dd hh:mm:ss');
                         var str = res.data.pic;
                         str = str.substring(0, str.lastIndexOf(','));

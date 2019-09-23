@@ -73,7 +73,7 @@
 										>
 											<span style="color:red;"></span>图片：
 										</div>
-										<input style="width:150px;" type="file"  @change="addupImg1" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
+										<input style="width:150px;" type="file"  @change="addupImg1" ref="inputer" accept="image/png,image/jpeg,image/gif,image/jpg"/>
 									</div>
                                 </Modal>
 								<Modal v-model="imageModal" title="图片查看" class="mymodal">
@@ -298,8 +298,10 @@ export default {
 				formData.append("id",this.yhlbmkAddObj.id)
 				formData.append("gradeName",this.yhlbmkAddObj.gradeName)
 				formData.append("introduction",this.yhlbmkAddObj.introduction)
-				for (var i = 0; i < this.yhlbmkAddObj.uppic1.length; i++) {
-						formData.append('gradeLogo', this.yhlbmkAddObj.uppic1[i]);
+				if (typeof this.yhlbmkAddObj.pic == 'object') {
+					for (var i = 0; i < this.yhlbmkAddObj.pic.length; i++) {
+							formData.append('gradeLogo', this.yhlbmkAddObj.pic[i]);
+					}
 				}
 				let config = {
 						headers: { 'Content-Type': 'multipart/form-data' }
@@ -342,7 +344,7 @@ export default {
 			//let inputDOM = this.$refs.inputer;
 			let inputDOM = e.target.files;
 			// 通过DOM取文件数据
-			this.yhlbmkAddObj.uppic1 = inputDOM;
+			this.yhlbmkAddObj.pic = inputDOM;
 		},
 		//图片查看
 		showimage(imagearr) {

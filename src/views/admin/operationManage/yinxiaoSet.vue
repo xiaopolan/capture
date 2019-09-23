@@ -715,32 +715,25 @@ export default {
 							});
 						}, 10);
 						this.yhlbmkModal = false; // 关闭当前模态
-						// 清除表单
-						this.yhlbmkAddObj.yzm = '';
-						this.yhlbmkAddObj.pic = '';
-						this.yhlbmkAddObj.groupNum = '';
-						this.yhlbmkAddObj.groupUrl = '';
-						this.model3 = '';
-						this.model4 = '';
-						this.goodchoiced.id="";
-						this.goodchoiced.userName="";
+						
 				}
                 
         },
         // 点击新增用户的对话框的取消
         yhlbmkCancel() {
             console.log('点击取消');
-            // 清除表单
-            this.yhlbmkAddObj.yzm = '';
-            this.yhlbmkAddObj.groupNum = '';
-			this.yhlbmkAddObj.groupUrl = '';
-            this.model1 = '';
-			this.model2 = '';
-            this.yhlbmkAddObj.id = '';
         },
         //增加商品
         addgood() {
             this.yhlbmkModal = true;
+			this.yhlbmkAddObj.yzm = '';
+			this.yhlbmkAddObj.pic = '';
+			this.yhlbmkAddObj.groupNum = '';
+			this.yhlbmkAddObj.groupUrl = '';
+			this.model3 = '';
+			this.model4 = '';
+			this.goodchoiced.id="";
+			this.goodchoiced.userName="";
         },
 		//点击修改
         updateGood(params) {

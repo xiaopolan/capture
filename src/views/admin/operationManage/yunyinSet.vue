@@ -64,7 +64,7 @@
 				</TabPane> -->
 				<TabPane label="积分价格设置" key="key4">
 					<div class="fanli"><span>积分价格</span><i-input v-model="integral.price" placeholder="请输入积分单价" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>元</div>
-					<div class="fanli"><i-button type="success" small  @click="saveyy(6)">保存</i-button></div>
+					<div class="fanli"><i-button type="success" small  @click="special">保存</i-button></div>
 				</TabPane>
 				<TabPane label="付款时限设置" key="key4">
 					<div class="fanli"><span>确认付款时限</span><i-input v-model="fkValue" placeholder="请输入确认付款时限" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分</div>
@@ -83,6 +83,7 @@
 					<div class="fanli"><i-button type="success" small  @click="saveyy(8)">保存</i-button></div>
 				</TabPane>
 				<TabPane label="系统设置" key="key4">
+					<div class="fanli"><span>客服在线时间</span><i-input v-model="kftime" placeholder="请输入客服在线时间" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input></div>
 					<div class="fanli"><span>客服电话</span><i-input v-model="kfphone" placeholder="请输入客服电话" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input></div>
 					<div class="fanli"><i-button type="success" small  @click="saveyy(9)">保存</i-button></div>
 				</TabPane>
@@ -110,7 +111,7 @@
 					<div class="fanli">
 					<img class='fximg' :src="fximg" />
 					</div>
-					<div class="fanli"><input style="width:150px;" type="file"  @change="addupImg"  ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/></div>
+					<div class="fanli"><input style="width:150px;" type="file"  @change="addupImg"  ref="inputer" accept="image/png,image/jpeg,image/gif,image/jpg"/></div>
 					<div class="fanli"><i-button type="success" small  @click="fileParam">保存</i-button></div>
 				</TabPane>
 				<TabPane label="h5注册" key="key4">
@@ -151,6 +152,7 @@ export default {
     name: 'yunyinSet',
     data() {
         return {
+			kftime:'',
 			comment:'',
 			comment_artc:'',
 			dianZans:'',
@@ -227,7 +229,6 @@ export default {
             // 				var params = {param:["setyy","setlc","setcc","setjf","setje"]};
             // 				console.log(params);
             // 				let postData = this.$qs.stringify(params);
-            // 				debugger
             axios
                 .post('/api/auction/operate/sys/init')
                 .then(response => {
@@ -289,7 +290,8 @@ export default {
                     this.pinglun = list8[0].cdVal || '';
                     this.gift = list8[3].cdVal || '';
                     //客服电话
-                    this.kfphone = list9[0].cdVal || '';
+                    this.kftime = list9[0].cdVal || '';
+					this.kfphone = list9[1].cdVal || '';
                     //超时时间
                     this.payOutTime = list10[1].cdVal || '';
                     this.confirmOutTime = list10[0].cdVal || '';
@@ -390,9 +392,9 @@ export default {
                     ];
                     break;
                 case 4:
-                    var param = [
-                    ];
+                    var param = [];
 					var group = document.getElementById('task').getElementsByTagName('input');
+
 					var valuegr=this.$refs.inputgroup
 					for (let i = 0; i < group.length; i++) {
 						param[i]={}
@@ -425,15 +427,15 @@ export default {
 //                         }
 //                     ];
 //                     break;
-                case 6:
-                    var param = [
-                        {
-                            cdItem: 'price',
-                            cdType: 'integral',
-                            cdVal: this.integral.price
-                        }
-                    ];
-                    break;
+//                 case 6:
+//                     var param = [
+//                         {
+//                             cdItem: 'price',
+//                             cdType: 'integral',
+//                             cdVal: this.integral.price
+//                         }
+//                     ];
+//                     break;
                 case 7:
                     var param = [
                         {
@@ -497,8 +499,13 @@ export default {
                         {
                             cdItem: 'server_phone',
                             cdType: 'base_manage',
-                            cdVal: this.kfphone
-                        }
+                            cdVal: this.kftime
+                        },
+						{
+							cdItem: 'server_phone',
+							cdType: 'base_manage',
+							cdVal: this.kfphone
+						}
                     ];
                     break;
                 case 10:
@@ -661,6 +668,14 @@ export default {
 		fileParam(){
 			let formData = new FormData();
 			formData.append('file', this.files[0]);
+			let param = [
+				{
+					cdItem: 'url',
+					cdType: 'logo',
+				}];
+				
+			let jsondata=JSON.stringify(param)
+			formData.append("param",jsondata)
 			axios
 				.post('/api/auction/type/sys/addOrUpdate',formData)
 				.then(response => {
@@ -681,6 +696,31 @@ export default {
 			// 通过DOM取文件数据
 			this.files = inputDOM;
 		},
+		special(){
+			let formData = new FormData();
+			let param = [
+				{
+					cdItem: 'price',
+					cdType: 'integral',
+					cdVal: this.integral.price
+				}];
+			let jsondata=JSON.stringify(param)
+			formData.append("param",jsondata)
+			axios
+				.post('/api/auction/type/sys/updateSpecial',formData)
+				.then(response => {
+					console.log(response);
+					if (response.data.code == 200) {
+						Util.success('修改成功');
+						this.showlist();
+					} else {
+						Util.error('修改失败');
+					}
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		}
     }
 };
 </script>

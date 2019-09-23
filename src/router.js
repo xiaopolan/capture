@@ -15,6 +15,9 @@ const modules = {
 				tableManage: {
 					title: '统计表'
 				},
+				developer: {
+					title: '开发者日志'
+				},
 			}
 		},
         operationManage: {
@@ -42,6 +45,12 @@ const modules = {
 				jfscale:{
 					title:"积分返利"
 				},
+				task:{
+					title:"任务列表"
+				},
+				assist:{
+					title:"帮助内容"
+				},
             }
         },
         userManage: {
@@ -51,13 +60,13 @@ const modules = {
                 userList: {
                     title: '用户信息管理'
                 },
-                originalUserAudit: {
+                margin: {
                     title: '保证金管理'
                 },
-                hvUserAudit: {
-                    title: '返利管理'
+                yueManage: {
+                    title: '余额管理'
                 },
-                lvUserAudit: {
+                jifenManage: {
                     title: '积分管理'
                 },
 				mingxi:{
@@ -68,6 +77,9 @@ const modules = {
 				},
 				admin:{
 					title:'管理员帐号'
+				},
+				statements:{
+					title:'流水明细'
 				}
             }
         },
@@ -268,6 +280,14 @@ const routers = [{
         title: '品鉴',
     },
     component: (res) => require(['./views/judge.vue'], res)
+},
+{
+    path: '/market',
+    // 路由元信息
+    meta: {
+        title: '市场',
+    },
+    component: (res) => require(['./views/market.vue'], res)
 }];
 
 // 导出路由信息数组

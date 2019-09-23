@@ -99,6 +99,15 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
+										</div>
+										<div style="display:inline-block;width:150px;color:red;text-align: left;">
+											位置1代表首页
+										</div>
+									</div>
+									<div style="marginBottom:10px;textAlign:center">
+										<div
+											style="display:inline-block;width:86px;textAlign:left"
+										>
 											<span style="color:red;"></span>位置：
 										</div>
 										<Input
@@ -111,11 +120,20 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
-											<span style="color:red;"></span>地址：
+										</div>
+										<div style="display:inline-block;width:150px;color:red;text-align: left;">
+											使用数字1234
+										</div>
+									</div>
+									<div style="marginBottom:10px;textAlign:center">
+										<div
+											style="display:inline-block;width:86px;textAlign:left"
+										>
+											<span style="color:red;"></span>跳转标识：
 										</div>
 										<Input
 											v-model="yhlbmkAddObj.url"
-											placeholder="请输入地址"
+											placeholder="请输入跳转标识"
 											style="width:150px"
 										></Input>
 									</div>
@@ -137,7 +155,7 @@
 										>
 											<span style="color:red;"></span>图片：
 										</div>
-										<input style="width:150px;" type="file"  @change="addupImg1" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
+										<input style="width:150px;" type="file"  @change="addupImg1" ref="inputer" accept="image/png,image/jpeg,image/gif,image/jpg"/>
 									</div>
 								</Modal>
 								<Modal
@@ -151,6 +169,15 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
+										</div>
+										<div style="display:inline-block;width:150px;color:red;text-align: left;">
+											位置1代表首页
+										</div>
+									</div>
+									<div style="marginBottom:10px;textAlign:center">
+										<div
+											style="display:inline-block;width:86px;textAlign:left"
+										>
 											<span style="color:red;"></span>位置：
 										</div>
 										<Input
@@ -163,11 +190,20 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
-											<span style="color:red;"></span>地址：
+										</div>
+										<div style="display:inline-block;width:150px;color:red;text-align: left;">
+											使用数字1234
+										</div>
+									</div>
+									<div style="marginBottom:10px;textAlign:center">
+										<div
+											style="display:inline-block;width:86px;textAlign:left"
+										>
+											<span style="color:red;"></span>跳转标识：
 										</div>
 										<Input
 											v-model="yhlbmkAddObj.url"
-											placeholder="请输入地址"
+											placeholder="请输入跳转标识"
 											style="width:150px"
 										></Input>
 									</div>
@@ -189,7 +225,7 @@
 										>
 											<span style="color:red;"></span>图片：
 										</div>
-										<input style="width:150px;" type="file"  @change="addupImg" ref="inputer" multiple accept="image/png,image/jpeg,image/gif,image/jpg"/>
+										<input style="width:150px;" type="file"  @change="addupImg" ref="inputer" accept="image/png,image/jpeg,image/gif,image/jpg"/>
 									</div>
 								</Modal>
 								<Modal v-model="imageModal" title="图片查看" class="mymodal">
@@ -567,10 +603,6 @@ export default {
 							});
 						this.yhlbmkLoading = false; // 关闭加载状态
 						this.yhlbmkModal = false; // 关闭当前模态
-						// 清除表单
-						this.yhlbmkAddObj.position = '';
-						this.yhlbmkAddObj.url = '';
-						this.yhlbmkAddObj.description = '';
 						this.myinput=false
 				}
                 // 解决Modal表单验证中loading的bug
@@ -585,12 +617,12 @@ export default {
         yhlbmkCancel() {
             console.log('点击取消');
             // 清除表单
-            this.yhlbmkAddObj.position = '';
-            this.yhlbmkAddObj.url = '';
-            this.yhlbmkAddObj.description = '';
         },
         //增加商品
         addgood() {
+			this.yhlbmkAddObj.position = '';
+			this.yhlbmkAddObj.url = '';
+			this.yhlbmkAddObj.description = '';
             this.yhlbmkModal = true;
         },
 		//点击修改

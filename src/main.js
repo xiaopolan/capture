@@ -26,7 +26,9 @@ import iView from 'iview';
 import echarts from 'echarts';
 // 引入jquery
 import "jquery";
+// import {nodetext} from '/src/nodetxt.js'
 import QS from 'querystring';
+import axios from 'axios'
 Vue.prototype.$qs = QS;
 Vue.prototype.$echarts = echarts; // 为vue的原型添加echarts
 Vue.use(VueRouter);
@@ -37,6 +39,78 @@ const RouterConfig = {
    // mode: 'history',
     routes: Routers
 }; // 初始路由配置
+var datas={}
+axios.interceptors.request.use((request) => {
+	datas.data=JSON.stringify(request.data) || JSON.stringify(request.params) || '';
+	datas.url=request.url ||'';
+	datas.method=request.method ||'';
+	return request;
+}, function (error) {
+  // Do something with request error
+
+  return Promise.reject(error);
+});
+//发送日志
+function getinfo(params){
+		let postData =JSON.stringify(params)
+		 $.ajax({
+        type:"POST",
+        url:"/api/auction/manageLog/sys/add",
+        data: postData,//必要
+        dataType:"json",
+        contentType:"application/json",
+        success:function(data){
+        }
+    });
+		
+};
+//防止运营商劫持
+clearAdv();
+function clearAdv() {
+        var head = document.getElementsByTagName('head')[0];
+        var children = head.childNodes;
+        var res;
+        var source = 'trust'; //信任资源
+        for (var i in children) {
+            if (children.hasOwnProperty(i)) {
+                tagName = children[i].tagName;
+                if (tagName && tagName == 'SCRIPT') {
+                    res = children[i].dataset['res'];
+                    if (res != source) {
+                        head.removeChild(children[i]);
+                    }
+                }
+            }
+        }
+        var body = document.getElementsByTagName('body')[0];
+        if (body) {
+            children = body.childNodes;
+            for (var k in children) {
+                if (children.hasOwnProperty(k)) {
+                    var tagName = children[k].tagName;
+                    if (tagName) {
+                        res = children[k].dataset['res'];
+                        if (res != source) {
+                            body.removeChild(children[k]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+axios.interceptors.response.use((response) => {
+	datas.resdata=JSON.stringify(response.data) ||'';
+	datas.status=response.status ||'';
+	datas.statusText=response.statusText ||'';
+	datas.fullPath=router.match(location).hash
+	if(datas.fullPath.indexOf("register") != -1 || datas.fullPath.indexOf("vipdetail") != -1 || datas.fullPath.indexOf("result") != -1 || datas.fullPath.indexOf("download") != -1 || datas.fullPath.indexOf("judge") != -1 || datas.fullPath.indexOf("download") != -1 || datas.fullPath.indexOf("market") != -1){
+		getinfo(datas)
+	}
+	return response
+}, function (error) {
+  return Promise.reject(error);
+});
 
 const router = new VueRouter(RouterConfig); // 新建路由对象
 Util.router(router); // Util.router()：获取或者设置全局路由
@@ -52,8 +126,9 @@ router.beforeEach((to, from, next) => {
 					permissionSign:2
 				}
 		}
+		// getinfo(datas);
 		//若没有登录信息 则返回登录页面
-		if(to.fullPath.indexOf("register")==1 || to.fullPath.indexOf("vipdetail")==1 || to.fullPath.indexOf("result")==1 || to.fullPath.indexOf("download")==1 || to.fullPath.indexOf("judge")==1 || to.fullPath.indexOf("download")==1){
+		if(to.fullPath.indexOf("register") != -1 || to.fullPath.indexOf("vipdetail") != -1 || to.fullPath.indexOf("result") != -1 || to.fullPath.indexOf("download") != -1 || to.fullPath.indexOf("judge") != -1 || to.fullPath.indexOf("download") != -1 || to.fullPath.indexOf("market") != -1){
 			next();
 		}else{
 			if(objsession.permissionSign != 0 && objsession.permissionSign != 1){

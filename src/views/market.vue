@@ -290,7 +290,7 @@ export default {
 					for(let i = 0; i<res1.length;i++){
 						// 七天同比提现
 						let data=new Date(parseInt(res1[i].key)).Format('yyyy-MM-dd hh:mm:ss')
-						lsltjXAxisData[i] = data.substring(5,10); // 日期去掉年份
+						lsltjXAxisData[i] = data.substring(8,10); // 日期去掉年份
 						lsltjLossRate[i] = parseInt(res1[i].value); // 金额
 					}
 					let lsltjSeriesData = [
@@ -309,7 +309,7 @@ export default {
 					for(let i = 0; i<res2.length;i++){
 						// 七天同比提现
 						let data=new Date(parseInt(res2[i].key)).Format('yyyy-MM-dd hh:mm:ss')
-						familyx[i] = data.substring(5,10); // 日期去掉年份
+						familyx[i] = data.substring(8,10); // 日期去掉年份
 						familyvalue[i] = parseInt(res2[i].value); // 金额
 					}
 					let familydata = [
@@ -443,22 +443,22 @@ export default {
 							width: 1 // 粗细
 						}
 					},
-					axisLabel:{'interval':0,rotate:40},
+					// axisLabel:{'interval':0,rotate:40},//x轴旋转
 					data: xAxisData
 				},
 				yAxis: {
 					type: 'value',
 					"axisTick":{       //y轴刻度线
-						"show":false
+						"show":true
 					},
 					"splitLine": {     //网格线
 					  "show": false
 					},
-					axisLabel : {
-						formatter: function(){
-							  return "";
-						}
-					},
+// 					axisLabel : {
+// 						formatter: function(){
+// 							  return "";
+// 						}
+// 					},
 					axisLine: {
 						lineStyle: {
 							color: '#999', // 颜色

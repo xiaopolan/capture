@@ -1,4 +1,4 @@
-<!-- 消息推送 -->
+<!-- 帮助内容 -->
 <style lang="less" scoped>
 .yhtjBox {
     .remark_box {
@@ -62,33 +62,15 @@
 
 <template>
     <div class="tabsBox_style">
-            <!-- 消息推送 -->
+            <!-- 帮助内容 -->
                 <div class="itemBox yhlb_table">
                     <div class="remark_box">
                         <Row>
                             <Col span="4">
-                                <h3>消息推送</h3>
+                                <h3>帮助内容</h3>
                             </Col>
-                            <Col span="12" style="textAlign:center;">
+                            <Col span="4" style="textAlign:center;">
                                 <div class="searchBox clearfix">
-                                    <Input
-                                        v-model="yhlbmkIpVal"
-                                        size="small"
-                                        placeholder="请输入消息内容"
-                                        style="float:left;width: 200px"
-                                    >
-                                        <Icon
-                                            type="ios-search-strong"
-                                            slot="append"
-                                            @click="yhlbmkSearch"
-                                        ></Icon>
-                                    </Input>
-                                    <Button
-                                        type="error"
-                                        style="float:left;width:60px;marginLeft:20px;"
-                                        size="small"
-                                        @click="queryOrder(1)"
-                                    >查询</Button>
 									<Button
 										type="error"
 										style="float:left;width:60px;marginLeft:20px;"
@@ -107,38 +89,43 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
-											<span style="color:red;"></span>消息类型：
-										</div>
-										<select style="width:200px" name="public-choice" v-model="model1" class="typeselect">                                        
-											<option :value="item.groupType" :key='item' v-for="item in statusList" >{{item.groupName}}</option>                                    
-										</select>
-									</div>
-									<div style="marginBottom:10px;textAlign:center">
-										<div
-											style="display:inline-block;width:86px;textAlign:left"
-										>
-											<span style="color:red;"></span>用户id：
-										</div>
-										<input class="xuanze" @click="setProduct" v-model="yhlbmkAddObj.userId" readonly="readonly"></input>
-									</div>
-									<div style="marginBottom:10px;textAlign:center">
-										<div
-											style="display:inline-block;width:86px;textAlign:left"
-										>
-											<span style="color:red;"></span>消息内容：
+											<span style="color:red;"></span>帮助标题：
 										</div>
 										<Input
-											type="textarea"
-											v-model="yhlbmkAddObj.msg"
-											placeholder="请输入消息内容"
-											style="width:200px"
+											type="text"
+											v-model="yhlbmkAddObj.title"
+											placeholder="请输入帮助标题"
+											style="width:300px"
 										></Input>
 									</div>
 									<div style="marginBottom:10px;textAlign:center">
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
-										>时间：</div>
-											<Date-picker :value="startValue" v-modal="startValue"  @on-change="handleChange"  type="datetime" placeholder="选择日期和时间" style="width: 200px"></Date-picker>
+										>
+										</div>
+										<div style="display:inline-block;width:300px;color:red;text-align: left;">
+											帮助：标题使用/@/分割，换行使用\n,一段内容输入完成使用/%/表示结束<br />
+											例如：
+											*评论获得/@/评论商品获得奖励1个\n说明：每天可评论无数次/%/<br />
+											展示效果：<br />
+											*评论获得<br />
+											评论商品获得奖励1个<br />
+											说明：每天可评论无数次
+										</div>
+									</div>
+									<div style="marginBottom:10px;textAlign:center">
+										<div
+											style="display:inline-block;width:86px;textAlign:left"
+										>
+											<span style="color:red;"></span>帮助内容：
+										</div>
+										<Input
+											type="textarea"
+											:rows="4"
+											v-model="yhlbmkAddObj.content"
+											placeholder="请输入帮助内容"
+											style="width:300px"
+										></Input>
 									</div>
 								</Modal>
 								<Modal
@@ -152,67 +139,44 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
-											<span style="color:red;"></span>消息类型：
-										</div>
-										<select style="width:200px" name="public-choice" v-model="model2" class="typeselect">                                        
-											<option :value="item.groupType" :key='item' v-for="item in statusList" >{{item.groupName}}</option>                                    
-										</select>
-									</div>
-									<div style="marginBottom:10px;textAlign:center">
-										<div
-											style="display:inline-block;width:86px;textAlign:left"
-										>
-											<span style="color:red;"></span>用户id：
-										</div>
-										<input class="xuanze" @click="setProduct" v-model="yhlbmkAddObj.userId" readonly="readonly"></input>
-									</div>
-									<div style="marginBottom:10px;textAlign:center">
-										<div
-											style="display:inline-block;width:86px;textAlign:left"
-										>
-											<span style="color:red;"></span>消息内容：
+											<span style="color:red;"></span>帮助标题：
 										</div>
 										<Input
-											type="textarea"
-											v-model="yhlbmkAddObj.msg"
-											placeholder="请输入消息内容"
-											style="width:200px"
+											type="text"
+											v-model="yhlbmkAddObj.title"
+											placeholder="请输入帮助标题"
+											style="width:300px"
 										></Input>
 									</div>
 									<div style="marginBottom:10px;textAlign:center">
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
-										>时间：</div>
-											<Date-picker :value="startValue" v-modal="startValue"  @on-change="handleChange"  type="datetime" placeholder="选择日期和时间" style="width: 200px"></Date-picker>
+										>
+										</div>
+										<div style="display:inline-block;width:300px;color:red;text-align: left;">
+											帮助：标题使用/@/分割，换行使用\n,一段内容输入完成使用/%/表示结束<br />
+											例如：
+											*评论获得/@/评论商品获得奖励1个\n说明：每天可评论无数次/%/<br />
+											展示效果：<br />
+											*评论获得<br />
+											评论商品获得奖励1个<br />
+											说明：每天可评论无数次
+										</div>
 									</div>
-								</Modal>
-								<Modal
-									v-model="goodModal"
-									title="选择用户"
-									:loading="yhlbmkLoading"
-									@on-cancel="yhlbmkCancel"
-									class-name="mygoods"
-								>
-									<Table
-										ref="yhlbmkTable"
-										border
-										:columns="goodsclo"
-										:data="choicegoodlist.list"
-										@on-row-dblclick="selectgoods"
-									></Table>
-									<div class="pageBox" :style="{marginTop: '25px',paddingBottom: '35px'}">
-										<!-- 分页 -->
-										<Page
-											:total="choicegoodlist.total"
-											:page-size="choicegoodlist.pageSize"
-											:current="choicegoodlist.currentPage"
-											show-elevator
-											ref="pages"
-											@on-change="getlistgood"
-										></Page>
-										<span>共&nbsp;{{choicegoodlist.pages}}&nbsp;页</span>
+									<div style="marginBottom:10px;textAlign:center">
+										<div
+											style="display:inline-block;width:86px;textAlign:left"
+										>
+											<span style="color:red;"></span>帮助内容：
+										</div>
+										<Input
+											type="textarea"
+											:rows="8"
+											v-model="yhlbmkAddObj.content"
+											placeholder="请输入帮助内容"
+											style="width:300px"
+										></Input>
 									</div>
-									<div slot="footer"></div>
 								</Modal>
                             </Col>
                         </Row>
@@ -220,14 +184,6 @@
                     <div class="tablepage_box">
                         <!-- 导出按钮 -->
                         <div class="exportBtnBox clearfix">
-                            <!-- <Button
-                                class="exportBtn"
-                                type="primary"
-                                size="small"
-                                @click="yhlbmkExportData"
-                            >
-                                <Icon class="icon_export" type="ios-download-outline"></Icon>导出数据
-                            </Button> -->
                         </div>
                         <!-- 用户列表数据表格 -->
                         <Table
@@ -243,7 +199,6 @@
                                 :page-size="yhlbmktablePageData.pageSize"
                                 :current="yhlbmktablePageData.currentPage"
                                 show-elevator
-								ref="pages"
                                 @on-change="yhlbmkPageChange"
                             ></Page>
                             <span>共&nbsp;{{yhlbmktablePageData.pages}}&nbsp;页</span>
@@ -290,157 +245,70 @@ export default {
             yhtjtableData: [], // 用户统计表格数据
             yhlbmkIpVal: "", // 用户列表的搜索条件
             yhlbmkIsSearch: false, // 是否加入搜索词
-			goodsclo: [
-				{
-					title: "用户id",
-					key: "id",
-					width: 70,
-					align: "center"
-				},
-				{
-					title: "用户名称",
-					key: "userName",
-					align: "center"
-				},
-				{
-					title: "用户类型",
-					key: "userType",
-					align: "center",
-					render: (h,params)=> {
-						let text = params.row.userType
-						if(text==1){
-							return h('div','低级')
-						}
-						else if(text==2){
-							return h('div','中级')
-						}
-						else if(text==3){
-							return h('div','高级')
-						}else{
-							return h('div','')
-						}
-					}
-				},
-				{
-					title: "最近请求时间",
-					key: "time",
-					align: "center"
-				},
-				{
-					title: "电话号码",
-					key: "phone",
-					align: "center"
-				},
-				{
-					title: "联系地址",
-					key: "address",
-					align: "center"
-				},
-			],
             // 用户列表表格的标题行数据（列属性名称）
             yhlbmkCols: [
                 {
-                	title: "序号",
-                	type: "index",
+                	title: "id",
+                	key: "id",
                 	align: "center"
                 },
                 {
-                	title: "消息类型",
-                	key: "type",
-                	align: "center",
-					render: (h,params)=> {
-						let text = params.row.type
-						if(text==1){
-							return h('div','系统消息')
-						}
-						if(text==2){
-							return h('div','订单消息')
-						}
-						if(text==3){
-							return h('div','交易消息')
-						}
-						if(text==4){
-							return h('div','通知消息')
-						}
-					}
-                },
-                {
-                	title: "消息内容",
-                	key: "msg",
+                	title: "标题",
+                	key: "title",
                 	align: "center"
                 },
 				{
-					title: "时间",
-					key: "pushTime",
+					title: "内容",
+					key: "content",
 					align: "center"
-				},
-				{
-					title: "用户id",
-					key: "userId",
-					align: "center"
-				},
-				{
-					title: "用户类型",
-					key: "userType",
-					align: "center",
-					render: (h,params)=> {
-						let text = params.row.userType
-						if(text==1){
-							return h('div','低级')
-						}
-						else if(text==2){
-							return h('div','中级')
-						}
-						else if(text==3){
-							return h('div','高级')
-						}else{
-							return h('div','')
-						}
-					}
 				},
                 {
-                	title: "消息状态",
-                	key: "status",
+                	title: "状态",
+                	key: "flag",
                 	width: 90,
                 	align: "center",
 					render: (h,params)=> {
-						let text = params.row.status
+						let text = params.row.flag
 						if(text==1){
 							return h(
 							"Button",
 							{
 								props: {
 									type: "dashed",
-									disabled:'disabled',
 									size: "small"
 								},
 								style: {
 									// width: "70px",
 									marginLeft: "10px"
+								},
+								nativeOn: {
+									click: () => {
+										this.goorder(params)
+									}
 								}
 							},
-							"已推送"
+							"开启中"
 							)
 						}else{
 							return	h(
-									"Button",
-									{
-										props: {
-											type: "dashed",
-											size: "small"
-										},
-										style: {
-											// width: "70px",
-											marginLeft: "10px"
-										},
-										nativeOn: {
-											click: () => {
-												this.goorder(params)
-											}
-										}
+								"Button",
+								{
+									props: {
+										type: "dashed",
+										size: "small"
 									},
-									"推送"
-								)
+									style: {
+										// width: "70px",
+										marginLeft: "10px"
+									},
+									nativeOn: {
+										click: () => {
+											this.goorder(params)
+										}
+									}
+								},
+								"禁用中"
+							)
 						}
 					}
                 },
@@ -551,7 +419,7 @@ export default {
             console.log(params);
             let postData = this.$qs.stringify(params);
             console.log(postData)
-            axios.get('/api/auction/message/sys/findList',{
+            axios.get('/api/auction/helpContent/sys/findListPage',{
 				params:{
 					pageNum: currentPage, // 当前页码
 					pageSize: 10, // 每页条数
@@ -589,89 +457,44 @@ export default {
             }
         },
 		goorder(params){
-			if(params.row.status==0){
+			if(params.row.flag==0){
 				this.orderId=1
 			}
-			if(params.row.status==1){
+			if(params.row.flag==1){
 				this.orderId=0
 			}
 			let json={
-				status:this.orderId,
+				flag:this.orderId,
 				id:params.row.id,
-				msg:params.row.msg,
-				userId:params.row.userId,
-				type:params.row.type,
+				content:params.row.content,
+				title:params.row.title,
 			};
 			//let postData = this.$qs.stringify(json);
-			axios.post('/api/auction/message/sys/update',json)
+			axios.post('/api/auction/helpContent/sys/update',json)
 				.then( (response)=> {
 				if(response.data.code==200){
-					Util.success("推送成功");
+					Util.success("修改成功");
 					this.yhlbmkGetList(1, this.yhlbmkIsSearch);
 				}else{
-					Util.error("推送失败");
+					Util.error("修改成功");
 				}
 				})
 				.catch( (error)=> {
 				console.log(error);
 				});
 		},
-		queryOrder(currentPage){
-			if (this.yhlbmkIpVal) {
-				let params= {
-					pageNum: currentPage, // 当前页码
-					pageSize: 10, // 每页条数
-					searchKey:this.yhlbmkIpVal
-				};
-				let postData = this.$qs.stringify(params);
-				axios.get('/api/auction/message/sys/findList',{
-					params:{
-						pageNum: currentPage, // 当前页码
-						pageSize: 10, // 每页条数
-						searchKey:this.yhlbmkIpVal
-					}
-				})
-					.then( (response)=> {
-					var res = response.data;
-					if(res.code==200){
-						if(res.data==null){
-							this.yhlbmktablePageData.list=[];
-						}else{
-							this.yhlbmktablePageData = res.data;
-							this.yhlbmktablePageData.total1=res.data.total;
-							this.yhlbmktablePageData.pages1=res.data.pages;
-							this.yhlbmktablePageData.pageSize1=res.data.pageSize
-						}
-					}else{
-						this.yhlbmktablePageData.list=[];
-					}
-					})
-					.catch( (error)=> {
-						console.log(error);
-					});
-			} else {
-				this.yhlbmkGetList(1, this.yhlbmkIsSearch);
-			}
-		},
 		yhlbmkOk(){
 			this.yhlbmkModal=false;
-			if(this.yhlbmkAddObj.userId=='请选择'){
-				this.yhlbmkAddObj.userId=''
-			}
 			let json={
-				msg:this.yhlbmkAddObj.msg,
-				type:this.model1,
-				pushTime:this.startValue,
-				userId:this.yhlbmkAddObj.userId
+				title:this.yhlbmkAddObj.title,
+				content:this.yhlbmkAddObj.content,
+				flag:"1",
 			};
 			//let postData = this.$qs.stringify(json);
-			axios.post('/api/auction/message/sys/add',json)
+			axios.post('/api/auction/helpContent/sys/add',json)
 				.then( (response)=> {
 				if(response.data.code==200){
 					Util.success("录入成功");
-					this.logisticsCompany='';
-					this.logisticsNo=""
-					this.startValue=''
 					this.yhlbmkGetList(1, this.yhlbmkIsSearch);
 				}else{
 					Util.error("录入失败");
@@ -683,9 +506,8 @@ export default {
 		},
 		//增加商品
 		addgood() {
-			this.model2 = '';
-			this.yhlbmkAddObj.msg = '';
-			this.yhlbmkAddObj.userId='请选择'
+			this.yhlbmkAddObj.title = '';
+			this.yhlbmkAddObj.content=''
 			this.yhlbmkModal = true;
 		},
 		deleteGood(id) {
@@ -694,7 +516,7 @@ export default {
 			params.id = id;
 			//let postData = this.$qs.stringify(params);
 			axios
-				.post('/api/auction/message/sys/delete', params)
+				.post('/api/auction/helpContent/sys/del', params)
 				.then(response => {
 					if (response.data.code == 200) {
 						Util.success('删除成功');
@@ -716,34 +538,25 @@ export default {
 		//点击修改
 		updateGood(params) {
 			this.upModal=true;
-			this.model2 = params.type;
-			this.yhlbmkAddObj.msg = params.msg;
+			this.yhlbmkAddObj.title = params.title;
+			this.yhlbmkAddObj.content = params.content;
 			this.yhlbmkAddObj.id = params.id;
-			this.startValue=params.pushTime
 		},
 		//修改
 		updateOk() {
 			// 参数对象
-			if(this.yhlbmkAddObj.userId=='请选择'){
-				this.yhlbmkAddObj.userId=''
-			}
 			let params = {
-				msg:this.yhlbmkAddObj.msg,
-				type:this.model2,
+				title:this.yhlbmkAddObj.title,
+				content:this.yhlbmkAddObj.content,
 				id:this.yhlbmkAddObj.id,
-				pushTime:this.startValue,
-				userId:this.yhlbmkAddObj.userId
 			};
 			//let postData = this.$qs.stringify(params);
-			axios.post('/api/auction/message/sys/update',params)
+			axios.post('/api/auction/helpContent/sys/update',params)
 				.then( (response)=> {
 					console.log(response)
 					if(response.data.code==200){
 						Util.success("修改成功");
 						this.yhlbmkGetList(this.yhlbmktablePageData.pageNum, this.yhlbmkIsSearch);
-						this.$nextTick(function(){
-							this.$refs['pages'].currentPage = this.yhlbmktablePageData.pageNum;
-						})
 					}else{
 						Util.error("修改失败");
 					}
@@ -758,46 +571,6 @@ export default {
 					this.yhlbmkLoading = true;
 				});
 			}, 10);
-		},
-		//选择开始时间
-		handleChange(daterange) {
-			this.startValue = daterange;
-		},
-		//跳转出查询用户
-		setProduct() {
-			//this.yhlbmkModal = false; // 关闭当前模态
-			this.goodModal = true;
-			// 参数对象
-			this.getlistgood(1);
-		},
-		getlistgood(currentPage) {
-			var params = {
-				pageNum: currentPage, // 当前页码
-				pageSize: 10, // 每页条数
-			};
-			// let postData = this.$qs.stringify(params);
-			axios.get('/api/auction/user/sys/init',{params})
-				.then( (response)=> {
-				var res = response.data;
-				if(res.code==200){
-					if(res.data==null){
-						this.choicegoodlist.list=[];
-					}else{
-						this.choicegoodlist = res.data;
-					}
-				}else{
-					this.choicegoodlist.list=[];
-				}
-				})
-				.catch( (error)=> {
-				console.log(error);
-				});
-		},
-		selectgoods(row) {
-			this.goodchoiced = row;
-			this.yhlbmkAddObj.userId=this.goodchoiced.id
-			this.goodModal = false;
-			//this.yhlbmkModal = true;
 		},
     }
 };

@@ -577,19 +577,19 @@ export default {
 					render: (h,params)=> {
 						let text = params.row.auctionGradeId
 						if(text==1){
-							return h('div','体验场')
+							return h('div','汇聚一堂')
 						}
 						if(text==2){
-							return h('div','普通场')
+							return h('div','大国工艺')
 						}
 						if(text==3){
-							return h('div','高级场')
+							return h('div','城市脉络')
 						}
 						if(text==4){
-							return h('div','精英场')
+							return h('div','寄情山水')
 						}
 						if(text==5){
-							return h('div','专家场')
+							return h('div','个人专属')
 						}
 					}
 				},
@@ -1007,7 +1007,8 @@ export default {
             };
             let postData = this.$qs.stringify(params);
             axios
-                .post('/api/auction/product/sys/getAllowProduct', postData)
+                // .post('/api/auction/product/sys/getAllowProduct', postData)
+                .post('/api/auction/product/sys/init', postData)
                 .then(response => {
                     var res = response.data;
 					if(res.code==200){

@@ -269,6 +269,7 @@ export default {
 			 //获取验证码
 			 getsms(){
 				 if(this.phone!='' && (/^1[34578]\d{9}$/.test(this.phone))){
+					 this.showcode=false
 					 axios.get('/api/auction/shortMessage/sendRegCode', {
 						 params:{
 							 phone: this.phone, 
@@ -277,7 +278,6 @@ export default {
 					 .then(response => {
 						 var res = response.data;
 						 if(res.code == 200){
-							 this.showcode=false
 							 var set= setInterval(()=>{
 							 this.code--;
 							 },1000)
@@ -287,6 +287,7 @@ export default {
 							 clearInterval(set)
 							 },60000)
 						 }else{
+							 this.showcode=true
 							 this.errmsg=res.msg
 							 this.texterror4=true
 							 setTimeout(() => {
