@@ -101,10 +101,14 @@
 					<div class="fanli"><span>ios</span><i-input v-model="iosurl" placeholder="请输入地址" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input></div>
 					<div class="fanli"><i-button type="success" small  @click="saveyy(12)">保存</i-button></div>
 				</TabPane>
-				<TabPane label="h5配置" key="key4">
-					<div class="fanli"><span>品鉴分享</span><i-input v-model="judge" placeholder="请输入地址" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input></div>
+				<TabPane label="h5配置" key="key4" id="h5list">
+					<!-- <div class="fanli"><span>品鉴分享</span><i-input v-model="judge" placeholder="请输入地址" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input></div>
 					<div class="fanli"><span>市场统计</span><i-input v-model="market" placeholder="请输入地址" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input></div>
-					<div class="fanli"><span>会员权益</span><i-input v-model="vipdetail" placeholder="请输入地址" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input></div>
+					<div class="fanli"><span>会员权益</span><i-input v-model="vipdetail" placeholder="请输入地址" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input></div> -->
+					<div v-for="(item,index) in h5list" :key="index" class="fanli">
+						<span>{{item.cdItemDesc}}</span>
+						<input ref="h5inputgroup" v-model="item.cdVal" :id="item.cdItem" :placeholder="'请输入'+item.cdItemDesc" class="ivu-input ivu-input-default" style="width: 300px;margin-left: 10px;margin-right: 10px;" />
+					</div>
 					<div class="fanli"><i-button type="success" small  @click="saveyy(13)">保存</i-button></div>
 				</TabPane>
 				<TabPane label="分享图片" key="key4">
@@ -218,6 +222,7 @@ export default {
                 price: ''
             },
 			// dailyTask:[],//每日任务
+			h5list:[]
         };
     },
     created() {
@@ -246,6 +251,7 @@ export default {
                     var list11 = res.data.payment;
                     var list12 = res.data.downUrl;
                     var list13 = res.data.h5;
+					this.h5list = res.data.h5
 					var list14 = res.data.logo;
 					var list15 = res.data.invitation;
 					var list16 = res.data.gift;
@@ -546,23 +552,32 @@ export default {
                     ];
                     break;
                 case 13:
-                    var param = [
-                        {
-                            cdItem: 'judge',
-                            cdType: 'h5',
-                            cdVal: this.judge
-                        },
-						{
-							cdItem: 'mark_count',
-							cdType: 'h5',
-							cdVal: this.market
-						},
-                        {
-                            cdItem: 'vipdetail',
-                            cdType: 'h5',
-                            cdVal: this.vipdetail
-                        }
-                    ];
+//                     var param = [
+//                         {
+//                             cdItem: 'judge',
+//                             cdType: 'h5',
+//                             cdVal: this.judge
+//                         },
+// 						{
+// 							cdItem: 'mark_count',
+// 							cdType: 'h5',
+// 							cdVal: this.market
+// 						},
+//                         {
+//                             cdItem: 'vipdetail',
+//                             cdType: 'h5',
+//                             cdVal: this.vipdetail
+//                         }
+//                     ];
+					var param = [];
+					var group = document.getElementById('h5list').getElementsByTagName('input');
+					var valuegr=this.$refs.h5inputgroup
+					for (let i = 0; i < group.length; i++) {
+						param[i]={}
+						param[i].cdItem=group[i].id;
+						param[i].cdType='h5';
+						param[i].cdVal=valuegr[i].value;
+					}
                     break;
 				case 14:
 					var param = [

@@ -75,7 +75,7 @@
 							    		type="error"
 							    		style="float:left;width:60px;marginLeft:20px;"
 							    		size="small"
-							    		@click="addgood"
+							    		@click="goorder"
 							    	>批量开启</Button>
 							    </div>
 							</Col>
@@ -85,7 +85,7 @@
 							    		type="error"
 							    		style="float:left;width:60px;marginLeft:20px;"
 							    		size="small"
-							    		@click="addgood"
+							    		@click="deleterobot"
 							    	>批量关闭</Button>
 							    </div>
 							</Col>
@@ -109,91 +109,12 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
-											<span style="color:red;"></span>帮助标题：
+											<span style="color:red;"></span>机器人数量：
 										</div>
 										<Input
 											type="text"
-											v-model="yhlbmkAddObj.title"
-											placeholder="请输入帮助标题"
-											style="width:300px"
-										></Input>
-									</div>
-									<div style="marginBottom:10px;textAlign:center">
-										<div
-											style="display:inline-block;width:86px;textAlign:left"
-										>
-										</div>
-										<div style="display:inline-block;width:300px;color:red;text-align: left;">
-											帮助：标题使用/@/分割，换行使用\n,一段内容输入完成使用/%/表示结束<br />
-											例如：
-											*评论获得/@/评论商品获得奖励1个\n说明：每天可评论无数次/%/<br />
-											展示效果：<br />
-											*评论获得<br />
-											评论商品获得奖励1个<br />
-											说明：每天可评论无数次
-										</div>
-									</div>
-									<div style="marginBottom:10px;textAlign:center">
-										<div
-											style="display:inline-block;width:86px;textAlign:left"
-										>
-											<span style="color:red;"></span>帮助内容：
-										</div>
-										<Input
-											type="textarea"
-											:rows="4"
-											v-model="yhlbmkAddObj.content"
-											placeholder="请输入帮助内容"
-											style="width:300px"
-										></Input>
-									</div>
-								</Modal>
-								<Modal
-									v-model="upModal"
-									title="修改"
-									:loading="yhlbmkLoading"
-									@on-ok="updateOk"
-									@on-cancel="yhlbmkCancel"
-								>
-									<div style="marginBottom:10px;textAlign:center">
-										<div
-											style="display:inline-block;width:86px;textAlign:left"
-										>
-											<span style="color:red;"></span>帮助标题：
-										</div>
-										<Input
-											type="text"
-											v-model="yhlbmkAddObj.title"
-											placeholder="请输入帮助标题"
-											style="width:300px"
-										></Input>
-									</div>
-									<div style="marginBottom:10px;textAlign:center">
-										<div
-											style="display:inline-block;width:86px;textAlign:left"
-										>
-										</div>
-										<div style="display:inline-block;width:300px;color:red;text-align: left;">
-											帮助：标题使用/@/分割，换行使用\n,一段内容输入完成使用/%/表示结束<br />
-											例如：
-											*评论获得/@/评论商品获得奖励1个\n说明：每天可评论无数次/%/<br />
-											展示效果：<br />
-											*评论获得<br />
-											评论商品获得奖励1个<br />
-											说明：每天可评论无数次
-										</div>
-									</div>
-									<div style="marginBottom:10px;textAlign:center">
-										<div
-											style="display:inline-block;width:86px;textAlign:left"
-										>
-											<span style="color:red;"></span>帮助内容：
-										</div>
-										<Input
-											type="textarea"
-											:rows="8"
-											v-model="yhlbmkAddObj.content"
-											placeholder="请输入帮助内容"
+											v-model="yhlbmkAddObj.count"
+											placeholder="请输入机器人数量"
 											style="width:300px"
 										></Input>
 									</div>
@@ -207,6 +128,7 @@
                         </div>
                         <!-- 用户列表数据表格 -->
                         <Table
+							@on-selection-change='getuserlist'
                             ref="yhlbmkTable"
                             border
                             :columns="yhlbmkCols"
@@ -230,6 +152,7 @@
 								:page-size="yhlbmktablePageData.pageSize"
 								:current="yhlbmktablePageData.currentPage"
 								show-elevator
+								ref="pages"
 								@on-change="yhlbmkPageChange"
 							></Page>
 							<span>共&nbsp;{{yhlbmktablePageData.pages}}&nbsp;页</span>
@@ -267,6 +190,11 @@ export default {
             yhlbmkIsSearch: false, // 是否加入搜索词
             // 用户列表表格的标题行数据（列属性名称）
             yhlbmkCols: [
+				{
+					type: 'selection',
+					width: 60,
+					align: 'center'
+				},
                 {
                 	title: "id",
                 	key: "id",
@@ -293,7 +221,7 @@ export default {
                 	align: "center",
 					render: (h,params)=> {
 						let text = params.row.openno
-						if(text==0){
+						if(text==1){
 							return h(
 							"Button",
 							{
@@ -313,6 +241,8 @@ export default {
 							},
 							"开启"
 							)
+						}else{
+							return h('div','启用中')
 						}
 					}
                 },
@@ -377,7 +307,8 @@ export default {
 			logisticsCompany:'',
 			logisticsNo:'',
 			id:'',
-			dangci:{}
+			dangci:{},
+			robotlist:[]
         };
     },
     created() {
@@ -394,15 +325,6 @@ export default {
         yhlbmkGetList(currentPage, isSearch) {
             // currentPage：当前页数   isLimitTime：是否限制时间段
             console.log("获取第" + currentPage + "页数据");
-
-            // 参数对象
-            var params = {
-                pageNum: currentPage, // 当前页码
-                pageSize: 10, // 每页条数
-            };
-            console.log(params);
-            let postData = this.$qs.stringify(params);
-            console.log(postData)
             axios.get('/api/auction/robot/getRobotListPage',{
 				params:{
 					pageNum: currentPage, // 当前页码
@@ -440,28 +362,29 @@ export default {
                 Util.error("请输入消息内容");
             }
         },
-		goorder(params){
-			if(params.row.flag==0){
-				this.orderId=1
+		goorder(json){
+			let userId=[]
+			if(json.row){
+				userId=[json.row.id]
+			}else{
+				userId=this.robotlist
 			}
-			if(params.row.flag==1){
-				this.orderId=0
-			}
-			let json={
-				flag:this.orderId,
-				id:params.row.id,
-				content:params.row.content,
-				title:params.row.title,
-			};
-			//let postData = this.$qs.stringify(json);
-			axios.post('/api/auction/helpContent/sys/update',json)
+			let postData =JSON.stringify(userId);
+			axios.post('/api/auction/robot/start',{
+				userId:userId
+			})
 				.then( (response)=> {
-				if(response.data.code==200){
-					Util.success("修改成功");
-					this.yhlbmkGetList(1, this.yhlbmkIsSearch);
-				}else{
-					Util.error("修改成功");
-				}
+					var res = response.data;
+					if (res.code == 200) {
+						Util.success("启用成功");
+						// this.yhlbmkGetList(1, this.yhlbmkIsSearch);
+						this.yhlbmkGetList(this.yhlbmktablePageData.pageNum, this.yhlbmkIsSearch);
+						this.$nextTick(function(){
+							this.$refs['pages'].currentPage = this.yhlbmktablePageData.pageNum;
+						})
+					} else {
+						Util.error("启用失败");
+					}
 				})
 				.catch( (error)=> {
 				console.log(error);
@@ -469,17 +392,20 @@ export default {
 		},
 		yhlbmkOk(){
 			this.yhlbmkModal=false;
-			let json={
-				title:this.yhlbmkAddObj.title,
-				content:this.yhlbmkAddObj.content,
-				flag:"1",
-			};
 			//let postData = this.$qs.stringify(json);
-			axios.post('/api/auction/helpContent/sys/add',json)
+			axios.get('/api/auction/robot/add',{
+				params:{
+					count:this.yhlbmkAddObj.count
+				}
+			})
 				.then( (response)=> {
 				if(response.data.code==200){
 					Util.success("录入成功");
-					this.yhlbmkGetList(1, this.yhlbmkIsSearch);
+					// this.yhlbmkGetList(1, this.yhlbmkIsSearch);
+					this.yhlbmkGetList(this.yhlbmktablePageData.pageNum, this.yhlbmkIsSearch);
+					this.$nextTick(function(){
+						this.$refs['pages'].currentPage = this.yhlbmktablePageData.pageNum;
+					})
 				}else{
 					Util.error("录入失败");
 				}
@@ -490,36 +416,42 @@ export default {
 		},
 		//增加商品
 		addgood() {
-			this.yhlbmkAddObj.title = '';
-			this.yhlbmkAddObj.content=''
+			this.yhlbmkAddObj.count = '';
 			this.yhlbmkModal = true;
 		},
-		deleterobot(params){
-			if(params.row.flag==0){
-				this.orderId=1
+		deleterobot(json){
+			let userId=[]
+			if(json.row){
+				userId=[json.row.id]
+			}else{
+				userId=this.robotlist
 			}
-			if(params.row.flag==1){
-				this.orderId=0
-			}
-			let json={
-				flag:this.orderId,
-				id:params.row.id,
-				content:params.row.content,
-				title:params.row.title,
-			};
 			//let postData = this.$qs.stringify(json);
-			axios.post('/api/auction/helpContent/sys/update',json)
+			let postData =JSON.stringify(userId);
+			axios.post('/api/auction/robot/close',{
+				userId:userId
+			})
 				.then( (response)=> {
-				if(response.data.code==200){
-					Util.success("修改成功");
-					this.yhlbmkGetList(1, this.yhlbmkIsSearch);
-				}else{
-					Util.error("修改成功");
-				}
+					var res = response.data;
+					if (res.code == 200) {
+						Util.success("销毁成功");
+						// this.yhlbmkGetList(1, this.yhlbmkIsSearch);
+						this.yhlbmkGetList(this.yhlbmktablePageData.pageNum, this.yhlbmkIsSearch);
+						this.$nextTick(function(){
+							this.$refs['pages'].currentPage = this.yhlbmktablePageData.pageNum;
+						})
+					} else {
+						Util.error("销毁失败");
+					}
 				})
 				.catch( (error)=> {
 				console.log(error);
 				});
+		},
+		getuserlist(list){
+			for(let i=0;i<list.length;i++){
+				this.robotlist.push(list[i].id)
+			}
 		}
     }
 };

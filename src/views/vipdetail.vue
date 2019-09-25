@@ -126,6 +126,7 @@
 		font-style:italic;
 		color:rgba(255,255,255,1);
 		line-height: 14px;
+		text-align: center;
 	}
 	.vipgress{
 		width: 260px;
@@ -158,12 +159,14 @@
 			<div class="vipicon"></div>
 			<div class="nowtext">当前等级</div>
 			<div class="gradeline">
-				<div class="vipnum">v{{grade}}</div>
+				<div class="vipnum">V{{grade}}</div>
 				<div class="vipgress"></div>
-				<div class="vipnum" style="color:rgba(235,210,153,1);">v{{grade+1}}</div>
+				<div v-if="grade==5" class="vipnum" style="color:rgba(235,210,153,1);">V5</div>
+				<div v-else class="vipnum" style="color:rgba(235,210,153,1);">V{{grade+1}}</div>
 				<div class="vipgress1" :style="'width:'+ 260*integral/nextCountNum +'px;'"></div>
 			</div>
-			<div class="jifentext">积分值：{{integral}}/{{nextCountNum}}</div>
+			<div v-if="integral>50000" class="jifentext">积分值：{{integral}}/max</div>
+			<div v-else class="jifentext">积分值：{{integral}}/{{nextCountNum}}</div>
 		</div>
 		<div class='vipdetail'>
 			<div class="vipline">
