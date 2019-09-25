@@ -10,7 +10,7 @@
 		background: #FFFFFF;
 	}
 	.viptop{
-		height: 209px;
+		height: 219px;
 		width: 100%;
 		background: url(../assets/img/viptop.png) no-repeat no-repeat;
 		background-size: 100% 100%;
@@ -74,8 +74,11 @@
 	}
 		
 	th{
-		background:rgba(246,246,246,1);
+		
 		border: 1px solid rgba(238,238,238,1);
+	}
+	.colortd{
+		background:rgba(246,246,246,1);
 	}
 	.tabletd{
 		width: 16%;
@@ -86,11 +89,81 @@
 		border: 1px solid rgba(238,238,238,1);
 		font-weight: bold;
 	}
+	.tiplog{
+		font-size:12px;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(153,153,153,1);
+		line-height:21px;
+		margin-top: 15px;
+	}
+	.nowtext{
+		font-size:12px;
+		font-family:Microsoft YaHei;
+		font-weight:400;
+		color:rgba(172,134,81,1);
+		position: absolute;
+		top: 132px;
+		left: 20px;
+	}
+	.gradeline{
+		width: 300px;
+		height: 14px;
+		margin: 20px auto 0 auto;
+		position: relative;
+	}
+	.gradeline>div{
+		float: left;
+	}
+	.vipnum{
+		height: 14px;
+		width: 20px;
+		background: url(../assets/img/vipbox.png) no-repeat no-repeat;
+		background-size: 100% 100%;
+		font-size:12px;
+		font-family:STZhongsong;
+		font-weight:bold;
+		font-style:italic;
+		color:rgba(255,255,255,1);
+		line-height: 14px;
+	}
+	.vipgress{
+		width: 260px;
+		height: 5px;
+		background:rgba(187,152,103,1);
+		opacity:0.4;
+		border-radius:3px;
+		margin-top: 4px;
+	}
+	.vipgress1{
+		height:5px;
+		background:rgba(172,138,91,1);
+		border-radius:3px;
+		position: absolute;
+		top: 4px;
+		left: 20px;
+	}
+	.jifentext{
+		width: 100%;
+		text-align: center;
+		font-family:PingFang SC;
+		font-size: 12px;
+		font-weight:500;
+		color:rgba(124,98,63,1);
+	}
 </style>
 <template>
     <div class="vipBox">
 		<div class="viptop">
 			<div class="vipicon"></div>
+			<div class="nowtext">当前等级</div>
+			<div class="gradeline">
+				<div class="vipnum">v{{grade}}</div>
+				<div class="vipgress"></div>
+				<div class="vipnum" style="color:rgba(235,210,153,1);">v{{grade+1}}</div>
+				<div class="vipgress1" :style="'width:'+ 260*integral/nextCountNum +'px;'"></div>
+			</div>
+			<div class="jifentext">积分值：{{integral}}/{{nextCountNum}}</div>
 		</div>
 		<div class='vipdetail'>
 			<div class="vipline">
@@ -109,25 +182,21 @@
 			</div>
 			 <table class="viptable" >           
 				<tr v-for="(item,index) in headerList" :key="index">
-					<td v-if="index==0" class="firsttd" style="width: 22%">{{item.value}}</td>
-					<td v-else-if="index==1" style="width: 22%">ARTC数量(<span style="color: red;">L</span>)</td>
-					<td v-else style="width: 22%">{{item.value}}</td>
-					<th class="tabletd" v-if='index==0' v-for="(items,indexs) in bodyList" :key="indexs">V{{items.grade}}</th>
-					<td class="tabletd" v-if='index==1' v-for="(items,indexs) in bodyList" :key="indexs">
-						<div v-if="items.grade==0">无限制</div>
-						<div v-else>{{items.countNum}}</div>
+					<td class="colortd" style="width: 22%">{{item.value}}</td>
+					<th class="tabletd" v-if='index==0' v-for="(items,indexs) in bodyList1" :key="indexs">V{{items.grade}}</th>
+					<td class="tabletd" v-if='index==1' v-for="(items,indexs) in bodyList1" :key="indexs">
+						<div>{{items.countNum}}</div>
 					</td>
-					<td class="tabletd" v-if='index==2' v-for="(items,indexs) in bodyList" :key="indexs">{{items.integralScale}}</td>
-					<td class="tabletd" v-if='index==3' v-for="(items,indexs) in bodyList" :key="indexs">
-						<div v-if="items.grade==0">\</div>
-						<div v-else>{{items.serverCharge}}</div>
+					<td class="tabletd" v-if='index==2' v-for="(items,indexs) in bodyList1" :key="indexs">{{items.integralScale}}</td>
+					<td class="tabletd" v-if='index==3' v-for="(items,indexs) in bodyList1" :key="indexs">
+						<div>{{items.serverCharge}}</div>
 					</td>
-					<td class="tabletd" v-if='index==4' v-for="(items,indexs) in bodyList" :key="indexs">
-						<div v-if="items.grade==0 || items.grade==1">上下限<br />{{items.lowerLimit}}</div>
-						<div v-else>上限：<br /><span style="color: red;">L</span>*40% <br />下限{{items.lowerLimit}}</div>
+					<td class="tabletd" v-if='index==4' v-for="(items,indexs) in bodyList1" :key="indexs">
+						<div>500+ <br /> <span style="color: red;">L</span>*20%</div>
 					</td>
 				</tr>
             </table>
+			<div class="tiplog">注：L为当前ARTC持有数量。</div>
 		</div>
     </div>
 </template>
@@ -139,25 +208,32 @@ export default {
     data() {
         return {
 			headerList:[{
-				value:"权益对比"
+				value:"会员等级"
 			},
 			{
-				value:"ARTC数量(L)"
+				value:"拥有ARTC数量"
 			},
 			{
 				value:"获取ARTC比例"
 			},
 			{
-				value:"交易手续费"
+				value:"寄售手续费"
 			},
 			{
-				value:"交易市场限制（数量）"
+				value:"每日寄售上限"
 			},],
-			bodyList:[]
+			bodyList:[],
+			bodyList1:[],
+			grade:'',
+			integral:'',
+			userId:'',
+			nextCountNum:''
         };
     },
     created() {
+		this.userId=this.$route.query.userId
 		this.getlist();
+		this.getvip();
     },
 	mounted() {
 			
@@ -169,9 +245,16 @@ export default {
 				if (res.code == 200) {
 					if (res.data == null) {
 						this.bodyList = [];
-							
 					} else {
 						this.bodyList = res.data;
+						let bodylists=[]
+						// this.bodyList.shift()
+						for (let i=0;i<this.bodyList.length;i++) {
+							if(i!=0){
+								bodylists.push(this.bodyList[i])
+							}
+						}
+						this.bodyList1=bodylists
 					}
 				} else {
 					this.bodyList = [];
@@ -180,7 +263,23 @@ export default {
 			.catch(error => {
 					console.log(error);
 			});
-		}	
+		},
+		getvip(){
+			axios.get('/api/auction/member/sys/getMemberByUserId',{params:{
+							 userId: this.userId, 
+						 }}).then(response => {
+				var res = response.data;
+				if (res.code == 200) {
+					this.grade=res.data.grade
+					this.integral=res.data.integral
+					this.nextCountNum=res.data.nextCountNum
+				}
+			})
+			.catch(error => {
+					console.log(error);
+			});
+		}
+		
     }
 };
 </script>
