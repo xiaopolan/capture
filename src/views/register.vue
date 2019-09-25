@@ -163,7 +163,7 @@ a{
 			 <button class="reg_btn" @click="register">注册</button>
 			 <div class="btm_xieyi">
 				 <p class="radio_ck"></p>
-				 <a style="float: left;font-size: 10px;margin-left: 10px;">已阅读并同意《竞拍商城用户协议》</a>
+				 <router-link to='/agreement' style="float: left;font-size: 10px;margin-left: 10px;">已阅读并同意《竞拍商城用户协议》</router-link>
 			 </div>
 			 
     </div>

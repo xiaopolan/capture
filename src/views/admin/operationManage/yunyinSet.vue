@@ -497,7 +497,7 @@ export default {
                 case 9:
                     var param = [
                         {
-                            cdItem: 'server_phone',
+                            cdItem: 'server_online_time',
                             cdType: 'base_manage',
                             cdVal: this.kftime
                         },

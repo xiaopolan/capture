@@ -1,0 +1,211 @@
+<!-- 登录页 -->
+<style scoped>
+	body, div, ul, li, ol, h1, h2, h3, h4, h5, h6, input, textarea, select, p, dl, dt, dd, a, img, button, form, table, th, tr, td, tbody, article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+		margin: 0;
+		padding: 0;
+	}
+	.vipBox{
+		width: 100%;
+		height: 100%;
+		background: #FFFFFF;
+	}
+	.vipdetail{
+		padding:15px 10px 20px 10px;
+	}
+	.vipline{
+		height: 24px;
+		width: 231px;
+		background: url(../assets/img/vipline.png) no-repeat no-repeat;
+		background-size: 100% 4px;
+		margin: 10px auto;
+	}
+	.viptext{
+		text-align: center;
+		font-size:14px;
+		font-family:MicrosoftYaHei;
+		color:rgba(196,160,110,1);
+		line-height:2px;
+	}
+	.viptextd{
+		font-size:14px;
+		font-family:MicrosoftYaHei;
+		color:rgba(51,51,51,1);
+		line-height:20px;
+		margin-bottom: 10px;
+		font-weight: 500;
+		text-indent: -14px;
+		margin-left: 16px;
+	}
+	.vipfenge{
+		height: 5px;
+		width: 100%;
+		background:rgba(196,160,110,0.14);
+	}
+	.vipdetail2{
+		height: auto;
+		padding:15px 15px 20px 15px;
+	}
+	.viptable{
+		/* border: 1px solid #eee; */
+		border-collapse: collapse;
+		width: 100%;
+		font-size: 10px;
+		text-align: center;
+		word-break:break-all; word-wrap:break-word; table-layout:fixed; 
+		color:rgba(102,102,102,1);
+	}
+	td{
+		border: 1px solid rgba(238,238,238,1);
+	}
+		
+	th{
+		
+		border: 1px solid rgba(238,238,238,1);
+	}
+	.colortd{
+		background:rgba(246,246,246,1);
+	}
+	.tabletd{
+		width: 16%;
+		height: 40px;
+	}
+	.firsttd{
+		background:rgba(246,246,246,1);
+		border: 1px solid rgba(238,238,238,1);
+		font-weight: bold;
+	}
+	.tiplog{
+		font-size:12px;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(153,153,153,1);
+		line-height:21px;
+		margin-top: 15px;
+	}
+	.nowtext{
+		font-size:12px;
+		font-family:Microsoft YaHei;
+		font-weight:400;
+		color:rgba(172,134,81,1);
+		position: absolute;
+		top: 132px;
+		left: 20px;
+	}
+	.artctext{
+		font-size:14px;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(51,51,51,1);
+		line-height:21px;
+		margin-top: 19px;
+	}
+</style>
+<template>
+    <div class="vipBox">
+		<div class='vipdetail'>
+			<div class="artctext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;">ARTC (ART CURRENCY)</span> 是由杭州幻世电子商务 有限公司限量发行的一款平台通证，在小牛趣拍内进行是由杭州幻世电子商务 有限公司限量发行的一款平台通证，在小牛趣拍内进行 交易或完成任务可获得，持有数量影响小牛趣拍用户等 级，可用于小牛趣拍内的交易与抽奖活动。</div>
+			<div class="artctext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;">ARTC</span>可通过完成新手任务，日常任务和打赏获得， 等级在V1及以上用户还可以通过购买获得。</div>
+			<ol style="margin-top: 19px;">
+				<li class="viptextd">1. 小牛趣拍的会员等级共6个，分别为：V0、V1、V2、 V3、V4、V5几个等级，V1以上用户即可对ARTC进 行自由交易；</li>
+				<li class="viptextd">2. 会员级别的升降均由系统自动处理，无需申请。</li>
+				<li class="viptextd">3. 会员的等级由ARTC决定，ARTC数量越多会员等级越高，享受到的会员权益越大。</li>
+			</ol>
+		</div>
+		<div class='vipdetail2'>
+			<div class="vipline">
+				<p class="viptext">会员权益体系</p>
+			</div>
+			 <table class="viptable" >           
+				<tr v-for="(item,index) in headerList" :key="index">
+					<td class="colortd" style="width: 22%">{{item.value}}</td>
+					<th class="tabletd" v-if='index==0' v-for="(items,indexs) in bodyList" :key="indexs">V{{items.grade}}</th>
+					<td class="tabletd" v-if='index==1' v-for="(items,indexs) in bodyList" :key="indexs">
+						<div>{{items.countNum}}</div>
+					</td>
+					<td class="tabletd" v-if='index==2' v-for="(items,indexs) in bodyList" :key="indexs">{{items.integralScale}}</td>
+					<td class="tabletd" v-if='index==3' v-for="(items,indexs) in bodyList" :key="indexs">
+						<div>{{items.serverCharge}}</div>
+					</td>
+					<td class="tabletd" v-if='index==4' v-for="(items,indexs) in bodyList" :key="indexs">
+						<div>500+ <br /> <span style="color: red;">L</span>*20%</div>
+					</td>
+				</tr>
+            </table>
+			<div class="tiplog">注：L为当前ARTC持有数量。</div>
+		</div>
+    </div>
+</template>
+<script>
+import axios from 'axios'
+export default {
+    name: "result",
+    components: {},
+    data() {
+        return {
+			headerList:[{
+				value:"会员等级"
+			},
+			{
+				value:"拥有ARTC数量"
+			},
+			{
+				value:"获取ARTC比例"
+			},
+			{
+				value:"寄售手续费"
+			},
+			{
+				value:"每日寄售上限"
+			},],
+			bodyList:[]
+        };
+    },
+    created() {
+		this.getlist();
+		this.getvip();
+    },
+	mounted() {
+			
+	},
+    methods: {
+		getlist(){
+			axios.get('/api/auction/member/sys/getList').then(response => {
+				var res = response.data;
+				if (res.code == 200) {
+					if (res.data == null) {
+						this.bodyList = [];
+					} else {
+						this.bodyList = res.data;
+						this.bodyList.splice(0,1)
+					}
+				} else {
+					this.bodyList = [];
+				}
+			})
+			.catch(error => {
+					console.log(error);
+			});
+		},
+		getvip(){
+			axios.get('/api/auction/member/sys/getMemberByUserId',{params:{
+							 userId: '1001', 
+						 }}).then(response => {
+				var res = response.data;
+				if (res.code == 200) {
+					if (res.data == null) {
+						this.bodyList = [];
+					} else {
+						this.bodyList = res.data;
+					}
+				} else {
+					this.bodyList = [];
+				}
+			})
+			.catch(error => {
+					console.log(error);
+			});
+		}
+		
+    }
+};
+</script>

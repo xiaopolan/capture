@@ -95,7 +95,10 @@ const modules = {
                 },
                 zidongAudit:{
                     title: '自动场规则管理'
-                }
+                },
+				robot:{
+				    title: '机器人管理'
+				}
             }
         },
         dataManage: {
@@ -288,6 +291,22 @@ const routers = [{
         title: '市场',
     },
     component: (res) => require(['./views/market.vue'], res)
+},
+{
+    path: '/agreement',
+    // 路由元信息
+    meta: {
+        title: '协议',
+    },
+    component: (res) => require(['./views/agreement.vue'], res)
+},
+{
+    path: '/guide',
+    // 路由元信息
+    meta: {
+        title: '指南',
+    },
+    component: (res) => require(['./views/guide.vue'], res)
 }];
 
 // 导出路由信息数组
