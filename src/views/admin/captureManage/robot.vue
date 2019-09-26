@@ -86,7 +86,7 @@
 							    		style="float:left;width:60px;marginLeft:20px;"
 							    		size="small"
 							    		@click="deleterobot"
-							    	>批量关闭</Button>
+							    	>批量销毁</Button>
 							    </div>
 							</Col>
                             <Col span="4" style="textAlign:center;">

@@ -118,15 +118,15 @@
 			 <table class="viptable" >           
 				<tr v-for="(item,index) in headerList" :key="index">
 					<td class="colortd" style="width: 22%">{{item.value}}</td>
-					<th class="tabletd" v-if='index==0' v-for="(items,indexs) in bodyList" :key="indexs">V{{items.grade}}</th>
-					<td class="tabletd" v-if='index==1' v-for="(items,indexs) in bodyList" :key="indexs">
+					<th class="tabletd" v-if='index==0' v-for="(items,indexs) in bodyList1" :key="indexs">V{{items.grade}}</th>
+					<td class="tabletd" v-if='index==1' v-for="(items,indexs) in bodyList1" :key="indexs">
 						<div>{{items.countNum}}</div>
 					</td>
-					<td class="tabletd" v-if='index==2' v-for="(items,indexs) in bodyList" :key="indexs">{{items.integralScale}}</td>
-					<td class="tabletd" v-if='index==3' v-for="(items,indexs) in bodyList" :key="indexs">
+					<td class="tabletd" v-if='index==2' v-for="(items,indexs) in bodyList1" :key="indexs">{{items.integralScale}}</td>
+					<td class="tabletd" v-if='index==3' v-for="(items,indexs) in bodyList1" :key="indexs">
 						<div>{{items.serverCharge}}</div>
 					</td>
-					<td class="tabletd" v-if='index==4' v-for="(items,indexs) in bodyList" :key="indexs">
+					<td class="tabletd" v-if='index==4' v-for="(items,indexs) in bodyList1" :key="indexs">
 						<div>500+ <br /> <span style="color: red;">L</span>*20%</div>
 					</td>
 				</tr>
@@ -157,7 +157,8 @@ export default {
 			{
 				value:"每日寄售上限"
 			},],
-			bodyList:[]
+			bodyList:[],
+			bodyList1:[]
         };
     },
     created() {
@@ -176,7 +177,14 @@ export default {
 						this.bodyList = [];
 					} else {
 						this.bodyList = res.data;
-						this.bodyList.splice(0,1)
+						let bodylists=[]
+						// this.bodyList.shift()
+						for (let i=0;i<this.bodyList.length;i++) {
+							if(i!=0){
+								bodylists.push(this.bodyList[i])
+							}
+						}
+						this.bodyList1=bodylists
 					}
 				} else {
 					this.bodyList = [];
