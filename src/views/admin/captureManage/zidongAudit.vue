@@ -112,7 +112,7 @@
 						>
 							<div style="marginBottom:10px;textAlign:center">
 								<div
-									style="display:inline-block;width:86px;textAlign:left"
+									style="display:inline-block;width:100px;textAlign:left"
 								>
 									<span style="color:red;"></span>商品名称：
 								</div>
@@ -120,7 +120,43 @@
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
 								<div
-									style="display:inline-block;width:86px;textAlign:left"
+									style="display:inline-block;width:100px;textAlign:left"
+								>
+									<span style="color:red;"></span>是否加入机器人：
+								</div>
+								<RadioGroup v-model="robotStatus" @on-change="showrobot" style="width:200px;text-align: left;">
+									<Radio :label="1">
+										<span>是</span>
+									</Radio>
+									<Radio :label="0">
+										<span>否</span>
+									</Radio>
+								</RadioGroup>
+							</div>
+							<div style="marginBottom:10px;textAlign:center" v-if="robot">
+								<div
+									style="display:inline-block;width:100px;textAlign:left"
+								>
+									<span style="color:red;"></span>机器人退出价格：
+								</div>
+								<Input
+									v-model="yhlbmkAddObj.robotExitPrice"
+									placeholder="请输入机器人退出价格"
+									style="width:200px"
+									type="number"
+								></Input>
+							</div>
+							<div style="marginBottom:10px;textAlign:center" v-if="robot">
+								<div
+									style="display:inline-block;width:100px;textAlign:left"
+								>每轮机器人数量：</div>
+									<select name="public-choice" v-model="robotNum" class="typeselect" style="width: 200px;height: 32px;">                                        
+										<option :value="item.groupType"  v-for="item in statusList" >{{item.groupName}}</option>                                    
+									</select>
+							</div>
+							<div style="marginBottom:10px;textAlign:center">
+								<div
+									style="display:inline-block;width:100px;textAlign:left"
 								>起拍价：</div>
 								<Input
 									v-model="goodchoiced.productPrice"
@@ -131,7 +167,7 @@
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
 								<div
-									style="display:inline-block;width:86px;textAlign:left"
+									style="display:inline-block;width:100px;textAlign:left"
 								>加价：</div>
 								<Input
 									v-model="yhlbmkAddObj.incrementValue"
@@ -142,7 +178,7 @@
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
 								<div
-									style="display:inline-block;width:86px;textAlign:left;height: 20px;"
+									style="display:inline-block;width:100px;textAlign:left;height: 20px;"
 								>时间规则：</div>
 								<select name="public-choice" v-model="yhlbmkAddObj.cron" class="typeselect" style="width: 200px;">                                        
 									<option :value="item.value"  v-for="item in guizilist" >{{item.label}}</option>                                 																							
@@ -153,7 +189,7 @@
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
 								<div
-									style="display:inline-block;width:86px;textAlign:left"
+									style="display:inline-block;width:100px;textAlign:left"
 								>规则表达式：</div>
 								<Input
 									v-model="yhlbmkAddObj.cron"
@@ -163,7 +199,7 @@
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
 								<div
-									style="display:inline-block;width:86px;textAlign:left"
+									style="display:inline-block;width:100px;textAlign:left"
 								>规则描述：</div>
 								<Input
 									v-model="yhlbmkAddObj.desc"
@@ -173,7 +209,7 @@
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
 								<div
-									style="display:inline-block;width:86px;textAlign:left"
+									style="display:inline-block;width:100px;textAlign:left"
 								>档次名称：</div>
 									<select name="public-choice" v-model="model2" class="typeselect" style="width: 200px;height: 32px;">                                        
 										<option :value="item.id"  v-for="item in ccidlist" >{{item.auctionGradeName}}</option>                                    
@@ -181,19 +217,19 @@
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
 								<div
-									style="display:inline-block;width:86px;textAlign:left"
+									style="display:inline-block;width:100px;textAlign:left"
 								>开始时间：</div>
 									<Date-picker :value="startValue" v-modal="startValue"  @on-change="handleChange"  type="datetime" placeholder="选择日期和时间" style="width: 200px"></Date-picker>
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
 								<div
-									style="display:inline-block;width:86px;textAlign:left"
+									style="display:inline-block;width:100px;textAlign:left"
 								>结束时间：</div>
 									<Date-picker  :value="endValue" v-modal="endValue"  @on-change="handleChange1" type="datetime" placeholder="选择日期和时间" style="width: 200px"></Date-picker>
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
 								<div
-									style="display:inline-block;width:86px;textAlign:left"
+									style="display:inline-block;width:100px;textAlign:left"
 								>抢拍默认时长：</div>
 								<Input
 									v-model="yhlbmkAddObj.times"
@@ -204,7 +240,7 @@
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
 								<div
-									style="display:inline-block;width:86px;textAlign:left"
+									style="display:inline-block;width:100px;textAlign:left"
 								>等待默认时长：</div>
 								<Input
 									v-model="yhlbmkAddObj.wiatTime"
@@ -215,7 +251,7 @@
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
 								<div
-									style="display:inline-block;width:86px;textAlign:left"
+									style="display:inline-block;width:100px;textAlign:left"
 								>计算默认时长：</div>
 								<Input
 									v-model="yhlbmkAddObj.computeTime"
@@ -235,7 +271,7 @@
 											<div class="searchBox clearfix">
 													<div style="marginBottom:10px;textAlign:center">
 														<div
-															style="display:inline-block;width:86px;textAlign:center;height: 20px;"
+															style="display:inline-block;width:100px;textAlign:center;height: 20px;"
 														>商品名称：</div>
 														<input
 																v-model="producenames"
@@ -251,7 +287,7 @@
 											<div class="searchBox clearfix">
 												<div style="marginBottom:10px;textAlign:center;display: flex;">
 													<div
-														style="display:inline-block;width:86px;textAlign:center;height: 20px;margin-top: 5px;"
+														style="display:inline-block;width:100px;textAlign:center;height: 20px;margin-top: 5px;"
 													>商品类型：</div>
 													<Cascader ref="lists" :data="typelists" v-model="model1" class="goodselect"></Cascader>
 												</div>
@@ -260,7 +296,7 @@
 									<Col span="6">
 											<div style="marginBottom:10px;textAlign:left">
 												<div
-													style="display:inline-block;width:86px;textAlign:center;height: 20px;"
+													style="display:inline-block;width:100px;textAlign:center;height: 20px;"
 												>价格区间：</div>
 												<input
 														v-model="startPrice"
@@ -279,7 +315,7 @@
 									<Col span="5">
 											<div style="marginBottom:10px;textAlign:left">
 												<div
-													style="display:inline-block;width:86px;textAlign:center;float: left;height: 30px;line-height: 30px;"
+													style="display:inline-block;width:100px;textAlign:center;float: left;height: 30px;line-height: 30px;"
 												>生成日期：</div>
 												<Date-picker :value="searchValue" v-modal="searchValue"  @on-change="handleChange4" type="datetime" placeholder="选择生成日期" style="float:left;width: 150px"></Date-picker>
 											</div>
@@ -341,7 +377,7 @@
 						>
 							<div style="marginBottom:10px;textAlign:center">
 								<div
-									style="display:inline-block;width:86px;textAlign:left"
+									style="display:inline-block;width:100px;textAlign:left"
 								>
 									<span style="color:red;"></span>商品名称：
 								</div>
@@ -349,7 +385,43 @@
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
 								<div
-									style="display:inline-block;width:86px;textAlign:left"
+									style="display:inline-block;width:100px;textAlign:left"
+								>
+									<span style="color:red;"></span>是否加入机器人：
+								</div>
+								<RadioGroup v-model="robotStatus" @on-change="showrobot" style="width:200px;text-align: left;">
+									<Radio :label="1">
+										<span>是</span>
+									</Radio>
+									<Radio :label="0">
+										<span>否</span>
+									</Radio>
+								</RadioGroup>
+							</div>
+							<div style="marginBottom:10px;textAlign:center" v-if="robot">
+								<div
+									style="display:inline-block;width:100px;textAlign:left"
+								>
+									<span style="color:red;"></span>机器人退出价格：
+								</div>
+								<Input
+									v-model="updatacc.robotExitPrice"
+									placeholder="请输入机器人退出价格"
+									style="width:200px"
+									type="number"
+								></Input>
+							</div>
+							<div style="marginBottom:10px;textAlign:center" v-if="robot">
+								<div
+									style="display:inline-block;width:100px;textAlign:left"
+								>每轮机器人数量：</div>
+									<select name="public-choice" v-model="robotNum" class="typeselect" style="width: 200px;height: 32px;">                                        
+										<option :value="item.groupType"  v-for="item in statusList" >{{item.groupName}}</option>                                    
+									</select>
+							</div>
+							<div style="marginBottom:10px;textAlign:center">
+								<div
+									style="display:inline-block;width:100px;textAlign:left"
 								>起拍价：</div>
 								<Input
 									v-model="updatacc.startPrice"
@@ -360,7 +432,7 @@
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
 								<div
-									style="display:inline-block;width:86px;textAlign:left"
+									style="display:inline-block;width:100px;textAlign:left"
 								>加价：</div>
 								<Input
 									v-model="updatacc.incrementValue"
@@ -371,7 +443,7 @@
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
 								<div
-									style="display:inline-block;width:86px;textAlign:left;height: 20px;"
+									style="display:inline-block;width:100px;textAlign:left;height: 20px;"
 								>时间规则：</div>
 								<select name="public-choice" v-model="updatacc.cron" class="typeselect" style="width: 200px;">                                        
 									<option :value="item.value"  v-for="item in guizilist" >{{item.label}}</option>                                 																							
@@ -382,7 +454,7 @@
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
 								<div
-									style="display:inline-block;width:86px;textAlign:left"
+									style="display:inline-block;width:100px;textAlign:left"
 								>规则表达式：</div>
 								<Input
 									v-model="updatacc.cron"
@@ -392,7 +464,7 @@
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
 								<div
-									style="display:inline-block;width:86px;textAlign:left"
+									style="display:inline-block;width:100px;textAlign:left"
 								>规则描述：</div>
 								<Input
 									v-model="updatacc.desc"
@@ -402,7 +474,7 @@
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
 								<div
-									style="display:inline-block;width:86px;textAlign:left"
+									style="display:inline-block;width:100px;textAlign:left"
 								>档次名称：</div>
 									<select name="public-choice" v-model="model3" class="typeselect" style="width: 200px;height: 32px;">                                        
 										<option :value="item.id"  v-for="item in ccidlist" >{{item.auctionGradeName}}</option>                                    
@@ -410,19 +482,19 @@
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
 								<div
-									style="display:inline-block;width:86px;textAlign:left"
+									style="display:inline-block;width:100px;textAlign:left"
 								>开始时间：</div>
 									<Date-picker :value="upstartValue" v-modal="upstartValue"  @on-change="handleChange2" type="datetime" placeholder="选择日期和时间" style="width: 200px"></Date-picker>
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
 								<div
-									style="display:inline-block;width:86px;textAlign:left"
+									style="display:inline-block;width:100px;textAlign:left"
 								>结束时间：</div>
 									<Date-picker :value="upendValue" v-modal="upendValue" @on-change="handleChange3" type="datetime" placeholder="选择日期和时间" style="width: 200px"></Date-picker>
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
 								<div
-									style="display:inline-block;width:86px;textAlign:left"
+									style="display:inline-block;width:100px;textAlign:left"
 								>抢拍默认时长：</div>
 								<Input
 									v-model="updatacc.times"
@@ -433,7 +505,7 @@
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
 								<div
-									style="display:inline-block;width:86px;textAlign:left"
+									style="display:inline-block;width:100px;textAlign:left"
 								>等待默认时长：</div>
 								<Input
 									v-model="updatacc.wiatTime"
@@ -444,7 +516,7 @@
 							</div>
 							<div style="marginBottom:10px;textAlign:center">
 								<div
-									style="display:inline-block;width:86px;textAlign:left"
+									style="display:inline-block;width:100px;textAlign:left"
 								>计算默认时长：</div>
 								<Input
 									v-model="updatacc.computeTime"
@@ -501,6 +573,18 @@ export default {
     name: 'zidongAudit',
     data() {
         return {
+			statusList:[{
+				groupType:1,
+				groupName:"1-5"
+			},{
+				groupType:2,
+				groupName:"5-10"
+			},{
+				groupType:3,
+				groupName:"10-15"
+			}],
+			robot:false,
+			robotStatus:0,
 			typelists:[],//商品类型
 			model3:'',
 			model2:'',
@@ -649,6 +733,37 @@ export default {
                     key: 'productName',
                     align: 'center'
                 },
+				{
+				    title: '是否加入机器人',
+				    key: 'productName',
+				    align: 'center',
+					render: (h, params) => {
+					    let text = params.row.robotStatus;
+					    if (text == 1) {
+					        return h('div', '加入');
+					    }
+					    if (text == 0) {
+					        return h('div', '不加入');
+					    }
+					}
+				},
+				{
+				    title: '机器人退出价格',
+				    key: 'robotExitPrice',
+				    align: 'center'
+				},
+				{
+				    title: '每轮机器人数量',
+				    key: 'robotMaxNum',
+				    align: 'center',
+					render: (h, params) => {
+						if(params.row.robotMinNum){
+							return h('div',params.row.robotMinNum+'-'+params.row.robotMaxNum)
+						}else{
+							return h('div')
+						}
+					}
+				},
                 {
                 	title: "商品主图",
                 	key: "pic",
@@ -750,7 +865,7 @@ export default {
                                         }
                                     }
                                 },
-                                '启用'
+                                '启用中'
                             );
                         } else {
                             return h(
@@ -770,7 +885,7 @@ export default {
                                         }
                                     }
                                 },
-                                '禁用'
+                                '禁用中'
                             );
                         }
                     }
@@ -1060,7 +1175,7 @@ export default {
             };
             let postData = this.$qs.stringify(params);
             axios
-                .post('/api/auction/product/sys/getAllowProduct', postData)
+                .post('/api/auction/product/sys/init', postData)
                 .then(response => {
                     var res = response.data;
                     this.choicegoodlist = res.data;
@@ -1115,6 +1230,17 @@ export default {
             var time1 = data.getTime();
             var data2 = new Date(this.endValue);
             var time2 = data2.getTime();
+			let robotMinNum,robotMaxNum=0
+			if(this.robotNum==1){
+				robotMinNum=1
+				robotMaxNum=5
+			}else if(this.robotNum==2){
+				robotMinNum=5
+				robotMaxNum=10
+			}else if(this.robotNum==3){
+				robotMinNum=10
+				robotMaxNum=15
+			}
             var params = {
                 descInfo: this.yhlbmkAddObj.desc,
 				productImg:this.goodchoiced.pic,
@@ -1128,7 +1254,11 @@ export default {
 				times: this.yhlbmkAddObj.times,
 				wiatTime: this.yhlbmkAddObj.wiatTime,
 				computeTime: this.yhlbmkAddObj.computeTime,
-				gradeId:this.model2
+				gradeId:this.model2,
+				robotStatus:this.robotStatus,
+				robotExitPrice:this.yhlbmkAddObj.robotExitPrice,
+				robotMinNum:robotMinNum,
+				robotMaxNum:robotMaxNum
             };
 			if(params.descInfo=='' || params.gradeId=='' || params.productImg=='' || params.productId=='' || params.startPrice=='' || params.cron=='' || params.startTime=='' || params.endTime=='' || params.incrementValue=='' || params.times=='' || params.wiatTime=='' || params.computeTime==''){
 				Util.error('正确填写表单');
@@ -1151,6 +1281,9 @@ export default {
 							this.goodchoiced.pic = '';
 							this.yhlbmkAddObj.cron = '';
 							this.yhlbmkAddObj.incrementValue = '';
+							this.robotNum ='';
+							this.robot=false;
+							this.robotStatus=0;
 							this.yhlbmkGetList(1, this.yhlbmkIsSearch);
 						} else {
 							Util.error('添加失败,'+response.data.msg);
@@ -1185,6 +1318,18 @@ export default {
 			this.updatacc.times=row.times
 			this.updatacc.computeTime=row.computeTime
 			this.updatacc.wiatTime=row.wiatTime
+			
+			this.robotStatus=row.robotStatus;
+			this.updatacc.robotExitPrice =row.robotExitPrice;
+			if(this.robotStatus==1)this.robot=true
+			if(this.robotStatus==0)this.robot=false
+			if(row.robotMinNum==1 && row.robotMaxNum==5){
+				this.robotNum=1
+			}else if(row.robotMinNum==5 && row.robotMaxNum==10){
+				this.robotNum=2
+			}else if(row.robotMinNum==10 && row.robotMaxNum==15){
+				this.robotNum=3
+			}
 		},
 		updatatimeOk(){
 			var data= new Date(this.upstartValue)
@@ -1196,6 +1341,17 @@ export default {
 				podid=this.goodchoiced.id
 			}else{
 				podid=this.updatacc.productId
+			}
+			let robotMinNum,robotMaxNum=0
+			if(this.robotNum==1){
+				robotMinNum=1
+				robotMaxNum=5
+			}else if(this.robotNum==2){
+				robotMinNum=5
+				robotMaxNum=10
+			}else if(this.robotNum==3){
+				robotMinNum=10
+				robotMaxNum=15
 			}
 			var params = {
 				id:this.ccid,
@@ -1210,7 +1366,11 @@ export default {
 				times: this.updatacc.times, 
 				computeTime: this.updatacc.computeTime, 
 				wiatTime: this.updatacc.wiatTime, 
-				gradeId:this.model3
+				gradeId:this.model3,
+				robotStatus:this.robotStatus,
+				robotExitPrice:this.updatacc.robotExitPrice,
+				robotMinNum:robotMinNum,
+				robotMaxNum:robotMaxNum
 			};
 			console.log(params);
 			this.yhlbmkLoading = false; // 关闭加载状态
@@ -1296,6 +1456,14 @@ export default {
 					console.log(error);
 				});
 		},
+		showrobot(data){
+			if(data==1){
+				this.robot=true
+			}
+			if(data==0){
+				this.robot=false
+			}
+		}
     }
 };
 </script>

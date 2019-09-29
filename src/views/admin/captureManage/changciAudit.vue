@@ -959,9 +959,10 @@ export default {
 			this.yhlbmkAddObj.incrementValue = '';
 			this.yhlbmkAddObj.auctionGradeId = '';
 			this.yhlbmkAddObj.robotExitPrice ='';
-			this.robotNum ='';
+			
 			this.startValue = '';
 			this.endValue = '';
+			this.robotNum ='';
 			this.robot=false;
 			this.robotStatus=0;
 		},
