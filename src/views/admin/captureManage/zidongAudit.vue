@@ -1089,10 +1089,8 @@ export default {
                     if (response.data.code == 200) {
                         Util.success('操作成功');
                         this.yhlbmkGetList(1, this.yhlbmkIsSearch);
-                    }else if(response.data.code == 60000){
-						Util.info('任务未到开始时间');
-					} else {
-                        Util.error('操作失败'+response.data.msg);
+                    }else {
+                        Util.error('操作失败,'+response.data.msg);
                     }
                 })
                 .catch(error => {
