@@ -55,7 +55,7 @@
     padding: 1px 7px;
 }
 .serchinput-on {
-    width: 80px;
+    width: 60px;
 }
 .typeselect {
     width: 150px;
@@ -278,6 +278,7 @@
 																size="small"
 																placeholder="请输入商品名称"
 																class="serchinput"
+																style="width: 120px;"
 														>
 														</input>
 													</div>
@@ -291,6 +292,14 @@
 													>商品类型：</div>
 													<Cascader ref="lists" :data="typelists" v-model="model1" class="goodselect"></Cascader>
 												</div>
+											</div>
+									</Col>
+									<Col span="6">
+											<div style="marginBottom:10px;textAlign:left">
+												<div
+													style="display:inline-block;width:100px;textAlign:center;float: left;height: 30px;line-height: 30px;"
+												>生成日期：</div>
+												<Date-picker :value="searchValue" v-modal="searchValue"  @on-change="handleChange4" type="datetime" placeholder="选择生成日期" style="float:left;width: 150px"></Date-picker>
 											</div>
 									</Col>
 									<Col span="6">
@@ -310,14 +319,6 @@
 														class="serchinput serchinput-on"
 												>
 												</input>
-											</div>
-									</Col>
-									<Col span="5">
-											<div style="marginBottom:10px;textAlign:left">
-												<div
-													style="display:inline-block;width:100px;textAlign:center;float: left;height: 30px;line-height: 30px;"
-												>生成日期：</div>
-												<Date-picker :value="searchValue" v-modal="searchValue"  @on-change="handleChange4" type="datetime" placeholder="选择生成日期" style="float:left;width: 150px"></Date-picker>
 											</div>
 									</Col>
 									<Col span="2">
@@ -343,7 +344,7 @@
 											:page-size="choicegoodlist.pageSize"
 											show-elevator
 											ref="pages"
-											@on-change="yhlbmkPageChange"
+											@on-change="getlistgood"
 									></Page>
 									<span>共&nbsp;{{choicegoodlist.pages}}&nbsp;页</span>
 							</div>
