@@ -121,6 +121,16 @@
 							<div style="marginBottom:10px;textAlign:center">
 								<div
 									style="display:inline-block;width:100px;textAlign:left"
+								>规则描述：</div>
+								<Input
+									v-model="yhlbmkAddObj.desc"
+									placeholder="请输入规则描述"
+									style="width:200px"
+								></Input>
+							</div>
+							<div style="marginBottom:10px;textAlign:center">
+								<div
+									style="display:inline-block;width:100px;textAlign:left"
 								>
 									<span style="color:red;"></span>是否加入机器人：
 								</div>
@@ -194,16 +204,6 @@
 								<Input
 									v-model="yhlbmkAddObj.cron"
 									placeholder="请输入规则表达式"
-									style="width:200px"
-								></Input>
-							</div>
-							<div style="marginBottom:10px;textAlign:center">
-								<div
-									style="display:inline-block;width:100px;textAlign:left"
-								>规则描述：</div>
-								<Input
-									v-model="yhlbmkAddObj.desc"
-									placeholder="请输入规则描述"
 									style="width:200px"
 								></Input>
 							</div>
@@ -386,6 +386,16 @@
 							<div style="marginBottom:10px;textAlign:center">
 								<div
 									style="display:inline-block;width:100px;textAlign:left"
+								>规则描述：</div>
+								<Input
+									v-model="updatacc.desc"
+									placeholder="请输入描述"
+									style="width:200px"
+								></Input>
+							</div>
+							<div style="marginBottom:10px;textAlign:center">
+								<div
+									style="display:inline-block;width:100px;textAlign:left"
 								>
 									<span style="color:red;"></span>是否加入机器人：
 								</div>
@@ -459,16 +469,6 @@
 								<Input
 									v-model="updatacc.cron"
 									placeholder="请输入规则表达式"
-									style="width:200px"
-								></Input>
-							</div>
-							<div style="marginBottom:10px;textAlign:center">
-								<div
-									style="display:inline-block;width:100px;textAlign:left"
-								>规则描述：</div>
-								<Input
-									v-model="updatacc.desc"
-									placeholder="请输入描述"
 									style="width:200px"
 								></Input>
 							</div>
@@ -599,7 +599,11 @@ export default {
 				},
 				{
 					label:'每小时',
-					value:'0 */60 * * * ?'
+					value:'0 0 * * * ？'
+				},
+				{
+					label:'每两小时',
+					value:'0 0 0/2 * * ?'
 				},
 			],
 			listobjgood:true,
@@ -1162,6 +1166,8 @@ export default {
         },
         selectgoods(row) {
             this.goodchoiced = row;
+			this.yhlbmkAddObj.desc=this.goodchoiced.productName
+			this.updatacc.desc=this.goodchoiced.productName
             console.log(this.goodchoiced.productPrice);
             this.goodModal = false;
             //this.yhlbmkModal = true;

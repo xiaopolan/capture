@@ -1174,6 +1174,7 @@ export default {
         selectgoods(row) {
             this.goodchoiced = row;
 			this.yhlbmkAddObj.title=this.goodchoiced.productName
+			this.updatacc.title=this.goodchoiced.productName
             console.log(this.goodchoiced.productPrice);
             this.goodModal = false;
             //this.yhlbmkModal = true;
