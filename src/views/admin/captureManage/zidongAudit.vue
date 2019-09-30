@@ -591,11 +591,11 @@ export default {
 			guizilist:[
 				{
 					label:'每15分钟',
-					value:'0 */15 * * * ?'
+					value:'0 0/15 * * * ?'
 				},
 				{
 					label:'每30分钟',
-					value:'0 */30 * * * ?',
+					value:'0 0/30 * * * ?',
 				},
 				{
 					label:'每小时',
@@ -604,6 +604,14 @@ export default {
 				{
 					label:'每两小时',
 					value:'0 0 0/2 * * ?'
+				},
+				{
+					label:'每四小时',
+					value:'0 0 0/4 * * ?'
+				},
+				{
+					label:'每六小时',
+					value:'0 0 0/6 * * ?'
 				},
 			],
 			listobjgood:true,
