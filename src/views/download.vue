@@ -82,6 +82,7 @@ export default {
 				this.link="ios"
 		} else if (u.indexOf('Windows Phone') > -1) {
 				//winphone手机
+				this.link="android"
 		}
 		axios
 			.get('/api/auction/url/sys/getUrl', {

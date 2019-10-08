@@ -343,8 +343,8 @@
 											:total="choicegoodlist.total"
 											:page-size="choicegoodlist.pageSize"
 											show-elevator
-											ref="pages"
-											@on-change="getlistgood"
+											ref="pages1"
+											@on-change="goodpageChange"
 									></Page>
 									<span>共&nbsp;{{choicegoodlist.pages}}&nbsp;页</span>
 							</div>
@@ -354,7 +354,7 @@
 											:total="choicegoodlist.total1"
 											:page-size="choicegoodlist.pageSize1"
 											show-elevator
-											@on-change="searchepageChange"
+											@on-change="segoodpageChange"
 									></Page>
 									<span>共&nbsp;{{choicegoodlist.pages1}}&nbsp;页</span>
 							</div>
@@ -548,7 +548,7 @@
 										:page-size="yhlbmktablePageData.pageSize"
 										show-elevator
 										ref="pages"
-										@on-change="goodpageChange"
+										@on-change="yhlbmkPageChange"
 								></Page>
 								<span>共&nbsp;{{yhlbmktablePageData.pages}}&nbsp;页</span>
 						</div>
@@ -558,7 +558,7 @@
 										:total="yhlbmktablePageData.total1"
 										:page-size="yhlbmktablePageData.pageSize1"
 										show-elevator
-										@on-change="segoodpageChange"
+										@on-change="searchepageChange"
 								></Page>
 								<span>共&nbsp;{{yhlbmktablePageData.pages1}}&nbsp;页</span>
 						</div>
