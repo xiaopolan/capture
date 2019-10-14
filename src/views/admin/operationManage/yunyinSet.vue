@@ -122,8 +122,9 @@
 					<div class="fanli"><span>注册地址</span><i-input v-model="registerpage" placeholder="请输入地址" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input></div>
 					<div class="fanli"><i-button type="success" small  @click="saveyy(14)">保存</i-button></div>
 				</TabPane>
-				<TabPane label="牛票价值" key="key4">
+				<TabPane label="礼物" key="key4">
 					<div class="fanli"><span>一元人民币对应牛票</span><i-input v-model="niupiao" placeholder="请输入价格" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>个</div>
+					<div class="fanli"><span>用户每日打赏的额度</span><i-input v-model="everylimit" placeholder="请输入价格" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>个</div>
 					<div class="fanli"><i-button type="success" small  @click="saveyy(15)">保存</i-button></div>
 				</TabPane>
 				<TabPane label="版本号" key="key4">
@@ -156,6 +157,7 @@ export default {
     name: 'yunyinSet',
     data() {
         return {
+			everylimit:'',
 			kftime:'',
 			comment:'',
 			comment_artc:'',
@@ -316,6 +318,7 @@ export default {
 					this.registerpage = list15[0].cdVal || '';
 					//牛票价格
 					this.niupiao = list16[0].cdVal || '';
+					this.everylimit=list16[1].cdVal || '';
 					//版本
 					this.androidv = list17[0].cdVal || '';
 					this.iosv = list18[0].cdVal || '';
@@ -594,6 +597,11 @@ export default {
 							cdItem: 'eqValue',
 							cdType: 'gift',
 							cdVal: this.niupiao
+						},
+						{
+							cdItem: 'eqValue',
+							cdType: 'gift',
+							cdVal: this.everylimit
 						},
 					];
 					break;
