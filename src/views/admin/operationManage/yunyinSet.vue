@@ -599,7 +599,7 @@ export default {
 							cdVal: this.niupiao
 						},
 						{
-							cdItem: 'eqValue',
+							cdItem: 'everyDayLimit',
 							cdType: 'gift',
 							cdVal: this.everylimit
 						},
