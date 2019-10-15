@@ -112,7 +112,7 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
-											<span style="color:red;">*</span>验证码：
+											验证码：
 										</div>
 										<Input
 											v-model="yhlbmkAddObj.yzm"
@@ -168,7 +168,7 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
-											<span style="color:red;">*</span>验证码：
+											验证码：
 										</div>
 										<Input
 											v-model="yhlbmkAddObj.yzm"
@@ -180,7 +180,7 @@
 										<div
 											style="display:inline-block;width:86px;textAlign:left"
 										>
-											<span style="color:red;">*</span>用户名称：
+											用户名称：
 										</div>
 										<input class="xuanze" @click="setProduct" v-model="goodchoiced.userName" readonly="readonly"></input>
 									</div>
@@ -707,17 +707,16 @@ export default {
 							.catch(error => {
 								console.log(error);
 							});
-						// 解决Modal表单验证中loading的bug
-						setTimeout(() => {
-							this.yhlbmkLoading = false;
-							this.$nextTick(() => {
-								this.yhlbmkLoading = true;
-							});
-						}, 10);
 						this.yhlbmkModal = false; // 关闭当前模态
 						
 				}
-                
+                // 解决Modal表单验证中loading的bug
+                setTimeout(() => {
+                	this.yhlbmkLoading = false;
+                	this.$nextTick(() => {
+                		this.yhlbmkLoading = true;
+                	});
+                }, 10);
         },
         // 点击新增用户的对话框的取消
         yhlbmkCancel() {
@@ -733,7 +732,7 @@ export default {
 			this.model3 = '';
 			this.model4 = '';
 			this.goodchoiced.id="";
-			this.goodchoiced.userName="";
+			this.goodchoiced.userName="请选择";
         },
 		//点击修改
         updateGood(params) {
@@ -830,7 +829,7 @@ export default {
 				};
 				let postData = this.$qs.stringify(params);
 				axios
-					.post('/api/auction/user/sys/getUserByPhone', postData)
+					.get('/api/auction/user/sys/getUserByPhone', {params})
 					.then(response => {
 						var res = response.data;
 						// this.choicegoodlist = res.data;

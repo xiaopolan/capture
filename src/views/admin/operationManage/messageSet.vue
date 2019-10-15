@@ -37,7 +37,14 @@
     line-height: 32px;
     padding: 1px 7px;
 }
-
+.serchinput {
+    width: 150px;
+    height: 25px;
+    border: 1px solid #dcdee2;
+    border-radius: 4px;
+    color: #515a6e;
+    padding: 1px 7px;
+}
 </style>
 <style lang="less">
 .yhlb_table {
@@ -193,6 +200,32 @@
 									@on-cancel="yhlbmkCancel"
 									class-name="mygoods"
 								>
+								<Row style="padding: 10px 0;">
+										<Col span="5" style="textAlign:center;">
+												<div class="searchBox clearfix">
+														<div style="marginBottom:10px;textAlign:center">
+															<div
+																style="display:inline-block;width:86px;textAlign:center;height: 20px;"
+															>手机号码：</div>
+															<input
+																	v-model="producenames"
+																	size="small"
+																	placeholder="请输入手机号码"
+																	class="serchinput"
+															>
+															</input>
+														</div>
+												</div>
+										</Col>
+										<Col span="2">
+													<Button
+															type="error"
+															style="width:60px;marginLeft:20px;textAlign:center"
+															size="small"
+															@click="searchgood(1)"
+													>查询</Button>
+											</Col>
+								</Row>
 									<Table
 										ref="yhlbmkTable"
 										border
@@ -798,6 +831,38 @@ export default {
 			this.yhlbmkAddObj.userId=this.goodchoiced.id
 			this.goodModal = false;
 			//this.yhlbmkModal = true;
+		},
+		//查询用户
+		searchgood(currentPage) {
+			if (this.producenames) {
+				var params = {
+					pageNum: currentPage, // 当前页码
+					pageSize: 10, // 每页条数
+					phone: this.producenames,
+				};
+				let postData = this.$qs.stringify(params);
+				axios
+					.get('/api/auction/user/sys/getUserByPhone', {params})
+					.then(response => {
+						var res = response.data;
+						// this.choicegoodlist = res.data;
+						//this.goodModal=true
+						if(res.code==200){
+							if(res.data==null){
+								this.choicegoodlist.list=[];
+							}else{
+								this.choicegoodlist = res.data;
+							}
+						}else{
+							this.choicegoodlist.list=[];
+						}
+					})
+					.catch(error => {
+						console.log(error);
+					});
+			} else {
+				this.getlistgood(1);
+			}
 		},
     }
 };

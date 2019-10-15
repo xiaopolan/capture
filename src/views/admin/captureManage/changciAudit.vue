@@ -413,7 +413,7 @@
 														<div class="searchBox clearfix">
 																<div style="marginBottom:10px;textAlign:center">
 																	<div
-																		style="display:inline-block;width:100px;textAlign:center;height: 20px;"
+																		style="display:inline-block;width:70px;textAlign:center;height: 20px;"
 																	>商品名称：</div>
 																	<input
 																			v-model="producenames"
@@ -428,7 +428,7 @@
 												<Col span="5">
 														<div style="marginBottom:10px;textAlign:left">
 															<div
-																style="display:inline-block;width:100px;textAlign:center;height: 20px;"
+																style="display:inline-block;width:70px;textAlign:center;height: 20px;"
 															>价格区间：</div>
 															<input
 																	v-model="startPrice"
@@ -448,7 +448,7 @@
 														<div class="searchBox clearfix">
 															<div style="marginBottom:10px;textAlign:center;display: flex;">
 																<div
-																	style="display:inline-block;width:100px;textAlign:center;height: 20px;margin-top: 5px;"
+																	style="display:inline-block;width:70px;textAlign:center;height: 20px;margin-top: 5px;"
 																>商品类型：</div>
 																<Cascader ref="lists" :data="typelists" v-model="model1" class="goodselect"></Cascader>
 															</div>
