@@ -77,6 +77,7 @@
 					<div class="fanli"><span>评论奖励积分</span><i-input v-model="pinglun" placeholder="请输入换取积分数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分</div>
 					<div class="fanli"><span>打赏奖励积分</span><i-input v-model="gift" placeholder="请输入积分数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分</div>
 					<div class="fanli"><span>点赞数阀值</span><i-input v-model="pinjian1" placeholder="请输入点赞数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>个</div>
+					<div class="fanli"><span>列表长度</span><i-input v-model="pjlength" placeholder="请输入长度" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>个</div>
 					<div class="fanli"><span>成功上架竞拍获得积分</span><i-input v-model="pinjian2" placeholder="请输入积分数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分</div>
 					<div class="fanli"><span>审核通过获得积分</span><i-input v-model="pinjian3" placeholder="请输入积分数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分</div>
 					<div class="fanli"><span>点赞数达到阀值获得积分</span><i-input v-model="pinjian4" placeholder="请输入积分数" style="width: 300px;margin-left: 10px;margin-right: 10px;"></i-input>分</div>
@@ -157,6 +158,7 @@ export default {
     name: 'yunyinSet',
     data() {
         return {
+			pjlength:'',
 			everylimit:'',
 			kftime:'',
 			comment:'',
@@ -297,6 +299,7 @@ export default {
                     this.dianzan = list8[1].cdVal || '';
                     this.pinglun = list8[0].cdVal || '';
                     this.gift = list8[3].cdVal || '';
+                    this.pjlength = list8[4].cdVal || '';
                     //客服电话
                     this.kftime = list9[0].cdVal || '';
 					this.kfphone = list9[1].cdVal || '';
@@ -481,6 +484,11 @@ export default {
                             cdType: 'Judge',
                             cdVal: this.gift
                         },
+						{
+						    cdItem: 'listLeng',
+						    cdType: 'Judge',
+						    cdVal: this.pjlength
+						},
 						{
 							cdItem: 'dianzan',
 							cdType: 'getARTC',
