@@ -127,7 +127,7 @@
 						<div>{{items.serverCharge}}</div>
 					</td>
 					<td class="tabletd" v-if='index==4' v-for="(items,indexs) in bodyList1" :key="indexs">
-						<div>500+ <br /> <span style="color: red;">L</span>*20%</div>
+						<div>{{items.countNum*jflimit}}</div>
 					</td>
 				</tr>
             </table>
@@ -149,7 +149,7 @@ export default {
 				value:"拥有ARTC数量"
 			},
 			{
-				value:"获取ARTC比例"
+				value:"获取ARTC比例(打赏，竞拍)"
 			},
 			{
 				value:"寄售手续费"
@@ -158,17 +158,31 @@ export default {
 				value:"每日寄售上限"
 			},],
 			bodyList:[],
-			bodyList1:[]
+			bodyList1:[],
+			jflimit:''
         };
     },
     created() {
 		this.getlist();
 		this.getvip();
+		this.showlist();
     },
 	mounted() {
 			
 	},
     methods: {
+		showlist() {
+			axios
+				.post('/api/auction/operate/sys/init')
+				.then(response => {
+					var res = response.data;
+					var list20 = res.data.artc_transaction
+					this.jflimit = list20[0].cdVal || '';
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		},
 		getlist(){
 			axios.get('/api/auction/member/sys/getList').then(response => {
 				var res = response.data;

@@ -29,6 +29,7 @@
 					<div class="fanli"><span>二级返利比例</span><i-input v-model="setyy.scale" placeholder="请输入二级返利比例" style="width: 300px;margin-left: 10px;"></i-input></div>
 					<div class="fanli"><span>每日返利时间</span><Date-picker :value="startValue" v-modal="startValue"  @on-change="handleChange"  type="datetime" placeholder="选择日期和时间" style="width: 300px;margin-left: 10px;"></Date-picker></div>
 					<div class="fanli"><span>返利比例</span><i-input v-model="setyy.flscale" placeholder="请输入返利比例" style="width: 300px;margin-left: 10px;"></i-input></div>
+					<div class="fanli"><span>积分交易上限百分比</span><i-input v-model="jflimit" placeholder="请输入积分交易上限百分比" style="width: 300px;margin-left: 10px;"></i-input></div>
 					
 					<div class="fanli"><i-button type="success" small @click="saveyy(1)">保存</i-button></div>
 				</TabPane>
@@ -158,6 +159,7 @@ export default {
     name: 'yunyinSet',
     data() {
         return {
+			jflimit:'',
 			pjlength:'',
 			everylimit:'',
 			kftime:'',
@@ -262,6 +264,7 @@ export default {
 					var list17 = res.data.android;
 					var list18 = res.data.ios;
 					var list19 = res.data.getARTC;
+					var list20 = res.data.artc_transaction
 					// var list20 = res.data.dailyTask;
 					this.dailyTask=res.data.task;
                     //运营
@@ -270,6 +273,7 @@ export default {
                         new Date(parseInt(list1[1].cdVal)).Format('yyyy-MM-dd hh:mm:ss') || '';
                     this.setyy.jfprice = list1[2].cdVal || '';
                     this.setyy.flscale = list1[0].cdVal || '';
+                    this.jflimit = list20[0].cdVal || '';
                     //轮次
                     this.setlc.mrtime = list2[1].cdVal || '';
                     this.setlc.waittime = list2[2].cdVal || '';
@@ -367,7 +371,12 @@ export default {
                             cdItem: 'scale',
                             cdType: 'setyy',
                             cdVal: this.setyy.scale
-                        }
+                        },
+						{
+						    cdItem: 'upper_limit',
+						    cdType: 'artc_transaction',
+						    cdVal: this.jflimit
+						}
                     ];
                     break;
                 case 2:

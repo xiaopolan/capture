@@ -370,18 +370,31 @@ export default {
 			model1:'',
 			model2:'',
 			id:'',
+			jflimit:''
         };
     },
     created() {
         // 获取用户列表数据
         this.yhlbmkGetList(1, this.yhlbmkIsSearch);
-		
+		this.showlist()
     },
     methods: {
         // 用户列表的页码改变
         yhlbmkPageChange(currentPage) {
             this.yhlbmkGetList(currentPage, this.yhlbmkIsSearch); // 获取用户列表数据
         },
+		showlist() {
+			axios
+				.post('/api/auction/operate/sys/init')
+				.then(response => {
+					var res = response.data;
+					var list20 = res.data.artc_transaction
+					this.jflimit = list20[0].cdVal || '';
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		},
         // 获取用户列表数据（调用接口的）---接口
         yhlbmkGetList(currentPage, isSearch) {
             // currentPage：当前页数   isLimitTime：是否限制时间段
@@ -417,7 +430,7 @@ export default {
 				integralScale:this.yhlbmkAddObj.integralScale,
 				serverCharge:this.yhlbmkAddObj.serverCharge/100,
 				lowerLimit:this.yhlbmkAddObj.lowerLimit,
-				upperLimit:this.yhlbmkAddObj.countNum*0.4
+				upperLimit:this.yhlbmkAddObj.countNum*this.jflimit
 			};
 			if(this.yhlbmkAddObj.grade==0 || this.yhlbmkAddObj.grade==1){
 				json.lowerLimit=json.upperLimit=500
@@ -490,7 +503,7 @@ export default {
 				integralScale:this.yhlbmkAddObj.integralScale,
 				serverCharge:this.yhlbmkAddObj.serverCharge/100,
 				lowerLimit:this.yhlbmkAddObj.lowerLimit,
-				upperLimit:this.yhlbmkAddObj.countNum*0.4
+				upperLimit:this.yhlbmkAddObj.countNum*this.jflimit
 			};
 			if(this.yhlbmkAddObj.grade==0 || this.yhlbmkAddObj.grade==1){
 				params.lowerLimit=params.upperLimit=500
