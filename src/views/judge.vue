@@ -42,8 +42,7 @@
     float: left;
     color: rgba(255, 255, 255, 1);
     margin-left: 5px;
-		height: 35px;
-		width: 62px;
+	height: 35px;
 }
 .pname{
 	line-height: 35px;

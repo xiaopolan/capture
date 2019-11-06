@@ -256,7 +256,7 @@ export default {
 												phone:phoneid
 											}
 											this.$router.push({
-												name:'admin-userManage-originalUserAudit',
+												name:'admin-userManage-margin',
 												params:params,
 											});
 										}
@@ -281,7 +281,7 @@ export default {
 												phone:phoneid
 											}
 											this.$router.push({
-												name:'admin-userManage-hvUserAudit',
+												name:'admin-userManage-yueManage',
 												params:params,
 											});
 										}
@@ -306,7 +306,7 @@ export default {
 												phone:phoneid
 											}
 											this.$router.push({
-												name:'admin-userManage-lvUserAudit',
+												name:'admin-userManage-jifenManage',
 												params:params,
 											});
 										}

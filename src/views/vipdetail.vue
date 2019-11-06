@@ -195,7 +195,8 @@
 						<div>{{items.serverCharge}}</div>
 					</td>
 					<td class="tabletd" v-if='index==4' v-for="(items,indexs) in bodyList1" :key="indexs">
-						<div>{{items.countNum*jflimit}}</div>
+						<div v-if="indexs==0">500</div>
+						<div v-else>{{items.countNum*jflimit}}</div>
 					</td>
 				</tr>
             </table>

@@ -189,7 +189,7 @@ export default {
 					key: "budgetStatus",
 					align: "center",
 					render: (h,params)=> {
-						let text = params.row.payType
+						let text = params.row.budgetStatus
 						if(text==0){
 							return h('div','支出')
 						}
