@@ -128,9 +128,30 @@ export default {
 				},
                 {
                     title: "最近请求时间",
-                    key: "time",
-                    align: "center"
+                    key: "loginTime",
+                    align: "center",
+					render: (h, params) => {
+						if(params.row.loginTime){
+							return h(
+								'div',
+								new Date(params.row.loginTime).Format('yyyy-MM-dd hh:mm:ss')
+							); /*这里的this.row能够获取当前行的数据*/
+						}
+					}
                 },
+				{
+				    title: "注册时间",
+				    key: "regTime",
+				    align: "center",
+					render: (h, params) => {
+						if(params.row.regTime){
+							return h(
+								'div',
+								new Date(params.row.regTime).Format('yyyy-MM-dd hh:mm:ss')
+							); /*这里的this.row能够获取当前行的数据*/
+						}
+					}
+				},
                 {
                     title: "电话号码",
                     key: "phone",

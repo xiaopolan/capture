@@ -120,7 +120,6 @@ router.beforeEach((to, from, next) => {
     document.documentElement.scrollTop ? document.documentElement.scrollTop = 0 : document.body.scrollTop = 0;
 		if(sessionStorage.getItem('objStr')){
 			var objsession=JSON.parse(sessionStorage.getItem('objStr'))
-			console.log(objsession)
 		}else{
 			var objsession={
 					permissionSign:2

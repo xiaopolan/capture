@@ -106,9 +106,8 @@
 			<div class="artctext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;">ARTC (ART CURRENCY)</span> 是由杭州幻世电子商务 有限公司限量发行的一款平台通证，在小牛趣拍内进行是由杭州幻世电子商务 有限公司限量发行的一款平台通证，在小牛趣拍内进行 交易或完成任务可获得，持有数量影响小牛趣拍用户等 级，可用于小牛趣拍内的交易与抽奖活动。</div>
 			<div class="artctext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;">ARTC</span>可通过完成新手任务，日常任务和打赏获得， 等级在V1及以上用户还可以通过购买获得。</div>
 			<ol style="margin-top: 19px;">
-				<li class="viptextd">1. 小牛趣拍的会员等级共6个，分别为：V0、V1、V2、 V3、V4、V5几个等级，V1以上用户即可对ARTC进 行自由交易；</li>
-				<li class="viptextd">2. 会员级别的升降均由系统自动处理，无需申请。</li>
-				<li class="viptextd">3. 会员的等级由ARTC决定，ARTC数量越多会员等级越高，享受到的会员权益越大。</li>
+				<li class="viptextd">1. 当前留存ARTC影响用户等级、等级越高权益越大。</li>
+				<li class="viptextd">2. 用户等级由系统自动判定、无需申请。</li>
 			</ol>
 		</div>
 		<div class='vipdetail2'>
@@ -124,16 +123,17 @@
 					</td>
 					<td class="tabletd" v-if='index==2' v-for="(items,indexs) in bodyList1" :key="indexs">{{items.integralScale}}</td>
 					<td class="tabletd" v-if='index==3' v-for="(items,indexs) in bodyList1" :key="indexs">
-						<div>{{items.serverCharge}}</div>
+						<div v-if="indexs==0">/</div>
+						<div v-else>{{items.serverCharge*1000/10}}%</div>
 					</td>
 					<td class="tabletd" v-if='index==4' v-for="(items,indexs) in bodyList1" :key="indexs">
-						<!-- <div>{{items.countNum*jflimit}}</div> -->
-						<div v-if="indexs==0">500</div>
+						<div v-if="indexs==0">/</div>
+						<div v-else-if="indexs==1">500</div>
 						<div v-else>{{items.countNum*jflimit}}</div>
 					</td>
 				</tr>
             </table>
-			<div class="tiplog">注：L为当前ARTC持有数量。</div>
+			<div class="tiplog">备注：自由交易下限为500ARTC。</div>
 		</div>
     </div>
 </template>
@@ -196,9 +196,9 @@ export default {
 						let bodylists=[]
 						// this.bodyList.shift()
 						for (let i=0;i<this.bodyList.length;i++) {
-							if(i!=0){
+							// if(i!=0){
 								bodylists.push(this.bodyList[i])
-							}
+							// }
 						}
 						this.bodyList1=bodylists
 					}

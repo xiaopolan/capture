@@ -173,9 +173,8 @@
 				<p class="viptext">会员等级说明</p>
 			</div>
 			<ol>
-				<li class="viptextd">1. 小牛趣拍的会员等级共6个等级，分别为：V0、V1、V2、V3、V4、V5几个等级</li>
-				<li class="viptextd">2. 会员级别的升降均由系统自动处理，无需申请。</li>
-				<li class="viptextd">3. 会员的等级由ARTC决定，ARTC数量越多会员等级越高，享受到的会员权益越大。</li>
+				<li class="viptextd">1. 当前留存ARTC影响用户等级、等级越高权益越大。</li>
+				<li class="viptextd">2. 用户等级由系统自动判定、无需申请。</li>
 			</ol>
 		</div>
 		<div class="vipfenge"></div>
@@ -192,15 +191,17 @@
 					</td>
 					<td class="tabletd" v-if='index==2' v-for="(items,indexs) in bodyList1" :key="indexs">{{items.integralScale}}</td>
 					<td class="tabletd" v-if='index==3' v-for="(items,indexs) in bodyList1" :key="indexs">
-						<div>{{items.serverCharge}}</div>
+						<div v-if="indexs==0">/</div>
+						<div v-else>{{items.serverCharge*1000/10}}%</div>
 					</td>
 					<td class="tabletd" v-if='index==4' v-for="(items,indexs) in bodyList1" :key="indexs">
-						<div v-if="indexs==0">500</div>
+						<div v-if="indexs==0">/</div>
+						<div v-else-if="indexs==1">500</div>
 						<div v-else>{{items.countNum*jflimit}}</div>
 					</td>
 				</tr>
             </table>
-			<div class="tiplog">注：L为当前ARTC持有数量。</div>
+			<div class="tiplog">备注：自由交易下限为500ARTC。</div>
 		</div>
     </div>
 </template>
@@ -268,9 +269,9 @@ export default {
 						let bodylists=[]
 						// this.bodyList.shift()
 						for (let i=0;i<this.bodyList.length;i++) {
-							if(i!=0){
+							// if(i!=0){
 								bodylists.push(this.bodyList[i])
-							}
+							// }
 						}
 						this.bodyList1=bodylists
 					}

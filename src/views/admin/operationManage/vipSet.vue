@@ -287,7 +287,7 @@ export default {
 					key: "serverCharge",
 					align: "center",
 					render: (h,params)=> {
-						return h('div',params.row.serverCharge*100+"%")
+						return h('div',params.row.serverCharge*1000/10+"%")
 					}
 				},
 				{

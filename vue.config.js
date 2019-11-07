@@ -22,14 +22,15 @@ console.log("apiUrl"+apiUrl);
 console.log("__dirname"+__dirname)
 //吴剑
 // var targeturl="http://192.168.10.44:8080"
+// var targeturl="http://192.168.10.37:8080"
   //亢玉涵
-	// var targeturl="http://192.168.10.85:8081"
+	var targeturl="http://192.168.10.49:8008"
 	//生产
 	// var targeturl="http://auction.hz-huanshi.com"
   //支付通道
 // var pay='http://www.xxsrchjc.com/Pay_Index.html'
 //测试
-var targeturl="http://47.111.184.160:8080"
+// var targeturl="http://47.111.184.160:9092"
 module.exports = {
 	baseUrl: './',
     // 开发环境的配置
