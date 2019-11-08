@@ -78,6 +78,14 @@
 							    		@click="goorder"
 							    	>批量开启</Button>
 							    </div>
+								<div class="searchBox clearfix">
+									<Button
+										type="error"
+										style="float:left;width:60px;marginLeft:20px;"
+										size="small"
+										@click="deleterobot"
+									>批量销毁</Button>
+								</div>
 							</Col>
 							<Col span="3">
 							     <div class="searchBox clearfix">
@@ -85,9 +93,17 @@
 							    		type="error"
 							    		style="float:left;width:60px;marginLeft:20px;"
 							    		size="small"
-							    		@click="deleterobot"
-							    	>批量销毁</Button>
+							    		@click="goorderall"
+							    	>全部开启</Button>
 							    </div>
+								<div class="searchBox clearfix">
+									<Button
+										type="error"
+										style="float:left;width:60px;marginLeft:20px;"
+										size="small"
+										@click="deleterobotall"
+									>全部销毁</Button>
+								</div>
 							</Col>
                             <Col span="4" style="textAlign:center;">
                                 <div class="searchBox clearfix">
@@ -390,6 +406,28 @@ export default {
 				console.log(error);
 				});
 		},
+		//全部开启
+		goorderall(){
+			if (confirm('是否确认全部开启？') == true) {
+				axios.post('/api/auction/robot/start')
+					.then( (response)=> {
+						var res = response.data;
+						if (res.code == 200) {
+							Util.success("启用成功");
+							// this.yhlbmkGetList(1, this.yhlbmkIsSearch);
+							this.yhlbmkGetList(this.yhlbmktablePageData.pageNum, this.yhlbmkIsSearch);
+							this.$nextTick(function(){
+								this.$refs['pages'].currentPage = this.yhlbmktablePageData.pageNum;
+							})
+						} else {
+							Util.error("启用失败");
+						}
+					})
+					.catch( (error)=> {
+					console.log(error);
+					});
+			}
+		},
 		yhlbmkOk(){
 			this.yhlbmkModal=false;
 			//let postData = this.$qs.stringify(json);
@@ -447,6 +485,28 @@ export default {
 				.catch( (error)=> {
 				console.log(error);
 				});
+		},
+		//全部销毁
+		deleterobotall(){
+			if (confirm('是否确认全部销毁？') == true) {
+				axios.post('/api/auction/robot/close')
+					.then( (response)=> {
+						var res = response.data;
+						if (res.code == 200) {
+							Util.success("销毁成功");
+							// this.yhlbmkGetList(1, this.yhlbmkIsSearch);
+							this.yhlbmkGetList(this.yhlbmktablePageData.pageNum, this.yhlbmkIsSearch);
+							this.$nextTick(function(){
+								this.$refs['pages'].currentPage = this.yhlbmktablePageData.pageNum;
+							})
+						} else {
+							Util.error("销毁失败");
+						}
+					})
+					.catch( (error)=> {
+					console.log(error);
+					});
+			}
 		},
 		getuserlist(list){
 			for(let i=0;i<list.length;i++){

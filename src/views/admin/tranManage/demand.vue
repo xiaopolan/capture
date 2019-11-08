@@ -69,6 +69,26 @@
                                         @click="queryOrder(1)"
                                     >查询</Button>
                                 </div>
+								<Modal
+									v-model="upModal"
+									title="修改"
+									:loading="yhlbmkLoading"
+									@on-ok="updateOk"
+									@on-cancel="yhlbmkCancel"
+								>
+									<div style="marginBottom:10px;textAlign:center">
+										<div
+											style="display:inline-block;width:120px;textAlign:left"
+										>备注
+										</div>
+										<Input
+											type="textarea"
+											v-model="retain"
+											placeholder="请输入备注"
+											style="width:200px"
+										></Input>
+									</div>
+								</Modal>
                             </Col>
                         </Row>
                     </div>
@@ -116,6 +136,8 @@ export default {
     name: "userList",
     data() {
         return {
+			retain:'',
+			upModal:false,
 			listobj:true,
             yhlbmkIpVal: "", // 用户列表的搜索条件
             yhlbmkIsSearch: false, // 是否加入搜索词
@@ -194,30 +216,40 @@ export default {
 					}
 				},
 				{
+					title: "备注",
+					key: "retain",
+					align: "center"
+				},
+				{
 					title: '操作',
 					key: 'action',
 					align: 'center',
 					render: (h, params) => {
-						return h('div', [
-							h(
-								'Button',
-								{
-									props: {
-										type: 'warning',
-										size: 'small'
-									},
-									style: {
-										// width: "70px",
-									},
-									on: {
-										click: () => {
-											this.deleteGood(params.row.id);
+						let status = params.row.status;
+						if(status !=2){
+							return h('div', [
+								h(
+									'Button',
+									{
+										props: {
+											type: 'warning',
+											size: 'small'
+										},
+										style: {
+											// width: "70px",
+										},
+										on: {
+											click: () => {
+												this.cancletran(params.row.id);
+											}
 										}
-									}
-								},
-								'删除'
-							)
-						]);
+									},
+									'取消交易'
+								)
+							]);
+						}else{
+							return h('div', '无法取消');
+						}
 					}
 				}
             ],
@@ -351,6 +383,42 @@ export default {
 					this.$refs['pages'].currentPage = 1;
 				})
 			}
+		},
+		cancletran(row){
+			this.upModal = true;
+			this.canid=row
+		},
+		updateOk() {
+			// let params = {
+			// 	id:this.canid,
+			// 	retain:this.retain
+			// };
+			// let postData = this.$qs.stringify(params);
+			axios
+				.post('/api/auction/artcMarket/sys/cancel', {
+				id:this.canid,
+				retain:this.retain
+			})
+				.then(response => {
+						if (response.data.code == 200) {
+								Util.success('取消交易成功');
+								this.yhlbmkGetList(1, this.yhlbmkIsSearch);
+						} else {
+								Util.error('取消交易失败'+response.data.msg);
+						}
+						//var res = response.data;
+						//this.yhlbmktablePageData.list=res.data;
+				})
+				.catch(error => {
+						console.log(error);
+				});
+			setTimeout(() => {
+				this.yhlbmkLoading = false;
+				this.$nextTick(() => {
+					this.yhlbmkLoading = true;
+				});
+			}, 10);
+			 this.upModal = false;
 		},
     }
 };

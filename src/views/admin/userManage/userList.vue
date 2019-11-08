@@ -59,11 +59,15 @@
                                     >查询</Button>
                                     
                                 </div>
+								
                             </Col>
                         </Row>
                     </div>
                     <div class="tablepage_box">
                         <!-- 导出按钮 -->
+						<!-- <Button class="exportBtn" type="primary" size="small" @click="exportData(1)">
+						    <Icon class="icon_export" type="ios-download-outline"></Icon>导出数据
+						</Button> -->
                         <div class="exportBtnBox clearfix">
                         </div>
                         <!-- 用户列表数据表格 -->
@@ -486,6 +490,25 @@ export default {
 			// 重新获取申请列表数据
 			//this.sqlbmkGetList(1, this.sqlbmkIsSearch);
 		},
+		//导出表格
+		// exportData (type) {
+		// 	if (type === 1) {
+		// 		this.$refs.yhlbmkTable.exportCsv({
+		// 			filename: '原始数据'
+		// 		});
+		// 	} else if (type === 2) {
+		// 		this.$refs.table.exportCsv({
+		// 			filename: '排序和过滤后的数据',
+		// 			original: false
+		// 		});
+		// 	} else if (type === 3) {
+		// 		this.$refs.table.exportCsv({
+		// 			filename: '自定义数据',
+		// 			columns: this.columns8.filter((col, index) => index < 4),
+		// 			data: this.data7.filter((data, index) => index < 4)
+		// 		});
+		// 	}
+		// } 
     }
 };
 </script>
