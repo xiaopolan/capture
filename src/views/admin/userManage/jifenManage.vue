@@ -191,7 +191,7 @@
 						align: "center"
 					},
 					{
-						title: "交易积分",
+						title: "积分变动",
 						key: "limitno",
 						align: "center"
 					},

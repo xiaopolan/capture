@@ -1,6 +1,6 @@
 <!-- 下载页 -->
 <style scoped>
-.dmBox {
+	.dmBox {
     width: 100%;
     height: 100%;
     background: #000000 !important;
@@ -297,275 +297,279 @@ background: rgba(238,238,238,1);
 }
 </style>
 <template>
-    <div class="dmBox">
-			<div class="padtop">
-				<div class="user">
-					<img v-bind:src="info.icon" />
-					<div :class="[username,{'pname':classa}]">
-						<p class='p1'>{{info.userName}}</p>
-						<p class="p2">{{info.area}}</p>
+	<div class="dmBox">
+		<div class="padtop">
+			<div class="user">
+				<img v-bind:src="info.icon" />
+				<div :class="[username,{'pname':classa}]">
+					<p class='p1'>{{info.userName}}</p>
+					<p class="p2">{{info.area}}</p>
+				</div>
+				<div class="guanzhu" @click="toregister"><span>+</span>关注</div>
+			</div>
+		</div>
+		<div class="danmu"></div>
+
+		<div class="imagebox">
+			<div class="swiper-container">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide" v-if="flag">
+						<video id="video" class="fivideo" width="100%" height="260" :poster="videoPic" controls>
+							<source :src="videourl" type="video/mp4">
+						</video>
 					</div>
-					<div class="guanzhu"  @click="toregister"><span>+</span>关注</div>
+					<div class="swiper-slide" v-for="item in imglist" :key="item"><img :src="item" /></div>
 				</div>
 			</div>
-			<div class="danmu"></div>
-			
-			<div class="imagebox">
-				<div class="swiper-container">
-					 <div class="swiper-wrapper">
-							 <div class="swiper-slide" v-if="flag">
-								 <video  id="video" class="fivideo" width="100%" height="260" :poster="videoPic" controls>
-								   <source :src="videourl" type="video/mp4">
-								</video>
-							 </div>
-							 <div class="swiper-slide" v-for="item in imglist"  :key="item"><img :src="item" /></div>
-						</div>
-				</div>
+		</div>
+		<img class="gift" src="../assets/img/gift.png" @click="toregister" />
+		<div class="blank">
+			<div class="userbtm">
+				<img v-bind:src="info.icon" />
+				<div class="btmname">{{info.userName}}</div>
+				<div style="clear: both;"></div>
 			</div>
-			<img class="gift"  src="../assets/img/gift.png" @click="toregister"/>
-			<div class="blank">
-				<div class="userbtm">
-					<img v-bind:src="info.icon" />
-					<div class="btmname">{{info.userName}}</div>
-					<div style="clear: both;"></div>
-				</div>
-				<div class="intro">
-					商品简介：{{info.productDetailslice}}<span class='showmore' @click="detailbox=true">查看更多></span>
-				</div>
-				<div class="bottom">
-					<input class="comtext" type="text" placeholder="    说点什么 ~ "/>
-					<img class="firstimg" src="../assets/img/build.png" @click="toregister"/>
-					<img class="otherimg" src="../assets/img/good.png" @click="toregister"/>
-					<img class="otherimg" src="../assets/img/comment.png" @click="commentbox=true"/>
-					<img class="otherimg" src="../assets/img/share.png" @click="toregister"/>
-					<div class='totalnum num1'>{{info.dianzanNum}}</div>
-					<div class='totalnum num2'>{{info.commentNum}}</div>
-				</div>
+			<div class="intro">
+				商品简介：{{info.productDetailslice}}<span class='showmore' @click="detailbox=true">查看更多></span>
 			</div>
-			<div v-show="detailbox" class="detailbox">
-				<div class="box-top">
-						详情
-						<img src="../assets/img/close.png" @click="detailbox=false"/>
+			<div class="bottom">
+				<input class="comtext" type="text" placeholder="    说点什么 ~ " />
+				<img class="firstimg" src="../assets/img/build.png" @click="toregister" />
+				<img class="otherimg" src="../assets/img/good.png" @click="toregister" />
+				<img class="otherimg" src="../assets/img/comment.png" @click="commentbox=true" />
+				<img class="otherimg" src="../assets/img/share.png" @click="toregister" />
+				<div class='totalnum num1'>{{info.dianzanNum}}</div>
+				<div class='totalnum num2'>{{info.commentNum}}</div>
+			</div>
+		</div>
+		<div v-show="detailbox" class="detailbox">
+			<div class="box-top">
+				详情
+				<img src="../assets/img/close.png" @click="detailbox=false" />
+			</div>
+			<div class="user" style="width: 100%;margin-top: 15px;">
+				<img v-bind:src="info.icon" />
+				<div class="username">
+					<p class='p1 p3'>{{info.userName}}</p>
+					<p class="p2 p4">{{showtime}}<span style="margin-left: 10px;">{{info.explainInfo}}</span></p>
 				</div>
-				<div class="user"  style="width: 100%;margin-top: 15px;">
-					<img v-bind:src="info.icon" />
-					<div class="username">
-						<p class='p1 p3'>{{info.userName}}</p>
-						<p class="p2 p4">{{showtime}}<span style="margin-left: 10px;">{{info.explainInfo}}</span></p>
+				<div style="clear: both;"></div>
+			</div>
+			<p class="proname">{{info.productName}}</p>
+			<div style="margin-left: 7px;line-height: 21px;">{{info.productDetail}}</div>
+		</div>
+		<div v-show="commentbox" class="commentbox">
+			<div class="cotop">
+				<img src="../assets/img/fanhui@3x.png" @click="commentbox=false" />
+				评论</div>
+			<div class="comdiv">
+				<div class="listdiv" v-for="(item,index) in commentlist" :key=index>
+					<img v-bind:src="item.icon" />
+					<div v-bind:class=[gradeclass,gradeclass+item.grade]></div>
+					<div class="listname">
+						<p class='listp1'>{{item.userName}} <span style="color:rgba(153,153,153,1);">{{showtime}}</span></p>
+						<p class="listp2">{{item.content}}</p>
 					</div>
-					<div style="clear: both;"></div>
-				</div>
-				<p class="proname">{{info.productName}}</p>
-				<div style="margin-left: 7px;line-height: 21px;">{{info.productDetail}}</div>
-			</div>
-			<div v-show="commentbox" class="commentbox">
-				<div class="cotop">
-					<img src="../assets/img/fanhui@3x.png" @click="commentbox=false"/>
-					评论</div>
-					<div class="comdiv" >
-						<div class="listdiv" v-for="(item,index) in commentlist" :key=index>
-							<img v-bind:src="item.icon" />
-							<div v-bind:class=[gradeclass,gradeclass+item.grade]></div>
-							<div class="listname">
-								<p class='listp1'>{{item.userName}}   <span style="color:rgba(153,153,153,1);">{{showtime}}</span></p>
-								<p class="listp2">{{item.content}}</p>
-							</div>
-							<div class="zanicon">
-								<img src="../assets/img/zan.png" /><span style="margin-left: 5px;">{{item.dianZanNum}}</span>
-							</div>
-							<div v-if="index>0" class="listborder"></div>
-						</div>
+					<div class="zanicon">
+						<img src="../assets/img/zan.png" /><span style="margin-left: 5px;">{{item.dianZanNum}}</span>
 					</div>
-					<input class="comtext1" type="text" placeholder="    说点什么 ~ "/>
+					<div v-if="index>0" class="listborder"></div>
+				</div>
 			</div>
-    </div>
+			<input class="comtext1" type="text" placeholder="    说点什么 ~ " />
+		</div>
+	</div>
 </template>
 <script>
-import Util from '@/libs/util';
-import Rule from '#/libs/rule';
-import axios from 'axios';
-import CryptoJS from 'crypto-js';
-import Swiper from 'swiper';
-import '@/libs/jquery.barrager.js';
-var pId, userId;
-export default {
-    name: 'result',
-    components: {},
-    data() {
-        return {
-						username:'username',
-						classa:true,
-            gradeclass: 'gradeclass',
-            link: '',
-            info: {
-							productDetail:'',
-							productDetailslice:'',
-							area:''
-						},
-            showtime: '',
-            showtime1: '',
-            detailbox: false,
-            commentbox: false,
-            commentlist: [],
-            videoPic: '',
-            videourl: '',
-            flag: false,
-            pId: '',
-            userId: ''
-        };
-    },
-    created() {
-        pId = this.$route.query.pId;
-        userId = this.$route.query.userId;
-        this.initFormatter();
-    },
-    mounted() {
-        var mySwiper = new Swiper('.swiper-container', {
-            observer: true //修改swiper自己或子元素时，自动初始化swiper
-            // 			observeParents:true,//修改swiper的父元素时，自动初始化swiper
-            // 			loop: true, // 循环模式选项
-        });
-        this.getdata();
-    },
-    methods: {
-        getdata() {
-            axios
-                .get('/api/auction/judge/sys/getProductDetailInfo', {
-                    params: {
-                        pId: pId,
-                        userId: userId
-                    }
-                })
-                .then(response => {
-                    var res = response.data;
-                    // this.yhlbmktablePageData = res.data;
-                    if (res.code == 200) {
-                        this.info = res.data;
-												if(this.info.area){
-													this.classa=false
-												}
-												if(this.info.productDetail.length>=29){
-													this.info.productDetailslice=this.info.productDetail.slice(0,28)
-												}else{
-													this.info.productDetailslice=this.info.productDetail
-												}
-                        this.showtime = new Date(this.info.pushTime).Format('MM-dd hh:mm:ss');
-                        var str = res.data.pic;
-                        str = str.substring(0, str.lastIndexOf(','));
-                        if (res.data.videoUrl) {
-                            this.flag = true;
-                            this.videourl = res.data.videoUrl;
-                        }
-                        this.imglist = str.split(',');
-                    }
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-            axios
-                .get('/api/auction/judge/sys/getProHistoryComment', {
-                    params: {
-                        pId: pId,
-                        userId: userId
-                    }
-                })
-                .then(response => {
-                    var res = response.data;
-                    // this.yhlbmktablePageData = res.data;
-                    if (res.code == 200) {
-                        this.commentlist = res.data;
-                        console.log(this.commentlist);
-                        this.showtime1 = new Date(this.commentlist.createTime).Format(
-                            'MM-dd hh:mm:ss'
-                        );
-                    }
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        },
-        initFormatter() {
-            Date.prototype.Format = function(fmt) {
-                //
-                let o = {
-                    'M+': this.getMonth() + 1, //月份
-                    'd+': this.getDate(), //日
-                    'h+': this.getHours(), //小时
-                    'm+': this.getMinutes(), //分
-                    's+': this.getSeconds(), //秒
-                    'q+': Math.floor((this.getMonth() + 3) / 3), //季度
-                    S: this.getMilliseconds() //毫秒
-                };
-                if (/(y+)/.test(fmt))
-                    fmt = fmt.replace(
-                        RegExp.$1,
-                        (this.getFullYear() + '').substr(4 - RegExp.$1.length)
-                    );
-                for (var k in o)
-                    if (new RegExp('(' + k + ')').test(fmt))
-                        fmt = fmt.replace(
-                            RegExp.$1,
-                            RegExp.$1.length == 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length)
-                        );
-                return fmt;
-            };
-        },
-        toregister() {
-            this.$router.push({
-                path: '/register'
-            });
-        }
-    }
-};
-$(function() {
-    // 			Util.post('/auction/product/init', params).then(function (res) {
-    // 		if (res && res.code == 0) {
-    // 			return res.data;
-    // 		} else {
-    // 			return res.msg;
-    // 		}
-    // 	})
-    axios
-        .get('/api/auction/judge/sys/getProductDetailInfo', {
-            params: {
-                pId: pId,
-                userId: userId
-            }
-        })
-        .then(response => {
-            var res = response.data;
-            // this.yhlbmktablePageData = res.data;
-            if (res.code == 200) {
-                var datas = res.data;
-                var arri = [];
-                var comment = datas.comments;
-                for (let i = 0; i < comment.length; i++) {
-                    var item = {};
-                    if (i % 3 == 0) {
-                        item.top = 10;
-                    } else if (i % 2 == 0) {
-                        item.top = 40;
-                    } else {
-                        item.top = 70;
-                    }
-                    item.img = comment[i].icon;
-                    item.info = comment[i].content;
-                    arri.push(item);
-                }
-                var timer;
-                var index = 0;
-                timer = setInterval(function() {
-                    if (index >= arri.length) {
-                        clearInterval(timer);
-                    } else {
-                        $('.danmu').barrager(arri[index]);
-                    }
-                    index++;
-                }, 800);
-            }
-        })
-        .catch(error => {
-            console.log(error);
-        });
-});
+	import Util from '@/libs/util';
+	import Rule from '#/libs/rule';
+	import axios from 'axios';
+	import CryptoJS from 'crypto-js';
+	import Swiper from 'swiper';
+	import '@/libs/jquery.barrager.js';
+	var pId, userId;
+	export default {
+		name: 'result',
+		components: {},
+		data() {
+			return {
+				username: 'username',
+				classa: true,
+				gradeclass: 'gradeclass',
+				link: '',
+				info: {
+					productDetail: '',
+					productDetailslice: '',
+					area: ''
+				},
+				showtime: '',
+				showtime1: '',
+				detailbox: false,
+				commentbox: false,
+				commentlist: [],
+				videoPic: '',
+				videourl: '',
+				flag: false,
+				pId: '',
+				userId: '',
+				imglist:[]
+			};
+		},
+		created() {
+			pId = this.$route.query.pId;
+			userId = this.$route.query.userId;
+			this.initFormatter();
+		},
+		mounted() {
+			var mySwiper = new Swiper('.swiper-container', {
+				observer: true //修改swiper自己或子元素时，自动初始化swiper
+				// 			observeParents:true,//修改swiper的父元素时，自动初始化swiper
+				// 			loop: true, // 循环模式选项
+			});
+			this.getdata();
+		},
+		methods: {
+			getdata() {
+				axios
+					.get('/api/auction/judge/sys/getProductDetailInfo', {
+						params: {
+							pId: pId,
+							userId: userId
+						}
+					})
+					.then(response => {
+						var res = response.data;
+						// this.yhlbmktablePageData = res.data;
+						if (res.code == 200) {
+							this.info = res.data;
+							if (this.info.area) {
+								this.classa = false
+							}
+							if (this.info.productDetail.length >= 29) {
+								this.info.productDetailslice = this.info.productDetail.slice(0, 28)
+							} else {
+								this.info.productDetailslice = this.info.productDetail
+							}
+							this.showtime = new Date(this.info.pushTime).Format('MM-dd hh:mm:ss');
+							if(res.data.pic){
+								var str = res.data.pic;
+								str = str.substring(0, str.lastIndexOf(','));
+								this.imglist = str.split(',');
+							}
+							if (res.data.videoUrl) {
+								this.flag = true;
+								this.videourl = res.data.videoUrl;
+							}
+							
+						}
+					})
+					.catch(error => {
+						console.log(error);
+					});
+				axios
+					.get('/api/auction/judge/sys/getProHistoryComment', {
+						params: {
+							pId: pId,
+							userId: userId
+						}
+					})
+					.then(response => {
+						var res = response.data;
+						// this.yhlbmktablePageData = res.data;
+						if (res.code == 200) {
+							this.commentlist = res.data;
+							console.log(this.commentlist);
+							this.showtime1 = new Date(this.commentlist.createTime).Format(
+								'MM-dd hh:mm:ss'
+							);
+						}
+					})
+					.catch(error => {
+						console.log(error);
+					});
+			},
+			initFormatter() {
+				Date.prototype.Format = function(fmt) {
+					//
+					let o = {
+						'M+': this.getMonth() + 1, //月份
+						'd+': this.getDate(), //日
+						'h+': this.getHours(), //小时
+						'm+': this.getMinutes(), //分
+						's+': this.getSeconds(), //秒
+						'q+': Math.floor((this.getMonth() + 3) / 3), //季度
+						S: this.getMilliseconds() //毫秒
+					};
+					if (/(y+)/.test(fmt))
+						fmt = fmt.replace(
+							RegExp.$1,
+							(this.getFullYear() + '').substr(4 - RegExp.$1.length)
+						);
+					for (var k in o)
+						if (new RegExp('(' + k + ')').test(fmt))
+							fmt = fmt.replace(
+								RegExp.$1,
+								RegExp.$1.length == 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length)
+							);
+					return fmt;
+				};
+			},
+			toregister() {
+				this.$router.push({
+					path: '/register'
+				});
+			}
+		}
+	};
+	$(function() {
+		// 			Util.post('/auction/product/init', params).then(function (res) {
+		// 		if (res && res.code == 0) {
+		// 			return res.data;
+		// 		} else {
+		// 			return res.msg;
+		// 		}
+		// 	})
+		axios
+			.get('/api/auction/judge/sys/getProductDetailInfo', {
+				params: {
+					pId: pId,
+					userId: userId
+				}
+			})
+			.then(response => {
+				var res = response.data;
+				// this.yhlbmktablePageData = res.data;
+				if (res.code == 200) {
+					var datas = res.data;
+					var arri = [];
+					var comment = datas.comments;
+					for (let i = 0; i < comment.length; i++) {
+						var item = {};
+						if (i % 3 == 0) {
+							item.top = 10;
+						} else if (i % 2 == 0) {
+							item.top = 40;
+						} else {
+							item.top = 70;
+						}
+						item.img = comment[i].icon;
+						item.info = comment[i].content;
+						arri.push(item);
+					}
+					var timer;
+					var index = 0;
+					timer = setInterval(function() {
+						if (index >= arri.length) {
+							clearInterval(timer);
+						} else {
+							$('.danmu').barrager(arri[index]);
+						}
+						index++;
+					}, 800);
+				}
+			})
+			.catch(error => {
+				console.log(error);
+			});
+	});
 </script>
